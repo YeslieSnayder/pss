@@ -7,7 +7,9 @@ Now available: 1st homework.
 
 # "Homework 1" description
 
-The program starts with `task` file.
+### Version 1.0
+
+The program starts with `task` file. The path to this file: `hw01/task`.
 
 The program gives the input text with special words from file `input.txt`. Output of the program are sentences with HIGHLIGHTED special words.
 
