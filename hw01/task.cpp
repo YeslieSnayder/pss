@@ -5,9 +5,15 @@
 
 using namespace std;
 
-const string FILE_IN = "input.txt";
-const string FILE_OUT = "output.txt";
+const string FILE_IN = "input.txt";     // input file
+const string FILE_OUT = "output.txt";   // output file
 
+/**
+ * The method split input string by sentences
+ * and returns vector of sentences.
+ * @param line - string of large text with sentences separated by dot (.)
+ * @return vector<string> (set) of sentences without dot (.)
+ */
 vector<string> getSentences(string line) {
     stringstream ss(line);
     vector<string> ans;
@@ -21,25 +27,37 @@ vector<string> getSentences(string line) {
     return ans;
 }
 
+/**
+ * The method convert string with lowercase letters to string
+ * which contains only uppercase letters.
+ * @param src - string which contain anything
+ * @return string with only uppercase letters
+ */
 string toUpperCase(string src) {
-    for (int i = 0; i < src.size(); i++) {
-        if (src[i] >= 'a' && src[i] <= 'z') {
-            src[i] = src[i] - 'a' + 'A';
+    for (char &i : src) {
+        if (i >= 'a' && i <= 'z') {
+            i = i - 'a' + 'A';
         }
     }
     return src;
 }
 
+/**
+ * The method gets a string and special word, which should be found
+ * and highlighted by converted to uppercase.
+ * @param sentence - a string which contains a special word
+ * @param word - a special word
+ * @return sentence with highlighted special word
+ */
 string getSentenceWithUpperCasedWord(string sentence, string word) {
-    string ans = "";
-    string buf;
+    string ans = "", buf;
     word = toUpperCase(word);
     stringstream ss(sentence);
     while (getline(ss, buf, ' ')) {
         toUpperCase(buf) == word ? (ans += word + " ") : (ans += buf + " ");
     }
     ans.erase(ans.size()-1);
-    return ans + '.';
+    return ans + '.';   // sentence was without dot (.)
 }
 
 int main() {
@@ -51,10 +69,10 @@ int main() {
     if (in.is_open()) {
         getline(in, line);
         sentences = getSentences(line);
-
-        vector<string> ans;
         getline(in, line);
         int count = atoi(line.c_str());
+
+        vector<string> ans;
         for (int i = 0; i < count; i++) {
             getline(in, line);
             line = toUpperCase(line);
