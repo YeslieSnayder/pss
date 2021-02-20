@@ -7,4 +7,4 @@ Now available: 1st homework.
 
 # "Homework 1" description
 
-See on '/hw01'
+See on directory: '/hw01/'
