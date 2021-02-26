@@ -1,0 +1,3 @@
+id,type,name,surname,age,access level,course,subject,workExperience,teacherPet,lab,isPhd,extraInfo
+1,Lab employee,Ivan,Ivanov,25,Green,,,,,AGLA,true,
+2,Student,Andrey,Kuzmickiy,20,No level,1,,,,,,

@@ -11,7 +11,10 @@ class Student : public User {
     int course;
 
 public:
-    Student(string name, string surname, int age, int course) : User(std::move(name), std::move(surname), age, NO_LEVEL) {
+    static const AccessLevel ACCESS_LEVEL = NO_LEVEL;
+
+    Student(string name, string surname, int age, int course)
+            : User(std::move(name), std::move(surname), age, ACCESS_LEVEL) {
         this->course = course;
     }
 };

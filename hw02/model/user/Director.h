@@ -8,9 +8,11 @@
 #include <utility>
 #include "User.h"
 
-class Director : User {
+class Director : public User {
 public:
-    Director(string name, string surname, int age) : User(std::move(name), std::move(surname), age, RED) {}
+    static const AccessLevel ACCESS_LEVEL = RED;
+
+    Director(string name, string surname, int age) : User(std::move(name), std::move(surname), age, ACCESS_LEVEL) {}
 
 private:
     void change_stipu() {

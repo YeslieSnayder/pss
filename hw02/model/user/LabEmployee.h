@@ -8,15 +8,36 @@
 #include <utility>
 
 #include "User.h"
+#include "../Laboratory.h"
+#include "../../Logger.h"
 
 class LabEmployee : public User {
     bool isPhd;
-    string subject;
+    Laboratory lab;
+    string extraInfo;
 
 public:
-    LabEmployee(string name, string surname, int age, string subject, bool isPhd) : User(std::move(name), std::move(surname), age, GREEN) {
+    static const AccessLevel ACCESS_LEVEL = GREEN;
+
+    LabEmployee(string name, string surname, int age, Laboratory laboratory, bool isPhd, string extraInfo="")
+            : User(std::move(name), std::move(surname), age, ACCESS_LEVEL) {
         this->isPhd = isPhd;
-        this->subject = std::move(subject);
+        this->lab = laboratory;
+        this->extraInfo = std::move(extraInfo);
+    }
+
+    virtual Laboratory getLaboratory() const {
+        return this->lab;
+    }
+
+    void printInfo() {
+        log("id: " + to_string(id)
+            + ", name: " + User::getName()
+            + ", age: " + to_string(age)
+            + ((isPhd) ? ", Phd" : "")
+            + ", access level: " + AccessLevel_nms::toString(accessLevel)
+            + ", laboratory: " + Laboratory_nms::toString(lab)
+            + ((extraInfo.empty()) ? "" : ", extra: " + extraInfo));
     }
 };
 

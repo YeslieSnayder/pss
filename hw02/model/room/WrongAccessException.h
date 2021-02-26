@@ -13,11 +13,13 @@ class WrongAccessException : public exception {
     Room room;
 
 public:
-    WrongAccessException(User &user, Room &room) : user(user), room(room) { }
+    WrongAccessException(User user, Room room) : user(user), room(room) { }
 
     string message() {
-        return "The user " + user.getName() + " tried to access the room " + room.getNumber()
-            + " to which (s)he does not have access";
+        return "The user " + user.getName() + " (" + AccessLevel_nms::toString(user.getAccessLevel())
+            + ") tried to access the room " + to_string(room.getNumber())
+            + " (" + AccessLevel_nms::toString(room.getAccessLevel())
+            + ") to which (s)he does not have access";
     }
 };
 

@@ -3,31 +3,14 @@
 
 This repository is used for PSS's homework projects.
 
-Now available: 1st homework.
+Now available: 1st and 2nd homeworks.
 
 # "Homework 1" description
 
-### Version 1.0
+See on directory: '/hw01/'
 
-The program starts with `task` file. The path to this file: `hw01/task`.
+# "Homework 2" description
 
-The program gives the input text with special words from file `input.txt`. Output of the program are sentences with HIGHLIGHTED special words.
+See on directory: '/hw02/'
 
-### Input
-
-- 1st line: large text
-- 2nd line: number `n` of special words
-- `n` lines: special word
-
-### Output
-
-- 1st line: number `m` of sentences which contains the special word
-- `m` lines: sentence which contains the highlighted special word
-
-The program repeats output `n` times with `n` different words from input. If the text doesn't contain special word, then the program skips the output for this word.
-
-### Libraries
-
-- `<vector>` - is used instead of array. (to contain sentences)
-- `<fstream>` - is used to read information from file `input.txt` and write the output to file `output.txt`
-- `<sstream>` - is used to split a string into parts separated by some symbol
+Is not available now!
