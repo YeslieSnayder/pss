@@ -1,5 +1,5 @@
 //
-// Created by yesliesnayder on 20.02.2021.
+// Created by Andrey Kuzmickiy group BS20-03.
 //
 
 #ifndef PSS_CONFERENCEROOM_H

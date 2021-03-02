@@ -1,5 +1,5 @@
 //
-// Created by yesliesnayder on 26.02.2021.
+// Created by Andrey Kuzmickiy group BS20-03.
 //
 
 #ifndef PSS_DIRECTORCABINET_H
@@ -14,30 +14,15 @@
 class DirectorCabinet : public Room {
 protected:
     Director owner;
-
-    static DirectorCabinet* instance;
-    DirectorCabinet(Director& owner) : Room(ACCESS_LEVEL, DIRECTOR_CABINET, -1), owner(owner) {}
-
 public:
     static const AccessLevel ACCESS_LEVEL = RED;
 
-    DirectorCabinet(DirectorCabinet &other) = delete;
-    void operator=(const DirectorCabinet&) = delete;
-
-    static DirectorCabinet *getInstance(Director _owner);
+    DirectorCabinet(Director& owner) : Room(ACCESS_LEVEL, DIRECTOR_CABINET, -1), owner(owner) {}
 
     const Director &getOwner() const;
 
     void setOwner(const Director &owner);
 };
-
-DirectorCabinet *DirectorCabinet::instance = nullptr;
-DirectorCabinet *DirectorCabinet::getInstance(Director _owner) {
-    if (instance == nullptr) {
-        instance = new DirectorCabinet(_owner);
-    }
-    return instance;
-}
 
 const Director &DirectorCabinet::getOwner() const {
     return owner;

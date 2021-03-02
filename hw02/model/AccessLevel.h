@@ -1,5 +1,5 @@
 //
-// Created by Andrey Kuzmickiy on 20.02.2021.
+// Created by Andrey Kuzmickiy group BS20-03.
 //
 
 #ifndef PSS_ACCESSLEVEL_H
@@ -13,7 +13,7 @@ enum AccessLevel {
     GREEN = 1,
     YELLOW = 2,
     RED = 3,
-    SUPER_USER = -1,
+    SUPER_USER = 7,
 };
 
 namespace AccessLevel_nms {

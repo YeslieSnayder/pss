@@ -1,5 +1,5 @@
 //
-// Created by yesliesnayder on 26.02.2021.
+// Created by Andrey Kuzmickiy group BS20-03.
 //
 
 #ifndef PSS_USER_H
@@ -8,6 +8,7 @@
 #include "../AccessLevel.h"
 #include "../../Logger.h"
 #include <string>
+#include <utility>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ class User {
 protected:
     AccessLevel accessLevel;
     string name, surname;
+    string extraInfo;
     int age;
     int id;
 
@@ -29,8 +31,9 @@ public:
         this->id = other.id;
     }
 
-    User(string name, string surname, int age, AccessLevel accessLevel)
-            : name(move(name)), surname(move(surname)), age(age), accessLevel(accessLevel) {
+    User(string name, string surname, int age, AccessLevel accessLevel, string extraInfo="")
+            : name(move(name)), surname(move(surname)), age(age),
+                accessLevel(accessLevel), extraInfo(std::move(extraInfo)) {
         id = ++ID;
     }
 
@@ -38,9 +41,11 @@ public:
 
     virtual void printInfo() {
         log("id: " + to_string(id)
+            + ", status: User"
             + ", name: " + name + " " + surname
             + ", age: " + to_string(age)
-            + ", access level: " + AccessLevel_nms::toString(accessLevel));
+            + ", access level: " + AccessLevel_nms::toString(accessLevel)
+            + (extraInfo.empty() ? "" : ", extra info: " + extraInfo));
     }
 
     virtual int getId() const {

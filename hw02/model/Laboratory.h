@@ -1,16 +1,16 @@
 //
-// Created by yesliesnayder on 26.02.2021.
+// Created by Andrey Kuzmickiy group BS20-03.
 //
 
 #ifndef PSS_LABORATORY_H
 #define PSS_LABORATORY_H
 
-    enum Laboratory {
-        NO_LABORATORY, // special value
-        PSS,
-        AGLA,
-        TCS,
-    };
+enum Laboratory {
+    NO_LABORATORY, // special value
+    PSS,
+    AGLA,
+    TCS,
+};
 
 namespace Laboratory_nms {
 

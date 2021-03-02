@@ -1,19 +1,18 @@
 //
-// Created by yesliesnayder on 20.02.2021.
+// Created by Andrey Kuzmickiy group BS20-03.
 //
 
-#include "model/AccessLevel.h"
-#include "model/user/User.h"
-#include "model/room/WrongAccessException.h"
-#include "model/room/Cabinet.h"
-#include "model/user/LabEmployee.h"
+#include "../model/AccessLevel.h"
+#include "../model/user/User.h"
+#include "../model/room/WrongAccessException.h"
+#include "../model/room/Cabinet.h"
 
-void enterRoom(User* user, Room *room) {
+void enterRoom(User *user, Room *room) {
     if (user->getAccessLevel() < room->getAccessLevel()) {
         throw WrongAccessException(*user, *room);
     }
     if (room->isBooked() && room->getFullness() == room->getCapacity()) {
-        log(true, "Sorry, the room is booked and user " + user->getName()
+        log(WARNING, "Sorry, the room is booked and user " + user->getName()
             + " cannot come in, because room " + to_string(room->getNumber()) + " is full");
         return;
     }
@@ -32,26 +31,24 @@ void enterRoom(User* user, Room *room) {
         room->book();
     room->increaseFullness();
 
-    log(false,"User " + user->getName()
+    log(INFO,"User " + user->getName()
         + " entered the room #" + to_string(room->getNumber()) + " successfully");
 }
 
-void leaveRoom(User* user, Room *room) {
+void leaveRoom(User *user, Room *room) {
     if (!room->isBooked() or room->getFullness() == 0) {
-        log(true, "No people in a room #" + to_string(room->getNumber())
+        log(WARNING, "No people in a room #" + to_string(room->getNumber())
             + ", therefore user " + user->getName() + " cannot leave the room");
         return;
     }
 
     if (user->getAccessLevel() < room->getAccessLevel()) {
-        log(true, "User " + user->getName()
-            + " could not get access for the room #" + to_string(room->getNumber()));
-        return;
+        throw WrongAccessException(*user, *room);
     }
 
     room->decreaseFullness();
     if (room->getFullness() == 0)
         room->setIsBooked(false);
 
-    log(false, "User " + user->getName() + " has left the room #" + to_string(room->getNumber()));
+    log(INFO, "User " + user->getName() + " has left the room #" + to_string(room->getNumber()));
 }
