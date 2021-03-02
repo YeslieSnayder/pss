@@ -43,7 +43,7 @@ public:
             Professor::workExperience = workExperience;
     }
 
-    Laboratory getSubject() const {
+    Laboratory getLaboratory() const {
         return subject;
     }
 

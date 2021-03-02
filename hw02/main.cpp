@@ -3,9 +3,10 @@
 //
 
 #include <vector>
+
 #include "model/user/User.h"
 #include "model/room/Room.h"
-#include "services/CSVService.h"
+#include "services/CSVService.cpp"
 
 int main() {
     vector<User*> users = getUsers();

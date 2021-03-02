@@ -10,7 +10,7 @@
 #include "User.h"
 
 class Student : public User {
-    int course;
+    uint8_t course;
 
 public:
     static const AccessLevel ACCESS_LEVEL = NO_LEVEL;
@@ -34,6 +34,7 @@ public:
             + ", name: " + name + " " + surname
             + ", age: " + to_string(age)
             + ", access level: " + AccessLevel_nms::toString(accessLevel)
+            + ", course: " + to_string(course)
             + (extraInfo.empty() ? "" : ", extra info: " + extraInfo));
     }
 };

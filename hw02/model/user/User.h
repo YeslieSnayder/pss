@@ -19,8 +19,8 @@ protected:
     AccessLevel accessLevel;
     string name, surname;
     string extraInfo;
-    int age;
-    int id;
+    uint age;
+    uint id;
 
 public:
     User(User &other) {
@@ -64,6 +64,10 @@ public:
         return age;
     }
 
+    virtual const string getExtraInfo() const {
+        return extraInfo;
+    }
+
     virtual void setId(User &user, int id) {
         if (user.accessLevel == SUPER_USER)
             this->id = id;
@@ -87,6 +91,11 @@ public:
     virtual void setAge(User &user, int age) {
         if (user.accessLevel == SUPER_USER)
             this->age = age;
+    }
+
+    virtual void setExtraInfo(User &user, string extraInfo) {
+        if (user.accessLevel == SUPER_USER)
+            this->extraInfo = extraInfo;
     }
 };
 

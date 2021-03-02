@@ -2,9 +2,6 @@
 // Created by Andrey Kuzmickiy group BS20-03.
 //
 
-#ifndef PSS_CSVSERVICE_H
-#define PSS_CSVSERVICE_H
-
 #include "../model/rapidcsv.h"
 
 #include "../model/user/Student.h"
@@ -19,7 +16,7 @@
 #include "../model/room/DirectorCabinet.h"
 
 vector<User*> getUsers() {
-    string path = "/home/yesliesnayder/projects/clionProjects/pss/hw02/model/user/user_db.csv";
+    string path = "../hw02/model/user/user_db.csv";
     rapidcsv::Document doc(path, rapidcsv::LabelParams(0, 0));
 
     vector<User*> users;
@@ -60,7 +57,7 @@ vector<User*> getUsers() {
 }
 
 vector<Room*> getRooms(vector<User*> &users) {
-    string path = "/home/yesliesnayder/projects/clionProjects/pss/hw02/model/room/room_db.csv";
+    string path = "../hw02/model/room/room_db.csv";
     rapidcsv::Document doc(path, rapidcsv::LabelParams(0, 0));
 
     vector<Room*> rooms;
@@ -127,5 +124,3 @@ vector<Room*> getRooms(vector<User*> &users) {
     }
     return rooms;
 }
-
-#endif //PSS_CSVSERVICE_H
