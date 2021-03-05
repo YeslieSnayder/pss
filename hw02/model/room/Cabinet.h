@@ -26,7 +26,7 @@ public:
         lab(laboratory), owner(owner) {}
 
     Cabinet(int number, Laboratory laboratory) : Room(ACCESS_LEVEL, CABINET, number),
-        lab(laboratory), owner(User("", "", 0, NO_LEVEL)) {}
+        lab(laboratory), owner(NULL_USER) {}
 
     const User &getOwner() const {
         return owner;

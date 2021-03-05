@@ -13,6 +13,7 @@ class Student : public User {
     uint8_t course;
 
 public:
+    static const inline string TYPE = "Student";
     static const AccessLevel ACCESS_LEVEL = NO_LEVEL;
 
     Student(string name, string surname, int age, int course, string extraInfo="")
@@ -30,7 +31,7 @@ public:
 
     virtual void printInfo() {
         log("id: " + to_string(id)
-            + ", status: Student"
+            + ", status: " + TYPE
             + ", name: " + name + " " + surname
             + ", age: " + to_string(age)
             + ", access level: " + AccessLevel_nms::toString(accessLevel)

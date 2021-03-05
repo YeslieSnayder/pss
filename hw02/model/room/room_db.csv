@@ -15,5 +15,4 @@ id,number,capacity,access level,fullness,is booked,laboratory,user_id
 14,204,Cabinet,Green,,,PSS,
 15,205,Cabinet,Green,,,PSS,-1
 16,206,Cabinet,Green,,,PSS,15
-17,209,Director cabinet,Red,,,,1
-18,210,Director cabinet,Red,,,,
+17,300,Director cabinet,Red,,,,1

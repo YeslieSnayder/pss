@@ -3,21 +3,13 @@
 //
 
 #include "../model/rapidcsv.h"
+#include "CreatorService.cpp"
 
-#include "../model/user/Student.h"
-#include "../model/user/LabEmployee.h"
-#include "../model/user/Professor.h"
-#include "../model/user/Director.h"
-#include "../model/user/Admin.h"
-#include "../model/room/ClassRoom.h"
-#include "../model/room/LectureRoom.h"
-#include "../model/room/ConferenceRoom.h"
-#include "../model/room/Cabinet.h"
-#include "../model/room/DirectorCabinet.h"
+const string USER_DB_FILEPATH = "../hw02/model/user/user_db.csv";
+const string ROOM_DB_FILEPATH = "../hw02/model/room/room_db.csv";
 
 vector<User*> getUsers() {
-    string path = "../hw02/model/user/user_db.csv";
-    rapidcsv::Document doc(path, rapidcsv::LabelParams(0, 0));
+    rapidcsv::Document doc(USER_DB_FILEPATH, rapidcsv::LabelParams(0, 0));
 
     vector<User*> users;
     User *user;
@@ -34,31 +26,18 @@ vector<User*> getUsers() {
         bool isPhd = obj[8] == "true";
         string extraInfo = obj[9];
 
-        if (obj[0] == "User")
-            user = new User(name, surname, age, accessLevel, extraInfo);
-        else if (obj[0] == "Student")
-            user = new Student(name, surname, age, course, extraInfo);
-        else if (obj[0] == "Lab employee")
-            user = new LabEmployee(name, surname, age, lab, isPhd, extraInfo);
-        else if (obj[0] == "Professor")
-            user = new Professor(name, surname, age, lab, workExperience, extraInfo);
-        else if (obj[0] == "Director")
-            user = new Director(name, surname, age, extraInfo);
-        else if (obj[0] == "Admin")
-            user = new Admin(name, surname, age, extraInfo);
-        else {
-            log(ERROR, "Error with reading file with users. Type of user(" + obj[0] + ") wasn't found.");
-            continue;
-        }
-
-        users.push_back(user);
+        // Create an user
+        user = createUser(obj[0], name, surname, age, accessLevel, course, lab, workExperience, isPhd, extraInfo);
+        if (user != nullptr)
+            users.push_back(user);
+        else
+            log(WARNING, "Problem with reading file with users. Type of user(" + obj[0] + ") wasn't found.");
     }
     return users;
 }
 
-vector<Room*> getRooms(vector<User*> &users) {
-    string path = "../hw02/model/room/room_db.csv";
-    rapidcsv::Document doc(path, rapidcsv::LabelParams(0, 0));
+vector<Room*> getRooms() {
+    rapidcsv::Document doc(ROOM_DB_FILEPATH, rapidcsv::LabelParams(0, 0));
 
     vector<Room*> rooms;
     Room *room;
@@ -66,61 +45,59 @@ vector<Room*> getRooms(vector<User*> &users) {
         vector<string> obj = doc.GetRow<string>(i);
 
         // Parameters from CSV file
+        string type =  obj[1];
         int number = (!obj[0].empty()) ? doc.GetCell<int>(0, i) : 0;
         int fullness = (!obj[3].empty()) ? doc.GetCell<int>(3, i) : 0;
         bool isBooked = obj[4] == "true";
-
-        if (obj[1] == "Class room")
-            room = new ClassRoom(number, fullness, isBooked);
-        else if (obj[1] == "Lecture room")
-            room = new LectureRoom(number, fullness, isBooked);
-        else if (obj[1] == "Conference room")
-            room = new ConferenceRoom(number, fullness, isBooked);
-        else if (obj[1] == "Cabinet") {
-            User *owner;
-            if (!obj[6].empty()) {
-                int id = doc.GetCell<int>(6, i);
-                for (User *user : users) {
-                    if (user->getId() == id) {
-                        owner = user;
-                        break;
-                    }
-                }
-            }
-            if (owner == nullptr) {
-                room = new Cabinet(doc.GetCell<int>(0, i),
-                                   Laboratory_nms::toEnum(obj[5]));
-            } else {
-                room = new Cabinet(doc.GetCell<int>(0, i),
-                                   Laboratory_nms::toEnum(obj[5]),
-                                   *owner);
-            }
-        } else if (obj[1] == "Director cabinet") {
-            User *owner;
-            if (!obj[6].empty()) {
-                int id = doc.GetCell<int>(6, i);
-                for (User *user : users) {
-                    if (user->getId() == id) {
-                        owner = user;
-                        break;
-                    }
-                }
-            }
-            if (owner == nullptr) {
-                log(WARNING, "Director cabinet wasn't created, because user wasn't found");
-                continue;
-            }
-            if (owner->getAccessLevel() != Director::ACCESS_LEVEL) {
-                log(WARNING, "User isn't director");
-                continue;
-            }
-            room = new DirectorCabinet(*dynamic_cast<Director*>(owner));
-        } else {
-            log(ERROR, "Error with reading file with rooms. Type of user wasn't found.");
+        Laboratory lab = Laboratory_nms::toEnum(obj[5]);
+        if (obj[1] == Capacity_nms::toString(DIRECTOR_CABINET)) {
             continue;
         }
 
-        rooms.push_back(room);
+        // Create a room
+        room = createRoom(type, number, fullness, isBooked, lab, nullptr);
+        if (room != nullptr)
+            rooms.push_back(room);
+        else
+            log(WARNING, "Problem with reading file with rooms. Type of room: " + obj[0] + " wasn't found.");
+    }
+    return rooms;
+}
+
+vector<Room*> getRooms(vector<User*> &users) {
+    rapidcsv::Document doc(ROOM_DB_FILEPATH, rapidcsv::LabelParams(0, 0));
+
+    vector<Room*> rooms;
+    Room *room;
+    for (int i = 0; i < doc.GetRowCount(); i++) {
+        vector<string> obj = doc.GetRow<string>(i);
+
+        // Parameters from CSV file
+        string type =  obj[1];
+        int number = (!obj[0].empty()) ? doc.GetCell<int>(0, i) : 0;
+        int fullness = (!obj[3].empty()) ? doc.GetCell<int>(3, i) : 0;
+        bool isBooked = obj[4] == "true";
+        Laboratory lab = Laboratory_nms::toEnum(obj[5]);
+        User *owner = nullptr;
+        if (obj[1] == Capacity_nms::toString(CABINET)
+                || obj[1] == Capacity_nms::toString(DIRECTOR_CABINET)) {
+            if (!obj[6].empty()) {
+                int id = doc.GetCell<int>(6, i);
+                for (User *user : users) {
+                    if (user->getAccessLevel() >= LabEmployee::ACCESS_LEVEL && user->getId() == id) {
+                        owner = user;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Create a room
+        room = createRoom(type, number, fullness, isBooked, lab, owner);
+        if (room != nullptr)
+            rooms.push_back(room);
+        else
+            log(WARNING, "Problem with reading file with rooms. Type of room(" + obj[0] + ") wasn't found.");
     }
     return rooms;
 }

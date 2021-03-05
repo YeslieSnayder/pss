@@ -9,7 +9,7 @@
 #include "../model/user/Admin.h"
 
 /**
- * Test of a creation of all types of users and check information about them.
+ * The test is about the creation of all types of users and checks information about them.
  * @return 0 - if test is success,
  *  #number except zero (0) - if test with data (#number) is failed
  */

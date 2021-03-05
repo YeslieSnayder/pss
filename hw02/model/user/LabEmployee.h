@@ -16,6 +16,7 @@ class LabEmployee : public User {
     Laboratory lab;
 
 public:
+    static const inline string TYPE = "Lab employee";
     static const AccessLevel ACCESS_LEVEL = GREEN;
 
     LabEmployee(string name, string surname, int age, Laboratory laboratory, bool isPhd, string extraInfo="")
@@ -27,7 +28,7 @@ public:
 
     void printInfo() {
         log("id: " + to_string(id)
-            + ", status: Lab employee"
+            + ", status: " + TYPE
             + ", name: " + User::getName()
             + ", age: " + to_string(age)
             + ", access level: " + AccessLevel_nms::toString(accessLevel)

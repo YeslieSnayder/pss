@@ -7,12 +7,11 @@
 
 #include "../AccessLevel.h"
 #include "../../Logger.h"
-#include <string>
 #include <utility>
 
 using namespace std;
 
-static int ID = 0;
+static int ID = -1;
 
 class User {
 protected:
@@ -23,6 +22,14 @@ protected:
     uint id;
 
 public:
+    static const inline string TYPE = "User";
+
+    User(string name, string surname, int age, AccessLevel accessLevel, string extraInfo="")
+            : name(move(name)), surname(move(surname)), age(age),
+                accessLevel(accessLevel), extraInfo(std::move(extraInfo)) {
+        id = ++ID;
+    }
+
     User(User &other) {
         this->accessLevel = other.accessLevel;
         this->name = other.name;
@@ -31,17 +38,19 @@ public:
         this->id = other.id;
     }
 
-    User(string name, string surname, int age, AccessLevel accessLevel, string extraInfo="")
-            : name(move(name)), surname(move(surname)), age(age),
-                accessLevel(accessLevel), extraInfo(std::move(extraInfo)) {
-        id = ++ID;
+    User(const User &other) {
+        this->accessLevel = other.accessLevel;
+        this->name = other.name;
+        this->surname = other.surname;
+        this->age = other.age;
+        this->id = other.id;
     }
 
     ~User() = default;
 
     virtual void printInfo() {
         log("id: " + to_string(id)
-            + ", status: User"
+            + ", status: " + TYPE
             + ", name: " + name + " " + surname
             + ", age: " + to_string(age)
             + ", access level: " + AccessLevel_nms::toString(accessLevel)
@@ -98,5 +107,7 @@ public:
             this->extraInfo = extraInfo;
     }
 };
+
+const static User NULL_USER("", "", 0, NO_LEVEL);
 
 #endif //PSS_USER_H

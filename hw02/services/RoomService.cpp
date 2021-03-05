@@ -2,21 +2,18 @@
 // Created by Andrey Kuzmickiy group BS20-03.
 //
 
-#include "../model/AccessLevel.h"
-#include "../model/user/User.h"
 #include "../model/room/WrongAccessException.h"
-#include "../model/room/Cabinet.h"
 
 void enterRoom(User *user, Room *room) {
     if (user->getAccessLevel() < room->getAccessLevel()) {
         throw WrongAccessException(*user, *room);
     }
-    if (room->isBooked() && room->getFullness() == room->getCapacity()) {
-        log(WARNING, "Sorry, the room is booked and user " + user->getName()
-            + " cannot come in, because room " + to_string(room->getNumber()) + " is full");
+    if (room->isBooked() && room->getFullness() == room->getCapacity() && user->getAccessLevel() != SUPER_USER) {
+        log(WARNING, "Sorry, the room " + to_string(room->getNumber())
+            + " is booked and full, so user " + user->getName() + " cannot come in");
         return;
     }
-    if (room->getAccessLevel() == Cabinet::ACCESS_LEVEL) {
+    if (room->getAccessLevel() == Cabinet::ACCESS_LEVEL && user->getAccessLevel() != SUPER_USER) {
         Cabinet* cabinet = static_cast<Cabinet*>(room);
 
         if (user->getAccessLevel() == LabEmployee::ACCESS_LEVEL) {

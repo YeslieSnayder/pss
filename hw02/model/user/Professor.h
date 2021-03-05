@@ -15,6 +15,7 @@ class Professor : public User {
     Laboratory subject;
 
 public:
+    static const inline string TYPE = "Professor";
     static const AccessLevel ACCESS_LEVEL = YELLOW;
 
     Professor(string name, string surname, int age, Laboratory subject, int workExperience, string extraInfo="")
@@ -25,7 +26,7 @@ public:
 
     virtual void printInfo() {
         log("id: " + to_string(id)
-            + ", status: Professor"
+            + ", status: " + TYPE
             + ", name: " + name + " " + surname
             + ", age: " + to_string(age)
             + ", access level: " + AccessLevel_nms::toString(accessLevel)

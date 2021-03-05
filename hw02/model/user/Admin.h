@@ -11,6 +11,7 @@
 
 class Admin : public User {
 public:
+    static const inline string TYPE = "Admin";
     static const AccessLevel ACCESS_LEVEL = SUPER_USER;
 
     Admin(string name, string surname, int age, string extraInfo="")
@@ -22,7 +23,7 @@ public:
 
     virtual void printInfo() {
         log("id: " + to_string(id)
-            + ", status: Admin"
+            + ", status: " + TYPE
             + ", name: " + name + " " + surname
             + ", age: " + to_string(age)
             + ", access level: " + AccessLevel_nms::toString(accessLevel)

@@ -5,15 +5,14 @@
 #ifndef PSS_ACCESSLEVEL_H
 #define PSS_ACCESSLEVEL_H
 
-
 #include <string>
 
 enum AccessLevel {
-    NO_LEVEL = 0,
-    GREEN = 1,
-    YELLOW = 2,
-    RED = 3,
-    SUPER_USER = 7,
+    NO_LEVEL,
+    GREEN,
+    YELLOW,
+    RED,
+    SUPER_USER
 };
 
 namespace AccessLevel_nms {

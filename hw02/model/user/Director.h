@@ -10,6 +10,7 @@
 
 class Director : public User {
 public:
+    static const inline string TYPE = "Director";
     static const AccessLevel ACCESS_LEVEL = RED;
 
     Director(string name, string surname, int age, string extraInfo="")
@@ -17,7 +18,7 @@ public:
 
     virtual void printInfo() {
         log("id: " + to_string(id)
-            + ", status: Director"
+            + ", status: " + TYPE
             + ", name: " + name + " " + surname
             + ", age: " + to_string(age)
             + ", access level: " + AccessLevel_nms::toString(accessLevel)

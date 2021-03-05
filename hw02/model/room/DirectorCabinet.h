@@ -17,10 +17,9 @@ protected:
 public:
     static const AccessLevel ACCESS_LEVEL = RED;
 
-    DirectorCabinet(Director& owner) : Room(ACCESS_LEVEL, DIRECTOR_CABINET, -1), owner(owner) {}
+    DirectorCabinet(int number, Director& owner) : Room(ACCESS_LEVEL, DIRECTOR_CABINET, number), owner(owner) {}
 
     const Director &getOwner() const;
-
     void setOwner(const Director &owner);
 };
 
