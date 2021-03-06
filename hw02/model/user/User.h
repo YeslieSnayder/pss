@@ -11,7 +11,7 @@
 
 using namespace std;
 
-static int ID = -1;
+static int ID = 0;
 
 class User {
 protected:
@@ -27,7 +27,7 @@ public:
     User(string name, string surname, int age, AccessLevel accessLevel, string extraInfo="")
             : name(move(name)), surname(move(surname)), age(age),
                 accessLevel(accessLevel), extraInfo(std::move(extraInfo)) {
-        id = ++ID;
+        id = ID++;
     }
 
     User(User &other) {
@@ -47,6 +47,13 @@ public:
     }
 
     ~User() = default;
+
+    virtual bool equals(User *user) {
+        return this->id == user->id
+            && this->getName() == user->getName()
+            && this->accessLevel == user->accessLevel
+            && this->age == user->age;
+    }
 
     virtual void printInfo() {
         log("id: " + to_string(id)

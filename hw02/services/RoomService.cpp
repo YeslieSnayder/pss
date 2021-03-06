@@ -3,9 +3,11 @@
 //
 
 #include "../model/room/WrongAccessException.h"
+#include "../model/room/Cabinet.h"
 
 void enterRoom(User *user, Room *room) {
-    if (user->getAccessLevel() < room->getAccessLevel()) {
+    bool isAcceptableUser = room->isAcceptableUserForThisRoom(*user);
+    if (user->getAccessLevel() < room->getAccessLevel() && !isAcceptableUser) {
         throw WrongAccessException(*user, *room);
     }
     if (room->isBooked() && room->getFullness() == room->getCapacity() && user->getAccessLevel() != SUPER_USER) {
@@ -13,7 +15,7 @@ void enterRoom(User *user, Room *room) {
             + " is booked and full, so user " + user->getName() + " cannot come in");
         return;
     }
-    if (room->getAccessLevel() == Cabinet::ACCESS_LEVEL && user->getAccessLevel() != SUPER_USER) {
+    if (room->getAccessLevel() == Cabinet::ACCESS_LEVEL && user->getAccessLevel() != SUPER_USER && !isAcceptableUser) {
         Cabinet* cabinet = static_cast<Cabinet*>(room);
 
         if (user->getAccessLevel() == LabEmployee::ACCESS_LEVEL) {
@@ -48,4 +50,13 @@ void leaveRoom(User *user, Room *room) {
         room->setIsBooked(false);
 
     log(INFO, "User " + user->getName() + " has left the room #" + to_string(room->getNumber()));
+}
+
+vector<Room*> getAcceptableRooms(vector<Room*> rooms, User* user) {
+    vector<Room*> res;
+    for (auto & room : rooms) {
+        if (room->isAcceptableUserForThisRoom(*user))
+            res.push_back(room);
+    }
+    return res;
 }

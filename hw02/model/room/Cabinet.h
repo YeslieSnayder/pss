@@ -22,11 +22,19 @@ public:
             lab = dynamic_cast<LabEmployee*>(&owner)->getLaboratory();
     }
 
+    Cabinet(int number, Laboratory laboratory, User& owner, vector<int> acceptableUsers)
+            : Room(ACCESS_LEVEL, CABINET, number, 0, 1, acceptableUsers),
+                lab(laboratory), owner(owner) {}
+
+    Cabinet(int number, Laboratory laboratory, vector<int> acceptableUsers)
+            : Room(ACCESS_LEVEL, CABINET, number, 0, 1, acceptableUsers),
+                lab(laboratory), owner(NULL_USER) {}
+
     Cabinet(int number, Laboratory laboratory, User& owner) : Room(ACCESS_LEVEL, CABINET, number),
-        lab(laboratory), owner(owner) {}
+                                                              lab(laboratory), owner(owner) {}
 
     Cabinet(int number, Laboratory laboratory) : Room(ACCESS_LEVEL, CABINET, number),
-        lab(laboratory), owner(NULL_USER) {}
+                                                 lab(laboratory), owner(NULL_USER) {}
 
     const User &getOwner() const {
         return owner;

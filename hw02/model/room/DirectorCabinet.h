@@ -8,16 +8,18 @@
 #include "Room.h"
 #include "../user/Director.h"
 
-/**
- * Singleton class because there can be only one director
- */
 class DirectorCabinet : public Room {
 protected:
     Director owner;
 public:
     static const AccessLevel ACCESS_LEVEL = RED;
 
-    DirectorCabinet(int number, Director& owner) : Room(ACCESS_LEVEL, DIRECTOR_CABINET, number), owner(owner) {}
+    DirectorCabinet(int number, Director& owner)
+        : Room(ACCESS_LEVEL, DIRECTOR_CABINET, number), owner(owner) {}
+
+    DirectorCabinet(int number, Director& owner, vector<int> acceptableUsers)
+            : Room(ACCESS_LEVEL, DIRECTOR_CABINET, number, 0, 1, acceptableUsers), owner(owner) {}
+
 
     const Director &getOwner() const;
     void setOwner(const Director &owner);

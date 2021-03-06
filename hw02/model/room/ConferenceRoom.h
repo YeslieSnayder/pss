@@ -13,7 +13,11 @@ public:
 
     ConferenceRoom(int number) : Room(ACCESS_LEVEL, CONFERENCE_ROOM, number) {}
 
-    ConferenceRoom(int number, int fullness, bool isBooked) : Room(ACCESS_LEVEL, CONFERENCE_ROOM, number, fullness, isBooked) {}
+    ConferenceRoom(int number, int fullness, bool isBooked)
+        : Room(ACCESS_LEVEL, CONFERENCE_ROOM, number, fullness, isBooked) {}
+
+    ConferenceRoom(int number, int fullness, bool isBooked, vector<int> acceptableUsers)
+        : Room(ACCESS_LEVEL, CONFERENCE_ROOM, number, fullness, isBooked, acceptableUsers) {}
 };
 
 

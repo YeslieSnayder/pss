@@ -5,8 +5,8 @@
 #include "../services/CSVService.cpp"
 #include "../services/RoomService.cpp"
 
-User* getRandomUserOfType(vector<User*> users, AccessLevel level);
 void testAccess(User *user, vector<Room*> rooms);
+User* getRandomUserOfType(vector<User*> users, AccessLevel level);
 
 /**
  * Testing access levels of all types of users.

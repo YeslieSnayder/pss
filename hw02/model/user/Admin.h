@@ -8,17 +8,35 @@
 #include <utility>
 
 #include "User.h"
+#include "../room/Room.h"
 
 class Admin : public User {
+    string password;
 public:
     static const inline string TYPE = "Admin";
     static const AccessLevel ACCESS_LEVEL = SUPER_USER;
 
+    Admin(string password) : User(NULL_USER), password(password) {
+        accessLevel = ACCESS_LEVEL;
+        id = ID++;
+    }
+
     Admin(string name, string surname, int age, string extraInfo="")
         : User(std::move(name), std::move(surname), age, ACCESS_LEVEL, std::move(extraInfo)) { }
 
-    void changeAccess(User& user, AccessLevel newAccess) {
+    Admin(string name, string surname, int age, string extraInfo="", string password="password")
+            : User(std::move(name), std::move(surname), age, ACCESS_LEVEL, std::move(extraInfo)), password(password) { }
+
+    void changeAccessLevel(User& user, AccessLevel newAccess) {
         user.setAccessLevel(*this, newAccess);
+    }
+
+    void giveAccess(User& user, Room& room) {
+        room.addAcceptableUser(*this, user);
+    }
+
+    const string &getPassword() const {
+        return password;
     }
 
     virtual void printInfo() {

@@ -13,7 +13,11 @@ public:
 
     ClassRoom(int number) : Room(ACCESS_LEVEL, CLASS_ROOM, number) {}
 
-    ClassRoom(int number, int fullness, bool isBooked) : Room(ACCESS_LEVEL, CLASS_ROOM, number, fullness, isBooked) {}
+    ClassRoom(int number, int fullness, bool isBooked)
+        : Room(ACCESS_LEVEL, CLASS_ROOM, number, fullness, isBooked) {}
+
+    ClassRoom(int number, int fullness, bool isBooked, vector<int> acceptableUsers)
+        : Room(ACCESS_LEVEL, CLASS_ROOM, number, fullness, isBooked, acceptableUsers) {}
 };
 
 #endif //PSS_CLASSROOM_H

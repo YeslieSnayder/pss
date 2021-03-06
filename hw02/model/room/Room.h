@@ -5,6 +5,7 @@
 #ifndef PSS_ROOM_H
 #define PSS_ROOM_H
 
+#include <vector>
 #include "../user/User.h"
 #include "../Capacity.h"
 
@@ -14,10 +15,15 @@ class Room {
     int number;
     int fullness = 0;
     bool _isBooked = false;
+    vector<int> acceptableUsers;
 
 public:
     Room(AccessLevel accessLevel, Capacity capacity, int number, int fullness, bool isBooked)
             : accessLevel(accessLevel), number(number), capacity(capacity), fullness(fullness), _isBooked(isBooked) { }
+
+    Room(AccessLevel accessLevel, Capacity capacity, int number, int fullness, bool isBooked, vector<int> acceptableUsers)
+            : accessLevel(accessLevel), capacity(capacity), number(number), fullness(fullness),
+            _isBooked(isBooked), acceptableUsers(acceptableUsers) { }
 
     Room(AccessLevel accessLevel, Capacity capacity, int number)
             : accessLevel(accessLevel), number(number), capacity(capacity) { }
@@ -41,6 +47,27 @@ public:
         this->fullness--;
     }
 
+    virtual bool isAcceptableUserForThisRoom(User& user) {
+        if (user.getAccessLevel() >= accessLevel && this->accessLevel != GREEN)
+            return true;
+        if (user.getAccessLevel() == SUPER_USER)
+            return true;
+        for (int i : acceptableUsers) {
+            if (user.getId() == i)
+                return true;
+        }
+        return false;
+    }
+
+    virtual void addAcceptableUser(User& admin, User& user) {
+        if (admin.getAccessLevel() == SUPER_USER)
+            acceptableUsers.push_back(user.getId());
+    }
+
+    virtual const vector<int> &getAcceptableUsers() const {
+        return acceptableUsers;
+    }
+
     virtual AccessLevel getAccessLevel() const {
         return accessLevel;
     }
@@ -61,18 +88,23 @@ public:
         return fullness;
     }
 
-    virtual void setAccessLevel(User& user, AccessLevel accessLevel) {
-        if (user.getAccessLevel() == SUPER_USER)
+    virtual void setAcceptableUsers(User& admin, const vector<int> &acceptableUsers) {
+        if (admin.getAccessLevel() == SUPER_USER)
+            Room::acceptableUsers = acceptableUsers;
+    }
+
+    virtual void setAccessLevel(User& admin, AccessLevel accessLevel) {
+        if (admin.getAccessLevel() == SUPER_USER)
             this->accessLevel = accessLevel;
     }
 
-    virtual void setCapacity(User& user, Capacity capacity) {
-        if (user.getAccessLevel() == SUPER_USER)
+    virtual void setCapacity(User& admin, Capacity capacity) {
+        if (admin.getAccessLevel() == SUPER_USER)
             this->capacity = capacity;
     }
 
-    virtual void setNumber(User& user, int number) {
-        if (user.getAccessLevel() == SUPER_USER)
+    virtual void setNumber(User& admin, int number) {
+        if (admin.getAccessLevel() == SUPER_USER)
             this->number = number;
     }
 
@@ -80,8 +112,8 @@ public:
         this->_isBooked = isBooked;
     }
 
-    virtual void setFullness(User& user, int fullness) {
-        if (user.getAccessLevel() == SUPER_USER)
+    virtual void setFullness(User& admin, int fullness) {
+        if (admin.getAccessLevel() == SUPER_USER)
             this->fullness = fullness;
     }
 };

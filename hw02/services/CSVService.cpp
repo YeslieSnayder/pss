@@ -25,9 +25,10 @@ vector<User*> getUsers() {
         int workExperience = (!obj[7].empty()) ? doc.GetCell<int>(7, i) : 0;
         bool isPhd = obj[8] == "true";
         string extraInfo = obj[9];
+        string password = obj[10];
 
         // Create an user
-        user = createUser(obj[0], name, surname, age, accessLevel, course, lab, workExperience, isPhd, extraInfo);
+        user = createUser(obj[0], name, surname, age, accessLevel, course, lab, workExperience, isPhd, extraInfo, password);
         if (user != nullptr)
             users.push_back(user);
         else
