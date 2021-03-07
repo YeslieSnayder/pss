@@ -5,7 +5,7 @@
 #include "../model/rapidcsv.h"
 #include "CreatorService.cpp"
 
-const string USER_DB_FILEPATH = "../hw02/model/user/user_db.csv";
+const string USER_DB_FILEPATH = "/hw02/model/user/user_db.csv";
 const string ROOM_DB_FILEPATH = "../hw02/model/room/room_db.csv";
 
 vector<User*> getUsers() {

@@ -20,7 +20,7 @@ int isRightName(vector<User*> &users, string &role, string &name);
 
 int main() {
     string s;
-    cout << "Do you wanna sing up (1) or you have an account (2)? (1 or 2): ";
+    cout << "Do you want to sing up (1) or you have an account (2)? (1 or 2): ";
     User* user;
     vector<User*> users = getUsers();
     while (1) {

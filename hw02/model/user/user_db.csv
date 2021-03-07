@@ -1,7 +1,7 @@
 id,type,name,surname,age,access level,course,subject,workExperience,_isPhd,extraInfo,password
 1,Director,Ivan,Kirillin,35,Red,,,,,"Graduate of Estonia State University, majored in Economics. Prior to becoming Estonia State University Director, Ivan had been employed by Microsoft since 2010 where he moved up from a Key Account Manager in Tallinn office to a Major Director and a Board member of Microsoft Estonia. He was responsible for all Microsoft businesses in 2 Estonian regions.",
 2,Admin,Andrey,Kuzmickiy,20,Admin,,,,,Prohibited,pass
-3,Admin,Ogdon,Congdon,30,Admin,,,,,,
+3,Admin,Ogdon,Congdon,30,Admin,,,,,,admin
 4,Professor,Vanya,Al Hirsi,43,Yellow,,AGLA,15,,,
 5,Professor,Austina,Robshaw,33,Yellow,,AGLA,10,true,,
 6,Professor,Wrennie,Jozsika,35,Yellow,,PSS,7,,,
