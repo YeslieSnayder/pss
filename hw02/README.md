@@ -41,7 +41,7 @@ The **director cabinet** has only one owner who must be a **Director**.
 
 The diagram of rooms without much details looks like:
 
-![README%20883efbf004e5496a9dc5bae2f31e61e2/PSS_Rooms.png](README%20883efbf004e5496a9dc5bae2f31e61e2/PSS_Rooms.png)
+![Rooms diagram](https://github.com/YeslieSnayder/pss/blob/master/hw02/images/PSS_Rooms.png?raw=true)
 
 ### Users
 
@@ -51,13 +51,13 @@ There are 5 types of users which are derived from the base class `User.h`.
 
 The diagram of users without much details looks like:
 
-![README%20883efbf004e5496a9dc5bae2f31e61e2/PSS_Users.png](README%20883efbf004e5496a9dc5bae2f31e61e2/PSS_Users.png)
+![Users diagram](https://github.com/YeslieSnayder/pss/blob/master/hw02/images/PSS_Users.png?raw=true)
 
 ## Access level
 
 The program has special enum contains access levels. The program checks the access level when a user tries to **enter a room** or **leave a room**.
 
-![README%20883efbf004e5496a9dc5bae2f31e61e2/PSS_AccessLevel.png](README%20883efbf004e5496a9dc5bae2f31e61e2/PSS_AccessLevel.png)
+![Access level](https://github.com/YeslieSnayder/pss/blob/master/hw02/images/PSS_AccessLevel.png?raw=true)
 
 The figure shows all available access levels within corresponding objects. All users located at the top have access to the rooms below and to the left of them, except **Cabinet**.
 
