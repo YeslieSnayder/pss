@@ -15,15 +15,15 @@
 - [Usage](#usage)
     - [Interactive part](#interactive-part)
     - [Tests](#tests)
-- [Common failure](#common-failure)
+- [Troubleshooting](#troubleshooting)
 
 # Description
 
 The program that allows a user to get access to a room: **enter** or **leave** the room. It has a **user interface** represented by the terminal. The program used a **CSV-parser** for collecting people in the database.
 
 The database of people and rooms in the program is represented by CSV-files in the following directories:
-`hw02-03/model/room/[room_db.csv](<https://github.com/YeslieSnayder/pss/blob/master/hw02-03/model/room/room_db.csv>)` - the database of rooms;
-`hw02-03/model/user/[user_db.csv](<https://github.com/YeslieSnayder/pss/blob/master/hw02-03/model/user/user_db.csv>)` - the database of people.
+`hw02-03/model/room/`[room_db.csv](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/model/room/room_db.csv) - the database of rooms;
+`hw02-03/model/user/`[user_db.csv](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/model/user/user_db.csv) - the database of people.
 
 No additional files are required.
 
@@ -41,7 +41,7 @@ The **director cabinet** has only one owner who must be a **Director**.
 
 The diagram of rooms without much details looks like:
 
-![https://github.com/YeslieSnayder/pss/blob/master/hw02/images/PSS_Rooms.png?raw=true](https://github.com/YeslieSnayder/pss/blob/master/hw02/images/PSS_Rooms.png?raw=true)
+![https://github.com/YeslieSnayder/pss/blob/master/hw02-03/images/PSS_Rooms.jpg](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/images/PSS_Rooms.jpg)
 
 ### Users
 
@@ -51,13 +51,13 @@ There are 6 types of users which are derived from the base class `User.h`.
 
 The diagram of users without much details looks like:
 
-![https://github.com/YeslieSnayder/pss/blob/master/hw02/images/PSS_Users.png?raw=true](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/images/PSS_Users.png?raw=true)
+![https://github.com/YeslieSnayder/pss/blob/master/hw02-03/images/PSS_Users.jpg](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/images/PSS_Users.jpg)
 
 ## Access level
 
 The program has special enum contains access levels. The program checks the access level when a user tries to **enter a room** or **leave a room**.
 
-![https://github.com/YeslieSnayder/pss/blob/master/hw02/images/PSS_AccessLevel.png?raw=true](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/images/PSS_AccessLevel.png?raw=true)
+![https://github.com/YeslieSnayder/pss/blob/master/hw02-03/images/PSS_AccessLevel.jpg](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/images/PSS_AccessLevel.jpg)
 
 The figure shows all available access levels within corresponding objects. All users located at the top have access to the rooms below and to the left of them, except **Guest** and **Cabinet**.
 
@@ -172,37 +172,37 @@ add_executable(pss hw02/main.cpp) // CHANGE THIS LINE
 
 ### [Test1.cpp](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/tests/Test1.cpp)
 
-Substitute the following line: `add_executable(pss hw02/tests/Test1.cpp)`
+Substitute the following line: `add_executable(pss hw02-03/tests/Test1.cpp)`
 
 Checks the creation of all types of users and checks information about them.
 
 ### [Test2.cpp](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/tests/Test2.cpp)
 
-Substitute the following line: `add_executable(pss hw02/tests/Test2.cpp)`
+Substitute the following line: `add_executable(pss hw02-03/tests/Test2.cpp)`
 
 Checks reading and conversion from files ".csv". The test write an output which contains all data about users and rooms.
 
 ### [Test3.cpp](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/tests/Test3.cpp)
 
-Substitute the following line: `add_executable(pss hw02/tests/Test3.cpp)`
+Substitute the following line: `add_executable(pss hw02-03/tests/Test3.cpp)`
 
 Checks access levels of all types of users.
 
 ### [Test4.cpp](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/tests/Test4.cpp)
 
-Substitute the following line: `add_executable(pss hw02/tests/Test4.cpp)`
+Substitute the following line: `add_executable(pss hw02-03/tests/Test4.cpp)`
 
 Checks the abilities of admin to give an access for user.
 
 ### [Test5.cpp](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/tests/Test5.cpp)
 
-Substitute the following line: `add_executable(pss hw02/tests/Test5.cpp)`
+Substitute the following line: `add_executable(pss hw02-03/tests/Test5.cpp)`
 
 Checks the opportunity of guest to get an access to rooms with different access level and floor.
 
 ### [Test6.cpp](https://github.com/YeslieSnayder/pss/blob/master/hw02-03/tests/Test6.cpp)
 
-Substitute the following line: `add_executable(pss hw02/tests/Test6.cpp)`
+Substitute the following line: `add_executable(pss hw02-03/tests/Test6.cpp)`
 
 Checks the emergency situation feature.
 
@@ -225,7 +225,7 @@ Try to change the address in file [CSVService.cpp](https://github.com/YeslieSnay
 Find the strings `USER_DB_FILEPATH` and `ROOM_DB_FILEPATH`, after substitute the value of strings with the **absolute path** of files `[/model/user/user_db.csv](<https://github.com/YeslieSnayder/pss/blob/master/hw02-03/model/user/user_db.csv>)` and `[/model/room/room_db.csv](<https://github.com/YeslieSnayder/pss/blob/master/hw02-03/model/room/room_db.csv>)`.
 
 ```
-const string USER_DB_FILEPATH = "../hw02/model/user/user_db.csv";
-const string ROOM_DB_FILEPATH = "../hw02/model/room/room_db.csv";
+const string USER_DB_FILEPATH = "../hw02-03/model/user/user_db.csv";
+const string ROOM_DB_FILEPATH = "../hw02-03/model/room/room_db.csv";
 
 ```
