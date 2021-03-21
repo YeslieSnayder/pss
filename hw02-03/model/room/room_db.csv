@@ -1,0 +1,18 @@
+id,number,capacity,access level,fullness,is booked,laboratory,user_id,floor
+1,101,Lecture room,No level,12,true,,,1
+2,102,Lecture room,No level,0,false,,,2
+3,103,Lecture room,No level,200,true,,,1
+4,104,Class room,No level,0,false,,,3
+5,105,Class room,No level,10,true,,,2
+6,106,Class room,No level,25,true,,,1
+7,107,Conference room,Yellow,0,false,,,2
+8,108,Conference room,Yellow,10,true,,,1
+9,109,Conference room,Yellow,50,true,,,2
+10,200,Cabinet,Green,,,AGLA,10,3
+11,201,Cabinet,Green,,,TCS,10,1
+12,202,Cabinet,Green,,,TCS,11,3
+13,203,Cabinet,Green,,,AGLA,9,2
+14,204,Cabinet,Green,,,PSS,,3
+15,205,Cabinet,Green,,,PSS,-1,1
+16,206,Cabinet,Green,,,PSS,15,3
+17,300,Director cabinet,Red,,,,1,3
