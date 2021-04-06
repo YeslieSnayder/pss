@@ -11,14 +11,21 @@
 
 using namespace std;
 
+enum class PAYMENT_METHOD {
+    CASH,
+    ONLINE,
+    BANK_BILL
+};
+
 class Passenger {
     string name;
-    float rating;
+    float rating;   // 0.0 <= value <= 5.0
     vector<Order> orderHistory;
-    vector<Address> pinnedAddresses;
+    vector<GEOAddress> pinnedAddresses;
+    PAYMENT_METHOD paymentMethod;
 
-    enum payment_method{CASH, ONLINE, BANK_BILL};
-
+public:
+    Passenger() = default;
 };
 
 

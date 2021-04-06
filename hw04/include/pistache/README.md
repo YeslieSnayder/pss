@@ -268,6 +268,6 @@ struct HelloHandler : public Http::Handler {
 };
 
 int main() {
-  Http::listenAndServe<HelloHandler>(Pistache::Address("*:9080"));
+  Http::listenAndServe<HelloHandler>(Pistache::GEOAddress("*:9080"));
 }
 ```

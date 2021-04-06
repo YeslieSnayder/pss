@@ -70,7 +70,7 @@ After defining the handler, the server can now be started:
 
 ```cpp
 int main() {
-    Address addr(Ipv4::any(), Port(9080));
+    GEOAddress addr(Ipv4::any(), Port(9080));
 
     auto opts = Http::Endpoint::options().threads(1);
     Http::Endpoint server(addr);

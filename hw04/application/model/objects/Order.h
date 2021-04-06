@@ -8,6 +8,8 @@
 
 class Order {
 
+public:
+    Order() = default;
 };
 
 
