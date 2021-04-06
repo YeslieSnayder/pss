@@ -57,6 +57,8 @@ public:
      * }"
      */
     static void loginPassenger(const Rest::Request &request, Http::ResponseWriter response) {
+        // TODO: Improve exception handler
+
         string ans;
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
@@ -124,9 +126,13 @@ public:
     }
 
 
-    static void checkRequest(const Rest::Request &request, Http::Method method, bool requireBody=false) {
+    static void checkRequest(const Rest::Request &request, Http::Method method,
+                             bool requireBody=false,
+                             Http::Mime::MediaType contentType=MIME(Application, Json)) {
         if (request.method() != method)
             throw invalid_argument("Request method is incorrect");
+        if (request.headers().tryGet<Http::Header::ContentType>() == nullptr)
+            throw invalid_argument("Content type has to be explicitly determine");
         if (requireBody && request.body().empty())
             throw invalid_argument("Body is empty");
     }

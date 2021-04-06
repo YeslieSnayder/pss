@@ -19,10 +19,6 @@ using namespace std;
  */
 Rest::Router initRouter() {
     Rest::Router router;
-//    Rest::Routes::Get(router, "/users/all", Rest::Routes::bind(&UsersApi::getAllUsers));
-//    Rest::Routes::Post(router, "/passengers/:id", Rest::Routes::bind(&PassengerGateway::getPassenger));
-//    Rest::Routes::Post(router, "/driver/:id", Rest::Routes::bind(&DriverGateway::getDriver));
-//    Rest::Routes::Get(router, "/link/*/to/*", Rest::Routes::bind(&UsersApi::linkUsers));
 
     // Passenger
     Rest::Routes::Put(router, "/passengers", Rest::Routes::bind(&PassengerGateway::loginPassenger));
