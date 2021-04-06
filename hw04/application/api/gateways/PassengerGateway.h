@@ -84,7 +84,7 @@ public:
 
     // GET /passengers/:id
     static void getPassenger(const Rest::Request &request, Http::ResponseWriter response) {
-        // TODO: Complete getting information about passenger
+        // TODO: Complete getting information about passenger (without full order history (last 3 orders))
         auto id = request.param(":id").as<int>();
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
@@ -116,6 +116,11 @@ public:
     // GET /passengers/order/:id
     static void getOrderInfo(const Rest::Request &request, Http::ResponseWriter response) {
         // TODO: Return information about particular order that the passenger did
+    }
+
+    // GET /passengers/:id/orders
+    static void getOrderHistory(const Rest::Request &request, Http::ResponseWriter response) {
+        // TODO: Return order history
     }
 
 

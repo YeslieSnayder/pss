@@ -8,7 +8,6 @@
 #include "gateways/DriverGateway.h"
 #include "gateways/PassengerGateway.h"
 
-#include "../db/TestDatabase.h"
 
 using namespace Pistache;
 using namespace std;
@@ -33,9 +32,16 @@ Rest::Router initRouter() {
     Rest::Routes::Post(router, "/passengers/order/:id", Rest::Routes::bind(&PassengerGateway::orderRide));
     Rest::Routes::Get(router, "/passengers/car/:id", Rest::Routes::bind(&PassengerGateway::getCarInfo));
     Rest::Routes::Get(router, "/passengers/order/:id", Rest::Routes::bind(&PassengerGateway::getOrderInfo));
+    Rest::Routes::Get(router, "/passengers/:id/orders", Rest::Routes::bind(&PassengerGateway::getOrderHistory));
 
     // Driver
-
+    Rest::Routes::Put(router, "/drivers", Rest::Routes::bind(&DriverGateway::loginDriver));
+    Rest::Routes::Get(router, "/drivers/:id", Rest::Routes::bind(&DriverGateway::getDriver));
+    Rest::Routes::Patch(router, "/drivers/:id", Rest::Routes::bind(&DriverGateway::updateDriver));
+    Rest::Routes::Get(router, "/drivers/:id/orders", Rest::Routes::bind(&DriverGateway::getOrderHistory));
+    Rest::Routes::Get(router, "/drivers/:id/car", Rest::Routes::bind(&DriverGateway::getCarInfo));
+    Rest::Routes::Get(router, "/drivers/order", Rest::Routes::bind(&DriverGateway::checkAvailableOrders));
+    Rest::Routes::Post(router, "/drivers/:id", Rest::Routes::bind(&DriverGateway::acceptOrder));
 
     return router;
 }
