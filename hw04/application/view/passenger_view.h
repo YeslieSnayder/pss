@@ -6,6 +6,7 @@
 #define PSS_PASSENGER_VIEW_H
 
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -22,6 +23,14 @@ public:
         }
         res += badFields[badFields.size()-1] + ": " + description[description.size()-1] + "}";
         return res;
+    }
+
+    /**
+     * Logging of the message to a log-file.
+     * @param message - information that will be written to the log-file.
+     */
+    void log(string message) {
+        cout << message << endl;
     }
 };
 

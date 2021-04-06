@@ -7,14 +7,13 @@
 
 #include "../db/database.h"
 
-template<class T>
 class Model {
     Database* db;
 public:
-    Model(Database db) : db(&db) {}
+    Model(Database* db) : db(db) {}
 
-    unsigned long int createPassenger(string data) {
-
+    static unsigned long int createPassenger(string data) {
+        return 0;
     }
 };
 

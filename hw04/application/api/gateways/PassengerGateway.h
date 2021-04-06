@@ -6,19 +6,24 @@
 #define PSS_PASSENGERGATEWAY_H
 
 #include "pistache/endpoint.h"
+#include "../config.h"
 
 #include "../../model/model.h"
 #include "../../model/objects/Passenger.h"
 #include "../../view/passenger_view.h"
+#include "../../db/TestDatabase.h"
 
 using namespace Pistache;
 
 class PassengerGateway {
-    Model model;
-    PassengerView view;
+    static inline Model model = MODEL_GLOBAL;
+    static inline PassengerView view;
 
 public:
-    PassengerGateway(Model model, PassengerView view) : model(model), view(view) {}
+    static void init(Model _model, PassengerView _view) {
+        model = _model;
+        view = _view;
+    }
 
     /**
      * The method allows user to login into the system. This method is idempotent,
@@ -52,24 +57,67 @@ public:
      * }"
      */
     static void loginPassenger(const Rest::Request &request, Http::ResponseWriter response) {
+        string ans;
+        response.headers()
+                .add<Http::Header::Server>(SERVER_NAME)
+                .add<Http::Header::ContentType>(MIME(Application, Json));
+
         try {
             checkRequest(request, Http::Method::Put, true);
-            unsigned long int id = model.
-            string ans = view.loginPassenger(id);
-        } catch (exception e) {
+            unsigned long int id = model.createPassenger(request.body());
+            ans = view.loginPassenger(id);
 
+            auto res = response.send(Http::Code::Ok, ans);
+            res.then([](ssize_t bytes) {
+                view.log(to_string(bytes) + " bytes have been sent\n");
+            }, Async::Throw);
+
+        } catch (exception e) {
+            ans = view.loginBadRequest({"name"}, {"Bad name"});
+
+            auto res = response.send(Http::Code::Bad_Request, ans);
+            res.then([](ssize_t bytes) {
+                view.log(to_string(bytes) + " bytes have been sent\n");
+            }, Async::Throw);
         }
     }
 
+    // GET /passengers/:id
     static void getPassenger(const Rest::Request &request, Http::ResponseWriter response) {
+        // TODO: Complete getting information about passenger
         auto id = request.param(":id").as<int>();
-        string body = "This is passenger with id = " + id;
         response.headers()
-                .add<Http::Header::Server>("Passenger")
+                .add<Http::Header::Server>(SERVER_NAME)
                 .add<Http::Header::ContentType>(MIME(Text, Plain));
         auto stream = response.stream(Http::Code::Ok);
-        stream << body << Http::ends;
+        stream << "This is passenger with id = " << id << Http::ends;
     }
+
+    // PATCH /passengers/:id
+    static void updatePassenger(const Rest::Request &request, Http::ResponseWriter response) {
+        // TODO: Update passenger from JSON file (body)
+    }
+
+    // POST /passengers/assign/:id
+    static void assignRide(const Rest::Request &request, Http::ResponseWriter response) {
+        // TODO: Return the information about accessible cars  (Same as orderRide)
+    }
+
+    // POST /passengers/order/:id
+    static void orderRide(const Rest::Request &request, Http::ResponseWriter response) {
+        // TODO: Assign Driver and start the ride  (Same as assignRide)
+    }
+
+    // GET /passengers/car/:id
+    static void getCarInfo(const Rest::Request &request, Http::ResponseWriter response) {
+        // TODO: Current coordinates of the assigned car (only if this passenger assigned the car)
+    }
+
+    // GET /passengers/order/:id
+    static void getOrderInfo(const Rest::Request &request, Http::ResponseWriter response) {
+        // TODO: Return information about particular order that the passenger did
+    }
+
 
     static void checkRequest(const Rest::Request &request, Http::Method method, bool requireBody=false) {
         if (request.method() != method)

@@ -7,12 +7,12 @@
 
 
 class TestDatabase : public Database {
-    unsigned long int Database::createPassenger(string data) {
-
+    unsigned long int createPassenger(string data) {
+        return 0;
     }
 
-    bool Database::isPassengerExists(string data) {
-
+    bool isPassengerExists(string data) {
+        return false;
     }
 };
 
