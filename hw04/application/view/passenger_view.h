@@ -16,7 +16,7 @@ public:
         return "{id: " + to_string(id) + "}";
     }
 
-    string loginBadRequest(vector<string> badFields, vector<string> description) {
+    string sendBadRequestError(vector<string> badFields, vector<string> description) {
         string res = "{";
         for (int i = 0; i < badFields.size() - 1; i++) {
             res += badFields[i] + ": " + description[i] + ", ";

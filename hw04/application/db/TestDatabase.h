@@ -5,14 +5,27 @@
 #ifndef PSS_TESTDATABASE_H
 #define PSS_TESTDATABASE_H
 
+#include <vector>
+
+using namespace std;
 
 class TestDatabase : public Database {
-    unsigned long int createPassenger(string data) {
-        return 0;
+    vector<Passenger> passengers;
+    vector<Driver> drivers;
+
+public:
+    virtual unsigned long int createPassenger(Passenger passenger) {
+        passenger.setId(passengers.size() + 1);
+        passengers.push_back(passenger);
+        return passenger.getId();
     }
 
-    bool isPassengerExists(string data) {
-        return false;
+    virtual Passenger* getPassenger(Passenger passenger) {
+        for (auto& p : passengers) {
+            if (p == passenger)
+                return &p;
+        }
+        return nullptr;
     }
 };
 

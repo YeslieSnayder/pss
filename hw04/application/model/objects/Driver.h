@@ -5,7 +5,10 @@
 #ifndef PSS_DRIVER_H
 #define PSS_DRIVER_H
 
+#include <utility>
 #include <vector>
+#include "rapidjson/document.h"
+
 #include "Order.h"
 #include "Car.h"
 
@@ -18,14 +21,41 @@ enum class DriverStatus : int {
 };
 
 class Driver {
+    static const unsigned long int NULL_ID = 0;
+
+    unsigned long int id = NULL_ID;
     string name;
-    float rating;
+    float rating;   // 0.0 <= value <= 5.0
     vector<Order> orderHistory;
     Car personalCar;
     DriverStatus status;
 
 public:
-    Driver() = default;
+    Driver(string name, float rating, const vector<Order> &orderHistory,
+                                   Car personalCar, DriverStatus status) : name(std::move(name)), rating(rating),
+                                                                           orderHistory(orderHistory),
+                                                                           personalCar(std::move(personalCar)),
+                                                                           status(status) {}
+
+    Driver(const rapidjson::Document& json) {
+
+    }
+
+    bool operator==(const Driver& obj) const {
+        if (name == obj.name && rating == obj.rating && personalCar == obj.personalCar && status == obj.status
+                && orderHistory.size() == obj.orderHistory.size()) {
+            for (int i = 0; i < orderHistory.size(); i++) {
+                if (orderHistory[i] != obj.orderHistory[i])
+                    return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    bool operator!=(const Driver& obj) const {
+        return !(operator==(obj));
+    }
 };
 
 

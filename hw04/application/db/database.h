@@ -5,12 +5,15 @@
 #ifndef PSS_DATABASE_H
 #define PSS_DATABASE_H
 
+#include "../model/objects/Passenger.h"
+#include "../model/objects/Driver.h"
+
 using namespace std;
 
 class Database {
 public:
-    virtual unsigned long int createPassenger(string data) = 0;
-    virtual bool isPassengerExists(string data) = 0;
+    virtual unsigned long int createPassenger(Passenger passenger) = 0;
+    virtual Passenger* getPassenger(Passenger passenger) = 0;
 };
 
 

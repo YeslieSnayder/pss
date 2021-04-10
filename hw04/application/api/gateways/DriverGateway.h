@@ -16,9 +16,6 @@ using namespace Pistache;
 
 
 class DriverGateway {
-    static inline Model model = MODEL_GLOBAL;
-    static inline DriverView view;
-
 public:
 
     // PUT /drivers
@@ -58,6 +55,11 @@ public:
     // POST /drivers/:id
     static void acceptOrder(const Rest::Request &request, Http::ResponseWriter response) {
         // TODO: Accept the order (id of the order in the body of request)
+    }
+
+    // POST /drivers/complete
+    static void completeOrder(const Rest::Request &request, Http::ResponseWriter response) {
+        // TODO: Complete the order
     }
 };
 

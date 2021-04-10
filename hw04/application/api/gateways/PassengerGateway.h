@@ -16,14 +16,9 @@
 using namespace Pistache;
 
 class PassengerGateway {
-    static inline Model model = MODEL_GLOBAL;
     static inline PassengerView view;
 
 public:
-    static void init(Model _model, PassengerView _view) {
-        model = _model;
-        view = _view;
-    }
 
     /**
      * The method allows user to login into the system. This method is idempotent,
@@ -57,8 +52,6 @@ public:
      * }"
      */
     static void loginPassenger(const Rest::Request &request, Http::ResponseWriter response) {
-        // TODO: Improve exception handler
-
         string ans;
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
@@ -66,20 +59,23 @@ public:
 
         try {
             checkRequest(request, Http::Method::Put, true);
-            unsigned long int id = model.createPassenger(request.body());
+
+            Document json;
+            json.Parse(request.body().c_str());
+            unsigned long int id = Model::createPassenger(json);
             ans = view.loginPassenger(id);
 
             auto res = response.send(Http::Code::Ok, ans);
             res.then([](ssize_t bytes) {
-                view.log(to_string(bytes) + " bytes have been sent\n");
+                view.log("User was logged in");
             }, Async::Throw);
 
         } catch (exception e) {
-            ans = view.loginBadRequest({"name"}, {"Bad name"});
+            ans = view.sendBadRequestError({"name"}, {e.what()});
 
             auto res = response.send(Http::Code::Bad_Request, ans);
             res.then([](ssize_t bytes) {
-                view.log(to_string(bytes) + " bytes have been sent\n");
+                view.log("ERROR: User wasn't logged in");
             }, Async::Throw);
         }
     }
@@ -91,6 +87,25 @@ public:
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
                 .add<Http::Header::ContentType>(MIME(Text, Plain));
+        string ans;
+
+        try {
+            checkRequest(request, Http::Method::Get);
+            Document json;
+            json.Parse(request.body().c_str());
+            Passenger* passenger = Model::findPassenger(json);
+            if (passenger == nullptr)
+                throw invalid_argument("Passenger with given id(" + to_string(id) + ") doesn't exist");
+
+        } catch (exception e) {
+            ans = view.sendBadRequestError({"description"}, {e.what()});
+
+            auto res = response.send(Http::Code::Bad_Request, ans);
+            res.then([](ssize_t bytes) {
+                view.log("ERROR: User wasn't logged in");
+            }, Async::Throw);
+        }
+
         auto stream = response.stream(Http::Code::Ok);
         stream << "This is passenger with id = " << id << Http::ends;
     }
@@ -126,14 +141,12 @@ public:
     }
 
 
-    static void checkRequest(const Rest::Request &request, Http::Method method,
-                             bool requireBody=false,
-                             Http::Mime::MediaType contentType=MIME(Application, Json)) {
+    static void checkRequest(const Rest::Request &request, Http::Method method, bool requiredBody = false) {
         if (request.method() != method)
             throw invalid_argument("Request method is incorrect");
-        if (request.headers().tryGet<Http::Header::ContentType>() == nullptr)
+        if (requiredBody && request.headers().tryGet<Http::Header::ContentType>() == nullptr)
             throw invalid_argument("Content type has to be explicitly determine");
-        if (requireBody && request.body().empty())
+        if (requiredBody && request.body().empty())
             throw invalid_argument("Body is empty");
     }
 };

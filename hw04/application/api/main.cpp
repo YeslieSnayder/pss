@@ -38,6 +38,7 @@ Rest::Router initRouter() {
     Rest::Routes::Get(router, "/drivers/:id/car", Rest::Routes::bind(&DriverGateway::getCarInfo));
     Rest::Routes::Get(router, "/drivers/order", Rest::Routes::bind(&DriverGateway::checkAvailableOrders));
     Rest::Routes::Post(router, "/drivers/:id", Rest::Routes::bind(&DriverGateway::acceptOrder));
+    Rest::Routes::Post(router, "/drivers/complete", Rest::Routes::bind(&DriverGateway::completeOrder));
 
     return router;
 }
@@ -47,7 +48,7 @@ Rest::Router initRouter() {
  * @param host - address where server will be running.
  */
 void runServer(Pistache::Address host) {
-    auto opts = Http::Endpoint::options().threads(1);
+    auto opts = Http::Endpoint::options().threads(5);
 
     Http::Endpoint server(host);
     server.init(opts);

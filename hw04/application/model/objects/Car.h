@@ -19,12 +19,21 @@ enum class CarType {
 class Car {
     string model;
     CarType carType;
-    GEOAddress currentAddress;
+    GEOAddress currentAddress = GEOAddress(0, 0);
     string color;
-    int number;
+    unsigned long int number;
 
 public:
     Car() = default;
+
+    bool operator==(const Car& obj) const {
+        return model == obj.model && carType == obj.carType && currentAddress == obj.currentAddress
+                && color == obj.color && number == obj.number;
+    }
+
+    bool operator!=(const Car& obj) const {
+        return !(operator==(obj));
+    }
 };
 
 

@@ -27,6 +27,14 @@ public:
                 ((longitude < 0) ? '-' : '+') + std::to_string(longitude);
     }
 
+    bool operator==(const GEOAddress& obj) const {
+        return latitude == obj.latitude && longitude == obj.longitude;
+    }
+
+    bool operator!=(const GEOAddress& obj) const {
+        return !(operator==(obj));
+    }
+
     double getLatitude() const {
         return latitude;
     }

@@ -5,15 +5,35 @@
 #ifndef PSS_MODEL_H
 #define PSS_MODEL_H
 
+#include "rapidjson/document.h"
 #include "../db/database.h"
 
-class Model {
-    Database* db;
-public:
-    Model(Database* db) : db(db) {}
+#include "objects/Passenger.h"
+#include "../db/database.h"
+#include "../db/TestDatabase.h"
 
-    static unsigned long int createPassenger(string data) {
-        return 0;
+using namespace rapidjson;
+
+class Model {
+    static inline Database* db;
+
+public:
+    Model(Database* _db) {
+        Model::db = _db;
+    }
+
+    static unsigned long int createPassenger(Document& data) {
+        Passenger* passenger = findPassenger(data);
+        if (passenger != nullptr)
+            return passenger->getId();
+
+        passenger = new Passenger(data);
+        return Model::db->createPassenger(*passenger);
+    }
+
+    static Passenger* findPassenger(Document& data) {
+        Passenger passenger(data);
+        return Model::db->getPassenger(passenger);
     }
 };
 
