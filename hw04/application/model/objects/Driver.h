@@ -54,7 +54,10 @@ public:
 
         rapidjson::Document doc;
         doc.CopyFrom(json["personal_car"], json.GetAllocator());
-        personalCar = new Car(doc);
+        personalCar = new Car(id, doc);
+
+        if (json.HasMember("driver_id") && json["driver_id"].IsInt())
+            id = json["driver_id"].GetInt();
 
         // TODO: Add method to add orderHistory
     }
@@ -78,13 +81,15 @@ public:
             exc.addEntry("name", "Driver: Parameter 'name' is incorrect, expected type: 'string'");
         if (json.HasMember("rating") && !json["rating"].IsNumber())
             exc.addEntry("rating", "Driver: Parameter 'rating' is incorrect, expected type: 'number'");
+        if (json.HasMember("driver_id") && !json["driver_id"].IsInt())
+            exc.addEntry("driver_id", "Driver: Parameter 'driver_id' is incorrect, expected type: 'integer'");
         if (json.HasMember("personal_car") && !json["personal_car"].IsObject())
             exc.addEntry("personal_car", "Driver: Parameter 'personal_car' is incorrect, expected type: 'object'");
         if (json.HasMember("driver_status") && !json["driver_status"].IsString())
             exc.addEntry("driver_status", "Driver: Parameter 'driver_status' is incorrect, expected type: 'string'");
 
         if (json.HasMember("rating") && json["rating"].IsNumber()) {
-            auto check = json["rating"].Get<float>();
+            float check = json["rating"].GetFloat();
             if (check < 0.0 || check > 5.0)
                 exc.addEntry("rating",
                              "Driver: Parameter 'rating' is out of range, expected: 0 <= value <= 5.0, but given: " +
@@ -96,6 +101,13 @@ public:
                 exc.addEntry("driver_status",
                              "Driver: Parameter 'driver_status' is incorrect, "
                              "expected: 'not_working', 'working', 'in_ride', but given: " + check);
+        }
+        if (json.HasMember("driver_id") && json["driver_id"].IsInt()) {
+            int driver_id = json["driver_id"].GetInt();
+            if (driver_id < 0)
+                exc.addEntry("driver_id",
+                             "Driver: Parameter 'driver_id' is incorrect, expected: positive integer"
+                             ", but given: " + to_string(driver_id));
         }
 
         if (exc.hasErrors())

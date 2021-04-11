@@ -35,7 +35,13 @@ public:
     Car(unsigned long int driver_id, rapidjson::Document& json) {
         validate_json(json);
         model = json["model"].GetString();
-
+        string address = json["current_address"].GetString();
+        currentAddress = GEOAddress(address);
+        color = json["color"].GetString();
+        number = json["number"].GetString();
+        Car::driver_id = driver_id;
+        if (json.HasMember("freeBottleOfWater") && json["freeBottleOfWater"].IsInt())
+            freeBottleOfWater = json["number"].GetInt();
 
         string type = json["car_type"].GetString();
         type = is_correct_type(type);
@@ -47,11 +53,6 @@ public:
             carType = CarType::Business;
         else if (type == "comfortplus" || type == "comfort_plus" || type == "comfort plus")
             carType = CarType::ComfortPlus;
-
-        string address = json["current_address"].GetString();
-        currentAddress = GEOAddress(address);
-
-        Car::driver_id = driver_id;
     }
 
     /**

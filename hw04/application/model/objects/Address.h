@@ -58,7 +58,16 @@ public:
     }
 
     GEOAddress(std::string address_str) {
-
+        bool neg = address_str[0] == '-';
+        std::string num;
+        for (int i = 1; i < address_str.size(); i++) {
+            if (address_str[i] == '+' || address_str[i] == '-') {
+                latitude = std::stod(num);
+                if (neg) latitude = -latitude;
+                num.clear();
+            } else
+                num.push_back(address_str[i]);
+        }
     }
 };
 

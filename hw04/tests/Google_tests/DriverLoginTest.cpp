@@ -107,10 +107,9 @@ TEST_F(DriverLoginTest, MissingData) {
                          ASSERT_NE(id, 1);
                      } catch (IncorrectDataException& e) {
                          auto arr = e.getErrors();
-                         EXPECT_EQ(arr.size(), 4);
+                         EXPECT_EQ(arr.size(), 3);
                          EXPECT_EQ("name", arr[0].key);
                          EXPECT_EQ("rating", arr[1].key);
-                         EXPECT_EQ("personal_car", arr[2].key);
                          EXPECT_EQ("driver_status", arr[3].key);
                          throw;
                      }
