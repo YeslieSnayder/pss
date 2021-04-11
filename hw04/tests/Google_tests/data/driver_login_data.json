@@ -9,9 +9,9 @@
         "car_type": "Economy",
         "current_address": "+55.75141155622517+48.74226445254849",
         "color": "black",
-        "number": 220022
+        "number": "A200BC"
       },
-      "driver_status": "READY"
+      "driver_status": "WORKING"
     }},
     {"driver_2": {
       "driver_id": 2,
@@ -22,7 +22,7 @@
         "car_type": "Business",
         "current_address": "+55.80090052438555+49.10520716400299",
         "color": "white",
-        "number": 123456
+        "number": "O000OO"
       },
       "driver_status": "NOT_WORKING"
     }},
@@ -34,7 +34,7 @@
         "car_type": "Comfort",
         "current_address": "+55.74696779418607+37.54126965079868",
         "color": "blue",
-        "number": 579201
+        "number": "V123AZ"
       },
       "driver_status": "IN_RIDE"
     }},
@@ -46,7 +46,7 @@
         "car_type": "Comfort",
         "current_address": "+55.73094485182288+49.19119161420542",
         "color": "blue",
-        "number": 229112
+        "number": "M532KF"
       },
       "driver_status": "IN_RIDE"
     }}
@@ -75,7 +75,7 @@
         "color": "",
         "number": 229112
       },
-      "driver_status": "",
+      "driver_status": "NOT_WORKING",
       "trash": "Some data"
     }}
   ]

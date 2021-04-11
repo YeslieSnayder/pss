@@ -15,15 +15,13 @@ class TestDatabase : public Database {
     vector<Driver> drivers;
 
 public:
-    TestDatabase() = default;
-
-    unsigned long createDriver(Driver driver) {
+    virtual unsigned long int createDriver(Driver& driver) {
         driver.setId(drivers.size() + 1);
         drivers.push_back(driver);
         return driver.getId();
     }
 
-    Driver *getDriver(Driver driver) {
+    virtual Driver* getDriver(Driver& driver) {
         for (auto& d : drivers) {
             if (d == driver)
                 return &d;
@@ -31,13 +29,13 @@ public:
         return nullptr;
     }
 
-    virtual unsigned long int createPassenger(Passenger passenger) {
+    virtual unsigned long int createPassenger(Passenger& passenger) {
         passenger.setId(passengers.size() + 1);
         passengers.push_back(passenger);
         return passenger.getId();
     }
 
-    virtual Passenger* getPassenger(Passenger passenger) {
+    virtual Passenger* getPassenger(Passenger& passenger) {
         for (auto& p : passengers) {
             if (p == passenger)
                 return &p;

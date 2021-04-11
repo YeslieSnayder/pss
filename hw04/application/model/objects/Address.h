@@ -56,6 +56,10 @@ public:
                                    "but given " + std::to_string(longitude));
         GEOAddress::longitude = longitude;
     }
+
+    GEOAddress(std::string address_str) {
+
+    }
 };
 
 #endif //PSS_ADDRESS_H

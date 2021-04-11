@@ -2,22 +2,25 @@
 // Created by yesliesnayder on 11.04.2021.
 //
 
+#include <utility>
 #include <vector>
 
 #ifndef PSS_INCORRECTDATAEXCEPTION_H
 #define PSS_INCORRECTDATAEXCEPTION_H
 
 
-class IncorrectDataException : std::exception {
+class IncorrectDataException : public std::runtime_error {
     struct Entry {
         std::string key;
         std::string value;
     };
-    std::vector<Entry> errors{};
+    std::vector<Entry> errors;
 
 public:
-    IncorrectDataException() = default;
-    IncorrectDataException(std::string key, std::string value) {
+    IncorrectDataException() : std::runtime_error("") {}
+    IncorrectDataException(std::string message) : std::runtime_error(message) {}
+    IncorrectDataException(std::vector<Entry> errors) : errors(std::move(errors)), std::runtime_error(to_string(errors)) {}
+    IncorrectDataException(std::string key, std::string value) : errors{{key, value}}, std::runtime_error(key + ": " + value) {
         addEntry(key, value);
     }
 
@@ -33,14 +36,14 @@ public:
         return !errors.empty();
     }
 
-    virtual const char* what() const noexcept {
+    virtual std::string to_string(std::vector<Entry>& error_list) const {
         std::string res = "{";
-        for (int i = 0; i < errors.size() - 1; i++)
-            res += errors[i].key + ": " + errors[i].value + ", ";
-        if (errors.size() != 0)
-            res += errors[errors.size()-1].key + ": " + errors[errors.size()-1].value;
+        for (int i = 0; i < error_list.size() - 1; i++)
+            res += error_list[i].key + ": " + error_list[i].value + ", ";
+        if (error_list.size() != 0)
+            res += error_list[error_list.size() - 1].key + ": " + error_list[error_list.size() - 1].value;
         res += "}";
-        return res.c_str();
+        return res;
     }
 };
 

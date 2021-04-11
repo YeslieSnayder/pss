@@ -55,35 +55,79 @@ protected:
         delete model;
         delete db;
     }
+
+    void printJson(Document& doc) const {
+        StringBuffer buffer;
+        Writer<StringBuffer> writer(buffer);
+        doc.Accept(writer);
+
+        std::cout << buffer.GetString() << std::endl;
+    }
 };
 
 TEST_F(DriverLoginTest, ExampleData) {
-    Document driver;
-    driver.CopyFrom(json["correct"][0], json.GetAllocator());
-    ASSERT_TRUE(driver.HasMember("driver_1"));
+    try {
+        Document driver;
+        driver.CopyFrom(json["correct"][0]["driver_1"], json.GetAllocator());
+        unsigned long int id = model->createDriver(driver);
+        EXPECT_EQ(id, 1);
 
-    unsigned long int id = model->createDriver(driver);
-    EXPECT_EQ(id, 1);
+        driver.CopyFrom(json["correct"][1]["driver_2"], json.GetAllocator());
+        unsigned long int id2 = model->createDriver(driver);
+        EXPECT_EQ(id2, 2);
 
-    driver.CopyFrom(json["correct"][1], json.GetAllocator());
-    ASSERT_TRUE(driver.HasMember("driver_2"));
-
-    unsigned long int id2 = model->createDriver(driver);
-    EXPECT_EQ(id2, 2);
-
-    EXPECT_LT(id, id2);
+        EXPECT_LT(id, id2);
+    } catch (IncorrectDataException& e) {
+        cerr << e.what() << endl;
+    }
 }
 
 TEST_F(DriverLoginTest, MissingData) {
-    // FIXME: Complete this method
     Document passenger;
-    passenger.CopyFrom(json["correct"][0], json.GetAllocator());
-    ASSERT_TRUE(passenger.HasMember("driver_1"));
+    passenger.CopyFrom(json["incorrect"][0]["driver_1"], json.GetAllocator());
+    EXPECT_THROW({
+         try {
+             unsigned long int id = model->createDriver(passenger);
+             ASSERT_NE(id, 1);
+         } catch (IncorrectDataException& e) {
+             auto arr = e.getErrors();
+             EXPECT_EQ(arr.size(), 4);
+             EXPECT_EQ("name", arr[0].key);
+             EXPECT_EQ("rating", arr[1].key);
+             EXPECT_EQ("personal_car", arr[2].key);
+             EXPECT_EQ("driver_status", arr[3].key);
+             throw;
+         }
+    }, IncorrectDataException);
 
-    try {
-        unsigned long int id = model->createDriver(passenger);
-        EXPECT_EQ(id, 1);
-    } catch (exception e) {
+    passenger.CopyFrom(json["incorrect"][1]["driver_2"], json.GetAllocator());
+    EXPECT_THROW({
+                     try {
+                         unsigned long int id = model->createDriver(passenger);
+                         ASSERT_NE(id, 1);
+                     } catch (IncorrectDataException& e) {
+                         auto arr = e.getErrors();
+                         EXPECT_EQ(arr.size(), 4);
+                         EXPECT_EQ("name", arr[0].key);
+                         EXPECT_EQ("rating", arr[1].key);
+                         EXPECT_EQ("personal_car", arr[2].key);
+                         EXPECT_EQ("driver_status", arr[3].key);
+                         throw;
+                     }
+                 }, IncorrectDataException);
 
-    }
+    passenger.CopyFrom(json["incorrect"][2]["driver_3"], json.GetAllocator());
+    EXPECT_THROW({
+                     try {
+                         unsigned long int id = model->createDriver(passenger);
+                         ASSERT_NE(id, 1);
+                     } catch (IncorrectDataException& e) {
+                         auto arr = e.getErrors();
+                         EXPECT_EQ(arr.size(), 3);
+                         EXPECT_EQ("name", arr[0].key);
+                         EXPECT_EQ("rating", arr[1].key);
+                         EXPECT_EQ("personal_car", arr[2].key);
+                         throw;
+                     }
+                 }, IncorrectDataException);
 }
