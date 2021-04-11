@@ -2,10 +2,12 @@ cmake_minimum_required(VERSION 3.17)
 project(pss)
 
 set(CMAKE_CXX_STANDARD 20)
-set(PISTACHE_DIR hw04/include/pistache)
 
-include_directories(${PISTACHE_DIR}/include)
+# Homework 1: Highlighter
+#add_subdirectory(hw01)
 
-add_executable(${PROJECT_NAME} hw04/application/api/main.cpp)
+# Homework 2-3: Room service
+#add_subdirectory(hw02-03)
 
-target_link_libraries(${PROJECT_NAME} pistache -lpthread)
+# Homework 4: Wendex Taxi
+add_subdirectory(hw04)
