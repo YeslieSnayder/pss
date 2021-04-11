@@ -20,7 +20,7 @@ enum class CarType {
 class Car {
     string model;
     CarType carType;
-    GEOAddress currentAddress = GEOAddress(0, 0);
+    GEOAddress currentAddress{0, 0};
     string color;
     unsigned long int number;
     unsigned long int driver_id;

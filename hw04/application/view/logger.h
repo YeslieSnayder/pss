@@ -23,9 +23,9 @@ enum class LOG {
  */
 void log(LOG type, string message) {
     switch (type) {
-        LOG::INFO: cout << "INFO: "; break;
-        LOG::DEBUG: cout << "DEBUG: "; break;
-        LOG::ERROR: cout << "ERROR: "; break;
+        case LOG::INFO: cout << "INFO: "; break;
+        case LOG::DEBUG: cout << "DEBUG: "; break;
+        case LOG::ERROR: cout << "ERROR: "; break;
         default: break;
     }
     cout << message << endl;

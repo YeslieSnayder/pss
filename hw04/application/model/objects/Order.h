@@ -24,7 +24,7 @@ class Order {
     GEOAddress startPoint{0,0};
     GEOAddress destination{0,0};
     std::time_t startTime;
-    Car car;
+    Car* car;
     float price;
     unsigned long int passenger_id;
     unsigned long int driver_id;
@@ -33,15 +33,15 @@ class Order {
 
 public:
     Order(const GEOAddress &startPoint, const GEOAddress &destination, time_t startTime, unsigned long passengerId,
-          unsigned long driverId, const OrderStatus &status, const Car &car, float price)
+          unsigned long driverId, const OrderStatus &status, Car &car, float price)
                                       : startPoint(startPoint), destination(destination), startTime(startTime),
-                                        passenger_id(passengerId), driver_id(driverId), status(status), car(car),
+                                        passenger_id(passengerId), driver_id(driverId), status(status), car(&car),
                                         price(price) {}
 
     Order(unsigned long id, const GEOAddress &startPoint, const GEOAddress &destination, time_t startTime,
-          unsigned long passengerId, unsigned long driverId, const OrderStatus &status, const Car &car, float price)
+          unsigned long passengerId, unsigned long driverId, const OrderStatus &status, Car &car, float price)
                                       : id(id), startPoint(startPoint), destination(destination), startTime(startTime),
-                                        passenger_id(passengerId), driver_id(driverId), status(status), car(car),
+                                        passenger_id(passengerId), driver_id(driverId), status(status), car(&car),
                                         price(price) {}
 
     Order(const rapidjson::Document& json) {

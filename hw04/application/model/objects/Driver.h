@@ -27,14 +27,14 @@ class Driver {
     string name;
     float rating;   // 0.0 <= value <= 5.0
     vector<Order> orderHistory;
-    Car personalCar;
+    Car *personalCar;
     DriverStatus status;
 
 public:
     Driver(string name, float rating, const vector<Order> &orderHistory,
-                                   Car personalCar, DriverStatus status) : name(std::move(name)), rating(rating),
+                                   Car &personalCar, DriverStatus status) : name(std::move(name)), rating(rating),
                                                                            orderHistory(orderHistory),
-                                                                           personalCar(std::move(personalCar)),
+                                                                           personalCar(&personalCar),
                                                                            status(status) {}
 
     Driver(const rapidjson::Document& json) {
