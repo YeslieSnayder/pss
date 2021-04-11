@@ -6,6 +6,7 @@
 #define PSS_CAR_H
 
 #include "Address.h"
+#include "rapidjson/document.h"
 
 using namespace std;
 
@@ -22,9 +23,16 @@ class Car {
     GEOAddress currentAddress = GEOAddress(0, 0);
     string color;
     unsigned long int number;
+    unsigned long int driver_id;
 
 public:
-    Car() = default;
+    Car(const string &model, CarType carType, const GEOAddress &currentAddress, const string &color,
+        unsigned long number, unsigned long driverId) : model(model), carType(carType), currentAddress(currentAddress),
+                                                        color(color), number(number), driver_id(driverId) {}
+
+    Car(const rapidjson::Document& json) {
+
+    }
 
     bool operator==(const Car& obj) const {
         return model == obj.model && carType == obj.carType && currentAddress == obj.currentAddress
