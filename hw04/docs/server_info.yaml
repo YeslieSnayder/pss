@@ -1,0 +1,835 @@
+---
+openapi: 3.0.0
+info:
+  title: Wendex Taxi API
+  description: This is an example of requests and responses of the application Wendex Taxi.
+  version: 1.0.0
+servers:
+- url: localhost:8080/
+paths:
+  /drivers:
+    put:
+      summary: Login (Sign up) of a driver.
+      description: Login (or sign up) of a driver. Request body should be without field (id), otherwise, it would be ignored.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverItem'
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverItem'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_400_BadRequest'
+  /drivers/{driver_id}:
+    get:
+      summary: Get information of the driver.
+      description: Get information about driver.
+      parameters:
+      - name: driver_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverItem'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+    post:
+      summary: Accept the order.
+      description: Used to accept the order. Usually, before the call of this method Driver should check all available orders to find the order_id. There might be the error 404 when the order was assigned by other driver.
+      parameters:
+      - name: driver_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverAcceptOrderRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverAcceptOrderResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_400_BadRequest'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+    patch:
+      summary: Update information of the driver.
+      description: Update information of the driver.
+      parameters:
+      - name: driver_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverPatchRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverPatchResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_400_BadRequest'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+  /drivers/{driver_id}/orders:
+    get:
+      summary: Get order history.
+      description: Returns order history of the driver.
+      parameters:
+      - name: driver_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderHistory'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+  /drivers/{driver_id}/car:
+    get:
+      summary: Get information about personal car.
+      description: Returns information about the car.
+      parameters:
+      - name: driver_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarInfoResponse'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+  /drivers/order:
+    get:
+      summary: Check available orders.
+      description: Returns all available orders only for that driver.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverAvailableOrders'
+  /drivers/complete:
+    post:
+      summary: Complete the order.
+      description: Complete the order that was ordered before by that driver.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverCompleteOrderRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverCompleteOrderResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_400_BadRequest'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+  /passengers:
+    put:
+      summary: Login (Sign up) of a passenger.
+      description: Login (or sign up) of a passenger. Request body should be without field (id), otherwise, it would be ignored.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PassengerItem'
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PassengerItem'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_400_BadRequest'
+  /passengers/{passenger_id}:
+    get:
+      summary: Get information of the passenger.
+      description: Get information about passenger.
+      parameters:
+      - name: passenger_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PassengerItem'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+    patch:
+      summary: Update information of the passenger.
+      description: Update information of the passenger.
+      parameters:
+      - name: passenger_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PassengerPatchRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PassengerPatchResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_400_BadRequest'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+  /passengers/assign/{passenger_id}:
+    post:
+      summary: Get information about the order.
+      description: Returns the information about the new order according to data from input.
+      parameters:
+      - name: passenger_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PassengerAssignRideRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PassengerAssignRideResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_400_BadRequest'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+  /passengers/order/{passenger_id}:
+    get:
+      summary: Get information about the order.
+      description: Get information about the particular order by its id.
+      parameters:
+      - name: passenger_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PassengerOrgerInfoResponse'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+    post:
+      summary: Order the ride.
+      description: Assign the ride and start the trip.
+      parameters:
+      - name: passenger_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PassengerOrderRide'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_400_BadRequest'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+  /passengers/{passenger_id}/orders:
+    get:
+      summary: Get order history of a passenger.
+      description: Returns the information about the orders that the passenger had.
+      parameters:
+      - name: passenger_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderHistory'
+  /passengers/car/{passenger_id}:
+    post:
+      summary: Get information about the car.
+      description: Get information about the particular car by its number.
+      parameters:
+      - name: passenger_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: uint_64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarInfoRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarInfoResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_400_BadRequest'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTP_404_NotFound'
+components:
+  schemas:
+    HTTP_400_BadRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'field : description of the problem.'
+      additionalProperties: false
+      description: Used when a method doesn't work well.  Represents the map where key is a field(there was a problem),  value is a description of the problem.
+    HTTP_404_NotFound:
+      type: object
+      properties:
+        validation_error:
+          $ref: '#/components/schemas/ObjectID'
+      additionalProperties: false
+      description: Used when a method cannot find any kind of information. For example, the passenger or driver by id.
+    ObjectID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+      description: Used in login method of passengers and drivers.
+    DriverPatchRequest:
+      required:
+      - driver
+      type: object
+      properties:
+        driver:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/DriverItem'
+    DriverPatchResponse:
+      required:
+      - driver
+      type: object
+      properties:
+        driver:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/DriverItem'
+      description: Returns current (new) information about the driver.
+    DriverAvailableOrders:
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/OrderItem'
+    DriverAcceptOrderRequest:
+      required:
+      - order_id
+      type: object
+      properties:
+        order_id:
+          minimum: 1
+          type: integer
+          format: uint_64
+    DriverAcceptOrderResponse:
+      required:
+      - destination
+      - passenger_id
+      - start_point
+      - start_time
+      type: object
+      properties:
+        order_id:
+          type: integer
+          format: uint_64
+        passenger_id:
+          type: integer
+          format: uint_64
+        start_point:
+          type: string
+          example: -12.34+56.78
+        destination:
+          type: string
+          example: -12.34+56.78
+        start_time:
+          type: string
+          format: YYYY-MM-DDThh:mm:ss
+          example: 2021-01-10T10:33:01
+    DriverCompleteOrderRequest:
+      required:
+      - complete_time
+      - order_id
+      type: object
+      properties:
+        order_id:
+          type: integer
+          format: uint_64
+        complete_time:
+          type: string
+          format: YYYY-MM-DDThh:mm:ss
+          example: 2021-01-10T10:33:01
+    DriverCompleteOrderResponse:
+      required:
+      - order_id
+      type: object
+      properties:
+        order_id:
+          type: integer
+          format: uint_64
+    PassengerAssignRideRequest:
+      required:
+      - car_type
+      - destination
+      - start_point
+      type: object
+      properties:
+        start_point:
+          type: string
+          example: -12.34+56.78
+        destination:
+          type: string
+          example: -12.34+56.78
+        car_type:
+          type: string
+          enum:
+          - Economy
+          - Comfort
+          - ComfortPlus
+          - Business
+    PassengerAssignRideResponse:
+      required:
+      - order
+      type: object
+      properties:
+        order:
+          $ref: '#/components/schemas/PassengerAssignRideResponse_order'
+    PassengerOrderRide:
+      required:
+      - destination
+      - driver_id
+      - start_point
+      - start_time
+      type: object
+      properties:
+        driver_id:
+          type: integer
+          format: uint_64
+        start_time:
+          type: string
+          format: YYYY-MM-DDThh:mm:ss
+          example: 2021-01-10T10:33:01
+        start_point:
+          type: string
+          example: -12.34+56.78
+        destination:
+          type: string
+          example: -12.34+56.78
+    PassengerPatchRequest:
+      required:
+      - passenger
+      type: object
+      properties:
+        passenger:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/PassengerItem'
+    PassengerPatchResponse:
+      required:
+      - driver
+      type: object
+      properties:
+        driver:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/PassengerItem'
+      description: Returns current (new) information about the passenger.
+    PassengerOrderInfoRequest:
+      required:
+      - order_id
+      type: object
+      properties:
+        order_id:
+          type: integer
+          format: uint_64
+    PassengerOrgerInfoResponse:
+      required:
+      - order
+      type: object
+      properties:
+        order:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/OrderItem'
+    CarInfoRequest:
+      required:
+      - car_number
+      type: object
+      properties:
+        car_number:
+          type: integer
+          format: uint64
+    CarInfoResponse:
+      required:
+      - car
+      type: object
+      properties:
+        car:
+          $ref: '#/components/schemas/CarInfoResponse_car'
+    OrderHistory:
+      required:
+      - orders
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/OrderItem'
+    PassengerItem:
+      required:
+      - name
+      - payment_methods
+      - pinned_addresses
+      - rating
+      type: object
+      properties:
+        passenger_id:
+          minimum: 1
+          type: integer
+        name:
+          type: string
+        rating:
+          maximum: 5
+          minimum: 0
+          type: number
+        payment_methods:
+          type: array
+          items:
+            type: string
+            enum:
+            - CASH
+            - ONLINE
+            - BANK_BILL
+        pinned_addresses:
+          type: array
+          items:
+            type: string
+            example: +40.75-74.00
+    OrderItem:
+      required:
+      - destination
+      - driver_id
+      - passenger_id
+      - start_point
+      - start_time
+      type: object
+      properties:
+        order_id:
+          minimum: 1
+          type: integer
+          format: uint64
+        start_point:
+          type: string
+          example: -12.34+56.78
+        destination:
+          type: string
+          example: -12.34+56.78
+        start_time:
+          type: string
+          format: YYYY-MM-DDThh:mm:ss
+          example: 2021-01-10T10:33:01
+        passenger_id:
+          minimum: 1
+          type: integer
+          format: uint64
+        driver_id:
+          minimum: 1
+          type: integer
+          format: uint64
+    DriverItem:
+      required:
+      - driver_status
+      - name
+      - personal_car
+      - rating
+      type: object
+      properties:
+        driver_id:
+          minimum: 1
+          type: integer
+          format: uint64
+        name:
+          type: string
+        rating:
+          maximum: 5
+          minimum: 0
+          type: number
+        personal_car:
+          $ref: '#/components/schemas/CarItem'
+        driver_status:
+          type: string
+          enum:
+          - NOT_WORKING
+          - WORKING
+          - IN_RIDE
+    CarItem:
+      required:
+      - car_type
+      - color
+      - current_address
+      - model
+      - number
+      type: object
+      properties:
+        model:
+          type: string
+        car_type:
+          type: string
+          enum:
+          - Economy
+          - Comfort
+          - ComfortPlus
+          - Business
+        current_address:
+          type: string
+          example: -12.34+56.78
+        color:
+          type: string
+        number:
+          type: integer
+          format: uint64
+        freeBottleOfWater:
+          required:
+          - car_type == ComfortPlus
+          type: integer
+          format: uint8
+    PassengerAssignRideResponse_order:
+      required:
+      - distance
+      - price
+      - time
+      type: object
+      properties:
+        time:
+          minimum: 60
+          type: integer
+          description: Time for that ride in seconds.
+          format: uint_64
+        distance:
+          type: number
+          description: The distance between start point and destination.
+          format: float
+        price:
+          type: number
+          description: The cost of this ride.
+          example: 10.4
+    CarInfoResponse_car:
+      type: object
+      properties:
+        driver_id:
+          type: integer
+          format: uint_64
+        model:
+          type: string
+        car_type:
+          type: string
+          enum:
+          - Economy
+          - Comfort
+          - ComfortPlus
+          - Business
+        current_address:
+          type: string
+          example: -12.34+56.78
+        color:
+          type: string
+        number:
+          type: integer
+          format: uint64

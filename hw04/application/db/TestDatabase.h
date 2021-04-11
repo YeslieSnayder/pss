@@ -6,6 +6,7 @@
 #define PSS_TESTDATABASE_H
 
 #include <vector>
+#include "database.h"
 
 using namespace std;
 
@@ -14,6 +15,22 @@ class TestDatabase : public Database {
     vector<Driver> drivers;
 
 public:
+    TestDatabase() = default;
+
+    unsigned long createDriver(Driver driver) {
+        driver.setId(drivers.size() + 1);
+        drivers.push_back(driver);
+        return driver.getId();
+    }
+
+    Driver *getDriver(Driver driver) {
+        for (auto& d : drivers) {
+            if (d == driver)
+                return &d;
+        }
+        return nullptr;
+    }
+
     virtual unsigned long int createPassenger(Passenger passenger) {
         passenger.setId(passengers.size() + 1);
         passengers.push_back(passenger);

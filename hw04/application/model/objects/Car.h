@@ -24,11 +24,12 @@ class Car {
     string color;
     unsigned long int number;
     unsigned long int driver_id;
+    unsigned int freeBottleOfWater;
 
 public:
     Car(const string &model, CarType carType, const GEOAddress &currentAddress, const string &color,
-        unsigned long number, unsigned long driverId) : model(model), carType(carType), currentAddress(currentAddress),
-                                                        color(color), number(number), driver_id(driverId) {}
+        unsigned long number, unsigned long driverId, unsigned int freeBottleOfWater) : model(model), carType(carType),
+                                currentAddress(currentAddress), color(color), number(number), driver_id(driverId) {}
 
     Car(const rapidjson::Document& json) {
 

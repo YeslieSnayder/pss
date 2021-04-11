@@ -12,8 +12,10 @@ using namespace std;
 
 class Database {
 public:
-    virtual unsigned long int createPassenger(Passenger passenger) = 0;
-    virtual Passenger* getPassenger(Passenger passenger) = 0;
+    virtual unsigned long int createDriver(Driver& driver) = 0;
+    virtual Driver* getDriver(Driver& driver) = 0;
+    virtual unsigned long int createPassenger(Passenger& passenger) = 0;
+    virtual Passenger* getPassenger(Passenger& passenger) = 0;
 };
 
 

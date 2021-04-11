@@ -40,7 +40,7 @@ public:
                                                                                         paymentMethod(paymentMethod) {}
 
     Passenger(const rapidjson::Document& json) {
-        // TODO: create constructor
+
     }
 
     bool operator==(const Passenger& obj) {

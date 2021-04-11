@@ -6,8 +6,8 @@
 #define PSS_MODEL_H
 
 #include "rapidjson/document.h"
-#include "../db/database.h"
 
+#include "exceptions/IncorrectDataException.h"
 #include "objects/Passenger.h"
 #include "../db/database.h"
 #include "../db/TestDatabase.h"
@@ -18,8 +18,23 @@ class Model {
     static inline Database* db;
 
 public:
+    ~Model() = default;
     Model(Database* _db) {
         Model::db = _db;
+    }
+
+    static unsigned long int createDriver(Document& data) {
+        Driver* driver = findDriver(data);
+        if (driver != nullptr)
+            return driver->getId();
+
+        driver = new Driver(data);
+        return Model::db->createDriver(*driver);
+    }
+
+    static Driver* findDriver(Document& data) {
+        Driver driver(data);
+        return Model::db->getDriver(driver);
     }
 
     static unsigned long int createPassenger(Document& data) {
