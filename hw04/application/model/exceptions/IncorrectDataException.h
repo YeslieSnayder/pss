@@ -14,21 +14,17 @@ class IncorrectDataException : public std::runtime_error {
         std::string key;
         std::string value;
     };
-    std::vector<Entry> errors;
+    std::vector<Entry> errors{};
 
 public:
     IncorrectDataException() : std::runtime_error("") {}
-    IncorrectDataException(std::string message) : std::runtime_error(message) {}
     IncorrectDataException(std::vector<Entry> errors) : errors(std::move(errors)), std::runtime_error(to_string(errors)) {}
-    IncorrectDataException(std::string key, std::string value) : errors{{key, value}}, std::runtime_error(key + ": " + value) {
-        addEntry(key, value);
-    }
 
     void addEntry(std::string key, std::string value) {
         errors.push_back({key, value});
     }
 
-    virtual std::vector<Entry> getErrors() const {
+    const std::vector<Entry> &getErrors() const {
         return errors;
     }
 
