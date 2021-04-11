@@ -11,6 +11,7 @@
 #include "../../model/model.h"
 #include "../../model/objects/Passenger.h"
 #include "../../view/passenger_view.h"
+#include "../../view/logger.h"
 #include "../../db/TestDatabase.h"
 
 using namespace Pistache;
@@ -67,7 +68,7 @@ public:
 
             auto res = response.send(Http::Code::Ok, ans);
             res.then([](ssize_t bytes) {
-                view.log("User was logged in");
+                log(LOG::INFO, "User was logged in");
             }, Async::Throw);
 
         } catch (exception e) {
@@ -75,7 +76,7 @@ public:
 
             auto res = response.send(Http::Code::Bad_Request, ans);
             res.then([](ssize_t bytes) {
-                view.log("ERROR: User wasn't logged in");
+                log(LOG::ERROR, "User wasn't logged in");
             }, Async::Throw);
         }
     }
@@ -102,7 +103,7 @@ public:
 
             auto res = response.send(Http::Code::Bad_Request, ans);
             res.then([](ssize_t bytes) {
-                view.log("ERROR: User wasn't logged in");
+                log(LOG::ERROR, "User wasn't logged in");
             }, Async::Throw);
         }
 
@@ -130,7 +131,7 @@ public:
         // TODO: Current coordinates of the assigned car (only if this passenger assigned the car)
     }
 
-    // GET /passengers/order/:id
+    // GET /passengers/order/:order_id
     static void getOrderInfo(const Rest::Request &request, Http::ResponseWriter response) {
         // TODO: Return information about particular order that the passenger did
     }

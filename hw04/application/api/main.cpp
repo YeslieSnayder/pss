@@ -27,7 +27,7 @@ Rest::Router initRouter() {
     Rest::Routes::Post(router, "/passengers/assign/:id", Rest::Routes::bind(&PassengerGateway::assignRide));
     Rest::Routes::Post(router, "/passengers/order/:id", Rest::Routes::bind(&PassengerGateway::orderRide));
     Rest::Routes::Get(router, "/passengers/car/:id", Rest::Routes::bind(&PassengerGateway::getCarInfo));
-    Rest::Routes::Get(router, "/passengers/order/:id", Rest::Routes::bind(&PassengerGateway::getOrderInfo));
+    Rest::Routes::Get(router, "/passengers/order/:order_id", Rest::Routes::bind(&PassengerGateway::getOrderInfo));
     Rest::Routes::Get(router, "/passengers/:id/orders", Rest::Routes::bind(&PassengerGateway::getOrderHistory));
 
     // Driver
