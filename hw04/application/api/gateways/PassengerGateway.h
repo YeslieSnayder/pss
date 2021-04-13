@@ -94,7 +94,7 @@ public:
             checkRequest(request, Http::Method::Get);
             Document json;
             json.Parse(request.body().c_str());
-            Passenger* passenger = Model::findPassenger(json);
+            Passenger* passenger = Model::getPassenger(json);
             if (passenger == nullptr)
                 throw invalid_argument("Passenger with given id(" + to_string(id) + ") doesn't exist");
 

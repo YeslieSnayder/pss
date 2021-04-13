@@ -10,10 +10,12 @@
 
 
 class IncorrectDataException : public std::exception {
+public:
     struct Entry {
         std::string key;
         std::string value;
     };
+private:
     std::vector<Entry> errors{};
 
 public:

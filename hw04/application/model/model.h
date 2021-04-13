@@ -105,7 +105,7 @@ public:
 
 
     static unsigned long int createPassenger(Document& data) {
-        Passenger* passenger = findPassenger(data);
+        Passenger* passenger = getPassenger(data);
         if (passenger != nullptr)
             return passenger->getId();
 
@@ -113,9 +113,30 @@ public:
         return Model::db->createPassenger(*passenger);
     }
 
-    static Passenger* findPassenger(Document& data) {
+    static Passenger* getPassenger(Document& data) {
         Passenger passenger(data);
         return Model::db->getPassenger(passenger);
+    }
+
+    static Passenger* patchPassenger(unsigned long int passenger_id, Document& data) {
+        Passenger* passenger = getPassenger(data);
+        if (passenger == nullptr)
+            throw NotFoundException(passenger_id);
+        passenger->patch(data);
+        return Model::db->patchPassenger(*passenger);
+    }
+
+    static PreOrder* assignOrder(unsigned long int passenger_id, Document& data) {
+        return new PreOrder(data);
+    }
+
+    static Order* assignAndOrderRide(unsigned long int passenger_id, Document& data) {
+        Order* order = new Order(data, passenger_id);
+        Model::db->createOrder(order);
+    }
+
+    static Order* getLastOrder(unsigned long int passenger_id) {
+
     }
 
     static vector<Order> getPassengerOrderHistory(unsigned long int passenger_id) {

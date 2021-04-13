@@ -59,7 +59,15 @@ public:
         if (json.HasMember("driver_id") && json["driver_id"].IsInt())
             id = json["driver_id"].GetInt();
 
-        // TODO: Add method to add orderHistory
+        if (json.HasMember("order_history")) {
+            orderHistory.clear();
+            for (int i = 0; i < json["order_history"].GetArray().Size(); i++) {
+                rapidjson::Document doc;
+                doc.CopyFrom(json["order_history"][i], json.GetAllocator());
+                Order order(doc);
+                orderHistory.push_back(order);
+            }
+        }
     }
 
     void patch(rapidjson::Document& json) {
@@ -85,58 +93,79 @@ public:
             doc.CopyFrom(json["personal_car"], json.GetAllocator());
             personalCar = new Car(id, doc);
         }
+
+        if (json.HasMember("order_history")) {
+            orderHistory.clear();
+            for (int i = 0; i < json["order_history"].GetArray().Size(); i++) {
+                rapidjson::Document doc;
+                doc.CopyFrom(json["order_history"][i], json.GetAllocator());
+                Order order(doc);
+                orderHistory.push_back(order);
+            }
+        }
     }
 
     /**
      * Validates the data from json file.
-     * @param json - json file with passenger data.
+     * @param json - json file with driver's data.
+     * @param is_creation - flag for checking JSON-file while creating of driver.
      */
-    void validate_json(const rapidjson::Document& json, bool is_creation = true) {
+    void validate_json(const rapidjson::Document& json, bool is_creation=true) {
         IncorrectDataException exc;
+
         if (is_creation && !json.HasMember("name"))
             exc.addEntry("name", "Driver: Body does not have parameter 'name'");
-        else if (!json["name"].IsString())
-            exc.addEntry("name", "Driver: Parameter 'name' is incorrect, expected type: 'string'");
-        else {
-            string check = json["name"].GetString();
-            if (check.empty())
-                exc.addEntry("name", "Driver: Parameter 'name' is incorrect, name should contain minimum 1 letter");
-            for (char &c : check) {
-                if ((c < 'A' || c > 'Z' && c < 'a' || c > 'z') && c != '_' && c != ' ' && c != '-') {
-                    exc.addEntry("name", "Driver: Parameter 'name' is incorrect,"
-                                         " name should not contain any characters except letters");
-                    break;
+        else if (json.HasMember("name")) {
+            if (!json["name"].IsString())
+                exc.addEntry("name", "Driver: Parameter 'name' is incorrect, expected type: 'string'");
+            else {
+                string check = json["name"].GetString();
+                if (check.empty())
+                    exc.addEntry("name", "Driver: Parameter 'name' is incorrect, name should contain minimum 1 letter");
+                for (char &c : check) {
+                    if ((c < 'A' || c > 'Z' && c < 'a' || c > 'z') && c != '_' && c != ' ' && c != '-') {
+                        exc.addEntry("name", "Driver: Parameter 'name' is incorrect,"
+                                             " name should not contain any characters except letters");
+                        break;
+                    }
                 }
             }
         }
 
         if (is_creation && !json.HasMember("rating"))
             exc.addEntry("rating", "Driver: Body does not have parameter 'rating'");
-        else if (!json["rating"].IsNumber())
-            exc.addEntry("rating", "Driver: Parameter 'rating' is incorrect, expected type: 'number'");
-        else {
-            float check = json["rating"].GetFloat();
-            if (check < 0.0 || check > 5.0)
-                exc.addEntry("rating",
-                             "Driver: Parameter 'rating' is out of range, expected: 0 <= value <= 5.0, but given: " +
-                             to_string(check));
+        else if (json.HasMember("rating")) {
+            if (!json["rating"].IsNumber())
+                exc.addEntry("rating", "Driver: Parameter 'rating' is incorrect, expected type: 'number'");
+            else {
+                float check = json["rating"].GetFloat();
+                if (check < 0.0 || check > 5.0)
+                    exc.addEntry("rating",
+                                 "Driver: Parameter 'rating' is out of range, expected: 0 <= value <= 5.0, but given: " +
+                                 to_string(check));
+            }
         }
 
         if (is_creation && !json.HasMember("personal_car"))
             exc.addEntry("personal_car", "Driver: Body does not have parameter 'personal_car'");
-        else if (!json["personal_car"].IsObject())
-            exc.addEntry("personal_car", "Driver: Parameter 'personal_car' is incorrect, expected type: 'object'");
+        else if (json.HasMember("personal_car")) {
+            if (!json["personal_car"].IsObject())
+                exc.addEntry("personal_car", "Driver: Parameter 'personal_car' is incorrect, expected type: 'object'");
+        }
 
         if (is_creation && !json.HasMember("driver_status"))
             exc.addEntry("driver_status", "Driver: Body does not have parameter 'driver_status'");
-        else if (!json["driver_status"].IsString())
-            exc.addEntry("driver_status", "Driver: Parameter 'driver_status' is incorrect, expected type: 'string'");
-        else {
-            string check = json["driver_status"].GetString();
-            if (is_correct_status(check) == nullptr)
+        else if (json.HasMember("driver_status")) {
+            if (!json["driver_status"].IsString())
                 exc.addEntry("driver_status",
-                             "Driver: Parameter 'driver_status' is incorrect, "
-                             "expected: 'not_working', 'working', 'in_ride', but given: " + check);
+                             "Driver: Parameter 'driver_status' is incorrect, expected type: 'string'");
+            else {
+                string check = json["driver_status"].GetString();
+                if (is_correct_status(check) == nullptr)
+                    exc.addEntry("driver_status",
+                                 "Driver: Parameter 'driver_status' is incorrect, "
+                                 "expected: 'not_working', 'working', 'in_ride', but given: " + check);
+            }
         }
 
         if (json.HasMember("driver_id") && !json["driver_id"].IsInt())
