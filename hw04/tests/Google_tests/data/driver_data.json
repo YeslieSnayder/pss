@@ -27,6 +27,7 @@
       "driver_status": "NOT_WORKING"
     }},
     {"driver_3": {
+      "driver_id": 3,
       "name": "Kirill",
       "rating": 3.8,
       "personal_car": {
@@ -39,6 +40,7 @@
       "driver_status": "IN_RIDE"
     }},
     {"driver_4": {
+      "driver_id": 4,
       "name": "Arthur",
       "rating": 4.99,
       "personal_car": {
@@ -55,18 +57,19 @@
   "incorrect": [
     {"driver_1": {}},
     {"driver_2": {
+      "driver_id": "ne_number",
       "name": 123,
-      "rating": -4.99,
-      "personal_car": {
-        "model": "0987654321",
-        "car_type": "UAZ",
-        "number": "229112"
-      },
-      "driver_status": "Drunk"
+      "rating": "-4.99",
+      "personal_car": [
+        {"model": "0987654321"},
+        {"car_type": "UAZ"},
+        {"number": "229112"}
+      ],
+      "driver_status": 33333.211
     }},
     {"driver_3": {
-      "driver_id": "ne_number",
-      "name": 0,
+      "driver_id": 0,
+      "name": "123_tt-ww",
       "rating": 90,
       "personal_car": {
         "model": "",
@@ -75,7 +78,7 @@
         "color": "",
         "number": 229112
       },
-      "driver_status": "NOT_WORKING",
+      "driver_status": "Drunk",
       "trash": "Some data"
     }}
   ]

@@ -8,6 +8,7 @@
 #include "rapidjson/document.h"
 
 #include "exceptions/IncorrectDataException.h"
+#include "exceptions/NotFoundException.h"
 #include "objects/Passenger.h"
 #include "../db/database.h"
 #include "../db/TestDatabase.h"
@@ -37,6 +38,72 @@ public:
         return Model::db->getDriver(driver);
     }
 
+    static Driver* getDriver(unsigned long int driver_id) {
+        if (driver_id <= 0)
+            throw NotFoundException(driver_id);
+        return Model::db->getDriver(driver_id);
+    }
+
+    static Driver* patchDriver(unsigned long int driver_id, Document& data) {
+        Driver* driver = getDriver(driver_id);
+        if (driver == nullptr)
+            throw NotFoundException(driver_id);
+        driver->patch(data);
+        return Model::db->patchDriver(*driver);
+    }
+
+    static vector<Order> getDriverOrderHistory(unsigned long int driver_id) {
+        if (driver_id <= 0)
+            throw NotFoundException(driver_id);
+        return Model::db->getOrderHistory(driver_id, ObjectType::DRIVER);
+    }
+
+    static Car* getCar(unsigned long int driver_id) {
+        if (driver_id <= 0)
+            throw NotFoundException(driver_id);
+        return Model::db->getCar(driver_id);
+    }
+
+    static vector<Order> getAvailableOrders() {
+        return Model::db->getAvailableOrders();
+    }
+
+    static Order* acceptOrderByDriver(unsigned long int driver_id, unsigned long int order_id) {
+        Car* car = getCar(driver_id);
+        Order* order = Model::db->getOrder(order_id);
+        order->setCar(car);
+        order->setDriverId(driver_id);
+        order->setStatus(OrderStatus::PROCESSING);
+        return Model::db->changeOrder(*order);
+    }
+
+    static unsigned long int completeOrder(Document& data) {
+        IncorrectDataException exc;
+        if (!data.HasMember("order_id"))
+            exc.addEntry("order_id", "Order: Body does not have parameter 'order_id'");
+        else if (!data["order_id"].IsNumber())
+            exc.addEntry("order_id", "Order: Parameter 'order_id' is incorrect, expected type: 'positive integer'");
+
+        if (!data.HasMember("complete_time"))
+            exc.addEntry("complete_time", "Order: Body does not have parameter 'complete_time'");
+        else if (!data["complete_time"].IsString())
+            exc.addEntry("complete_time", "Order: Parameter 'complete_time' is incorrect, expected type: 'string'");
+
+        if (exc.hasErrors())
+            throw IncorrectDataException(exc.getErrors());
+
+        unsigned long int order_id = data["order_id"].GetInt64();
+        string time = data["complete_time"].GetString();
+        Order* order = Model::db->getOrder(order_id);
+        if (order == nullptr)
+            throw NotFoundException(order_id);
+
+        order->setStatus(OrderStatus::COMPLETE);
+        return order_id;
+    }
+
+
+
     static unsigned long int createPassenger(Document& data) {
         Passenger* passenger = findPassenger(data);
         if (passenger != nullptr)
@@ -49,6 +116,11 @@ public:
     static Passenger* findPassenger(Document& data) {
         Passenger passenger(data);
         return Model::db->getPassenger(passenger);
+    }
+
+    static vector<Order> getPassengerOrderHistory(unsigned long int passenger_id) {
+        getDriver(passenger_id);
+        return Model::db->getOrderHistory(passenger_id, ObjectType::PASSENGER);
     }
 };
 

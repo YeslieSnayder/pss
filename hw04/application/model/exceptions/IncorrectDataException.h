@@ -9,7 +9,7 @@
 #define PSS_INCORRECTDATAEXCEPTION_H
 
 
-class IncorrectDataException : public std::runtime_error {
+class IncorrectDataException : public std::exception {
     struct Entry {
         std::string key;
         std::string value;
@@ -17,8 +17,8 @@ class IncorrectDataException : public std::runtime_error {
     std::vector<Entry> errors{};
 
 public:
-    IncorrectDataException() : std::runtime_error("") {}
-    IncorrectDataException(std::vector<Entry> errors) : errors(std::move(errors)), std::runtime_error(to_string(errors)) {}
+    IncorrectDataException() {}
+    IncorrectDataException(std::vector<Entry> errors) : errors(std::move(errors)) {}
 
     void addEntry(std::string key, std::string value) {
         errors.push_back({key, value});

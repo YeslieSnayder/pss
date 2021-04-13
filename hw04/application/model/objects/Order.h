@@ -56,6 +56,34 @@ public:
     bool operator!=(const Order& obj) const {
         return !(operator==(obj));
     }
+
+    unsigned long getId() const {
+        return id;
+    }
+
+    unsigned long getPassengerId() const {
+        return passenger_id;
+    }
+
+    unsigned long getDriverId() const {
+        return driver_id;
+    }
+
+    OrderStatus getStatus() const {
+        return status;
+    }
+
+    void setCar(Car *car) {
+        Order::car = car;
+    }
+
+    void setDriverId(unsigned long driverId) {
+        driver_id = driverId;
+    }
+
+    void setStatus(OrderStatus status) {
+        Order::status = status;
+    }
 };
 
 

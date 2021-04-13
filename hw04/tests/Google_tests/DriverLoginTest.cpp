@@ -24,7 +24,7 @@ protected:
     Document json;
 
     DriverLoginTest() {
-        ifstream ifs{R"(tests/Google_tests/data/driver_login_data.json)"};
+        ifstream ifs{R"(tests/Google_tests/data/driver_data.json)"};
         if ( !ifs.is_open() )
         {
             std::cerr << "Could not open file for reading!\n";
@@ -55,14 +55,6 @@ protected:
         delete model;
         delete db;
     }
-
-    void printJson(Document& doc) const {
-        StringBuffer buffer;
-        Writer<StringBuffer> writer(buffer);
-        doc.Accept(writer);
-
-        std::cout << buffer.GetString() << std::endl;
-    }
 };
 
 TEST_F(DriverLoginTest, ExampleData) {
@@ -91,7 +83,7 @@ TEST_F(DriverLoginTest, MissingData) {
                          ASSERT_NE(id, 1);
                      } catch (IncorrectDataException& e) {
                          auto arr = e.getErrors();
-                         EXPECT_EQ(arr.size(), 4);
+                         ASSERT_EQ(4, arr.size());
                          EXPECT_EQ("name", arr[0].key);
                          EXPECT_EQ("rating", arr[1].key);
                          EXPECT_EQ("personal_car", arr[2].key);
@@ -99,7 +91,10 @@ TEST_F(DriverLoginTest, MissingData) {
                          throw;
                      }
                  }, IncorrectDataException);
+}
 
+TEST_F(DriverLoginTest, IncorrectDataTypes) {
+    Document passenger;
     passenger.CopyFrom(json["incorrect"][1]["driver_2"], json.GetAllocator());
     EXPECT_THROW({
                      try {
@@ -107,14 +102,19 @@ TEST_F(DriverLoginTest, MissingData) {
                          ASSERT_NE(id, 1);
                      } catch (IncorrectDataException& e) {
                          auto arr = e.getErrors();
-                         EXPECT_EQ(arr.size(), 3);
+                         ASSERT_EQ(5, arr.size());
                          EXPECT_EQ("name", arr[0].key);
                          EXPECT_EQ("rating", arr[1].key);
+                         EXPECT_EQ("personal_car", arr[2].key);
                          EXPECT_EQ("driver_status", arr[3].key);
+                         EXPECT_EQ("driver_id", arr[4].key);
                          throw;
                      }
                  }, IncorrectDataException);
+}
 
+TEST_F(DriverLoginTest, IncorrectData) {
+    Document passenger;
     passenger.CopyFrom(json["incorrect"][2]["driver_3"], json.GetAllocator());
     EXPECT_THROW({
                      try {
@@ -122,10 +122,10 @@ TEST_F(DriverLoginTest, MissingData) {
                          ASSERT_NE(id, 1);
                      } catch (IncorrectDataException& e) {
                          auto arr = e.getErrors();
-                         EXPECT_EQ(arr.size(), 3);
+                         ASSERT_EQ(3, arr.size());
                          EXPECT_EQ("name", arr[0].key);
                          EXPECT_EQ("rating", arr[1].key);
-                         EXPECT_EQ("personal_car", arr[2].key);
+                         EXPECT_EQ("driver_status", arr[2].key);
                          throw;
                      }
                  }, IncorrectDataException);
