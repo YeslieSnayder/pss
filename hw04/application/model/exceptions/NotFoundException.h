@@ -13,7 +13,7 @@ public:
     NotFoundException(string& message) : message(message) {}
     NotFoundException(long int id) : message(to_string(id)) {}
 
-    const string &getMessage() const {
+    string getMessage() const {
         return message;
     }
 };

@@ -18,11 +18,11 @@ enum class OrderStatus : int {
 };
 
 class PreOrder {
+public:
     unsigned long int time; // time for the ride (in minutes)
     unsigned long int distance; // distance from start point and destination
     unsigned long int price;    // price for the ride
 
-public:
     PreOrder(rapidjson::Document& json) {
         validate_json(json);
 
@@ -114,8 +114,6 @@ public:
     Order(rapidjson::Document& json, OrderStatus orderStatus=OrderStatus::READY) {
         validate_json(json);
 
-        status = orderStatus;
-
         if (json.HasMember("driver_id"))
             driver_id = json["driver_id"].GetInt();
         startTime = json["start_time"].GetString();
@@ -139,7 +137,10 @@ public:
                 status = OrderStatus::PROCESSING;
             else if (s == "complete")
                 status = OrderStatus::COMPLETE;
-        }
+            else
+                status = orderStatus;
+        } else
+            status = orderStatus;
 
         if (json.HasMember("order_id") && json["order_id"].IsInt64())
             id = json["order_id"].GetInt64();
@@ -201,6 +202,18 @@ public:
 
     OrderStatus getStatus() const {
         return status;
+    }
+
+    const GEOAddress &getStartPoint() const {
+        return startPoint;
+    }
+
+    const GEOAddress &getDestination() const {
+        return destination;
+    }
+
+    const string &getStartTime() const {
+        return startTime;
     }
 
     void setId(unsigned long int id) {

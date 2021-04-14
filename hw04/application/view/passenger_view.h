@@ -12,9 +12,9 @@ using namespace std;
 
 class PassengerView {
 public:
-    void sendIdOK(unsigned long int id, Http::ResponseWriter& response) {
+    void sendPassengerCreated(unsigned long int id, Http::ResponseWriter& response) {
         string res = "{\nid: " + to_string(id) + "\n}";
-        response.send(Pistache::Http::Code::Ok, res);
+        response.send(Pistache::Http::Code::Created, res);
     }
 
     void sendBadRequest(vector<IncorrectDataException::Entry> errors, Http::ResponseWriter& response) {
@@ -48,9 +48,59 @@ public:
         response.send(Pistache::Http::Code::Ok, res);
     }
 
-    void sendNotFound(const string& message, Http::ResponseWriter& response) {
+    void sendNotFound(string message, Http::ResponseWriter& response) {
         string res = "{\nvalidation error: {\nid: " + message + "\n}\n}";
         response.send(Pistache::Http::Code::Not_Found, res);
+    }
+
+    void sendPreOrderData(PreOrder order, Http::ResponseWriter& response) {
+        string res = "{\norder: {\n";
+        res += "time: " + to_string(order.time) + ",\n";
+        res += "distance: " + to_string(order.distance) + ",\n";
+        res += "price: " + to_string(order.price) + ",\n}\n}";
+        response.send(Pistache::Http::Code::Ok, res);
+    }
+
+    void sendOrderData(Order order, Http::ResponseWriter& response) {
+        response.send(Pistache::Http::Code::Ok, getOrderInfo(order));
+    }
+
+    void sendCarInfo(Car car, Http::ResponseWriter& response) {
+        string res;
+        res = "{\ncar: {\n"
+              "driver_id: " + to_string(car.getDriverId()) + ",\n"
+              "model: " + car.getModel() + ",\n"
+              "color: " + car.getColor() + ",\n"
+              "number: " + car.getNumber() + ",\n";
+        if (car.getCarType() == CarType::Economy)
+            res += "car_type: economy\n";
+        else if (car.getCarType() == CarType::Comfort)
+            res += "car_type: comfort\n";
+        else if (car.getCarType() == CarType::ComfortPlus)
+            res += "car_type: comfort_plus\n";
+        else if (car.getCarType() == CarType::Business)
+            res += "car_type: business\n";
+        res += "}\n}";
+        response.send(Pistache::Http::Code::Ok, res);
+    }
+
+    void sendOrderHistory(vector<Order>& orders, Http::ResponseWriter& response) {
+        string res = "{\norders: [\n";
+        for (int i = 0; i < orders.size() - 1; i++) {
+            res += getOrderInfo(orders[i]) + ",\n";
+        }
+        if (!orders.empty())
+            res += getOrderInfo(orders[orders.size()-1]);
+        res += "]\n}";
+        response.send(Pistache::Http::Code::Ok, res);
+    }
+
+    string getOrderInfo(Order& order) {
+        return "{\norder_id: " + to_string(order.getId()) + ",\n"
+               "start_point: " + order.getStartPoint().geoString() + ",\n"
+               "destination: " + order.getDestination().geoString() + ",\n"
+               "start_time: " + order.getStartTime() + ",\n"
+               "passenger_id: " + to_string(order.getPassengerId()) + "\n}";
     }
 };
 
