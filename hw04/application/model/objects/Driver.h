@@ -26,7 +26,7 @@ class Driver {
 
     unsigned long int id = NULL_ID;
     string name;
-    float rating;   // 0.0 <= value <= 5.0
+    double rating;   // 0.0 <= value <= 5.0
     vector<Order> orderHistory;
     Car *personalCar;
     DriverStatus status;
@@ -41,7 +41,7 @@ public:
     Driver(rapidjson::Document& json) {
         validate_json(json);
         name = json["name"].GetString();
-        rating = json["rating"].GetFloat();
+        rating = json["rating"].GetDouble();
 
         string status_str = json["driver_status"].GetString();
         status_str = is_correct_status(status_str);
@@ -161,10 +161,13 @@ public:
                              "Driver: Parameter 'driver_status' is incorrect, expected type: 'string'");
             else {
                 string check = json["driver_status"].GetString();
-                if (is_correct_status(check) == nullptr)
+                try {
+                    is_correct_status(check);
+                } catch (IncorrectDataException) {
                     exc.addEntry("driver_status",
                                  "Driver: Parameter 'driver_status' is incorrect, "
                                  "expected: 'not_working', 'working', 'in_ride', but given: " + check);
+                }
             }
         }
 
@@ -186,20 +189,20 @@ public:
      * Checks the validity of status and return the string in the lowercase if the status is correct,
      *  otherwise - null pointer.
      * @param status - string represented status of the driver.
-     * @return If the status is correct => pointer to first element of the status string (in lowercase),
-     *  otherwise => null pointer (nullptr).
+     * @return If the status is correct => status string (in lowercase),
+     *  otherwise => throw an exception.
      */
-    const char* is_correct_status(string &status) {
+    string is_correct_status(string &status) {
         string str = status;
         for (char &c : str) {
             if (c >= 'A' && c <= 'Z')
                 c = c + ('a' - 'A');
             if ((c < 'A' || c > 'Z' && c < 'a' || c > 'z') && c != '_' && c != ' ')
-                return nullptr;
+                throw IncorrectDataException();
         }
         if (str == "not_working" || str == "not working" || str == "in_ride" || str == "in ride" || str == "working")
-            return str.c_str();
-        return nullptr;
+            return str;
+        throw IncorrectDataException();
     }
 
     bool operator==(const Driver& obj) const {
@@ -230,7 +233,7 @@ public:
         return name;
     }
 
-    float getRating() const {
+    double getRating() const {
         return rating;
     }
 

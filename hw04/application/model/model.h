@@ -131,17 +131,46 @@ public:
     }
 
     static Order* assignAndOrderRide(unsigned long int passenger_id, Document& data) {
-        Order* order = new Order(data, passenger_id);
-        Model::db->createOrder(order);
+        Order* order = new Order(passenger_id, data);
+        Passenger* passenger = Model::db->getPassenger(passenger_id);
+        if (passenger == nullptr)
+            throw NotFoundException(passenger_id);
+        vector<Order> orderHistory = passenger->getOrderHistory();
+        orderHistory.push_back(*order);
+        Model::db->patchPassenger(*passenger);
+
+        return Model::db->createOrder(*order);
     }
 
     static Order* getLastOrder(unsigned long int passenger_id) {
-
+        Order* order = Model::db->getLastOrder(passenger_id, ObjectType::PASSENGER);
+        if (order == nullptr)
+            throw NotFoundException(passenger_id);
+        return order;
     }
 
     static vector<Order> getPassengerOrderHistory(unsigned long int passenger_id) {
         getDriver(passenger_id);
         return Model::db->getOrderHistory(passenger_id, ObjectType::PASSENGER);
+    }
+
+    static Car* getCarForPassenger(unsigned long int passenger_id, Document& data) {
+        if (passenger_id <= 0)
+            throw NotFoundException(passenger_id);
+        IncorrectDataException exc;
+        if (!data.HasMember("car_number"))
+            exc.addEntry("car_number", "Car: Body does not have parameter 'car_number'");
+        else if (data["car_number"].IsString())
+            exc.addEntry("car_number", "Car: Parameter 'car_number' is incorrect, expected type: 'string'");
+        if (exc.hasErrors())
+            throw IncorrectDataException(exc.getErrors());
+
+        string number = data["car_number"].GetString();
+        Car* car = Model::db->getCar(number);
+        if (car == nullptr)
+            throw NotFoundException(number);
+
+        return car;
     }
 };
 

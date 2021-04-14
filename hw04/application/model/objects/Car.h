@@ -140,6 +140,10 @@ public:
     bool operator!=(const Car& obj) const {
         return !(operator==(obj));
     }
+
+    const string &getNumber() const {
+        return number;
+    }
 };
 
 

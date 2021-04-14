@@ -102,7 +102,7 @@ class Order {
     unsigned long int id = NULL_ID;
     GEOAddress startPoint{0,0};
     GEOAddress destination{0,0};
-    std::time_t startTime;
+    string startTime;
     Car* car;
     float price;
     unsigned long int passenger_id;
@@ -124,10 +124,10 @@ public:
         GEOAddress end(s);
         destination = end;
 
-        s = json["start_time"].GetString();
-        // TODO: Assign start time
+        startTime = json["start_time"].GetString();
     }
-    Order(rapidjson::Document& json, unsigned long int passenger_id) : Order(json) {
+
+    Order(unsigned long int passenger_id, rapidjson::Document& json) : Order(json) {
         Order::passenger_id = passenger_id;
     }
 
@@ -138,7 +138,28 @@ public:
     void validate_json(rapidjson::Document& json) {
         IncorrectDataException exc;
 
+        if (!json.HasMember("driver_id"))
+            exc.addEntry("driver_id", "Order: Body does not have parameter 'driver_id'");
+        else if (!json["driver_id"].IsInt())
+            exc.addEntry("driver_id", "Order: Parameter 'driver_id' is incorrect, expected type: 'positive integer'");
 
+        if (!json.HasMember("start_point"))
+            exc.addEntry("start_point", "Order: Body does not have parameter 'start_point'");
+        else if (!json["start_point"].IsString())
+            exc.addEntry("start_point", "Order: Parameter 'start_point' is incorrect, expected type: 'string'");
+
+        if (!json.HasMember("destination"))
+            exc.addEntry("destination", "Order: Body does not have parameter 'destination'");
+        else if (!json["destination"].IsString())
+            exc.addEntry("destination", "Order: Parameter 'destination' is incorrect, expected type: 'string'");
+
+        if (!json.HasMember("start_time"))
+            exc.addEntry("start_time", "Order: Body does not have parameter 'start_time'");
+        else if (!json["start_time"].IsString())
+            exc.addEntry("start_time", "Order: Parameter 'start_time' is incorrect, expected type: 'string'");
+
+        if (exc.hasErrors())
+            throw IncorrectDataException(exc.getErrors());
     }
 
     bool operator==(const Order& obj) const {
@@ -164,6 +185,10 @@ public:
 
     OrderStatus getStatus() const {
         return status;
+    }
+
+    void setId(unsigned long id) {
+        Order::id = id;
     }
 
     void setCar(Car *car) {

@@ -21,7 +21,7 @@ class GEOAddress {
 public:
     GEOAddress(double latitude, double longitude) : latitude(latitude), longitude(longitude) {}
 
-    GEOAddress(std::string address_str) {
+    GEOAddress(std::string& address_str) {
         if (!is_correct_address(address_str)) {
             IncorrectDataException::Entry error;
             error.key = "address";
@@ -111,7 +111,7 @@ public:
      *  False => If address is incorrect.
      */
     static bool is_correct_address(std::string& val) {
-        if (val[0] != '-' || val[0] != '+')
+        if (val[0] != '-' && val[0] != '+')
             return false;
         std::string s = val;
         int sign_count = 0, comma_count = 0;

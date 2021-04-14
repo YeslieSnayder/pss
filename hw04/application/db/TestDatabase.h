@@ -14,11 +14,13 @@ class TestDatabase : public Database {
     vector<Passenger> passengers;
     vector<Driver> drivers;
     vector<Order> orders;
+    vector<Car> cars;
 
 public:
     virtual unsigned long int createDriver(Driver& driver) {
         driver.setId(drivers.size() + 1);
         drivers.push_back(driver);
+        cars.push_back(*driver.getPersonalCar());
         return driver.getId();
     }
 
@@ -106,12 +108,10 @@ public:
         return driver->getPersonalCar();
     }
 
-    virtual Order* getOrder(unsigned long int order_id) {
-        for (Order& order : orders) {
-            if (order.getId() == order_id)
-                return &order;
-        }
-        return nullptr;
+    virtual Order* createOrder(Order& order) {
+        order.setId(orders.size() + 1);
+        orders.push_back(order);
+        return &order;
     }
 
     virtual Order* changeOrder(Order& order) {
@@ -120,6 +120,36 @@ public:
                 o = order;
                 return &o;
             }
+        }
+        return nullptr;
+    }
+
+    virtual Order* getOrder(unsigned long int order_id) {
+        for (Order& order : orders) {
+            if (order.getId() == order_id)
+                return &order;
+        }
+        return nullptr;
+    }
+
+    virtual Order* getLastOrder(unsigned long int id, ObjectType type) {
+        vector<Order> prevOrders = getOrderHistory(id, type);
+        if (prevOrders.empty())
+            return nullptr;
+        int max_id = 0, index;
+        for (int i = 0; i < prevOrders.size(); i++) {
+            if (prevOrders[i].getId() > max_id) {
+                max_id = prevOrders[i].getId();
+                index = i;
+            }
+        }
+        return &prevOrders[index];
+    }
+
+    virtual Car* getCar(string number) {
+        for (Car& car : cars) {
+            if (car.getNumber() == number)
+                return &car;
         }
         return nullptr;
     }
