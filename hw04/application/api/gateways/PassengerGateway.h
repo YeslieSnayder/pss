@@ -11,8 +11,6 @@
 #include "../../model/model.h"
 #include "../../model/objects/Passenger.h"
 #include "../../view/passenger_view.h"
-#include "../../view/logger.h"
-#include "../../db/TestDatabase.h"
 
 using namespace Pistache;
 
@@ -36,11 +34,13 @@ public:
 
         try {
             checkRequest(request, Http::Method::Put, true);
-
             Document json;
             json.Parse(request.body().c_str());
+
             unsigned long int id = Model::createPassenger(json);
-            view.sendPassengerCreated(id, response);
+            Passenger* passenger = Model::getPassenger(id);
+            view.sendPassengerData(*passenger, response);
+            delete passenger;
 
         } catch (invalid_argument e) {
             string key("request_error");
@@ -63,13 +63,11 @@ public:
         auto id = request.param(":id").as<int>();
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
-                .add<Http::Header::ContentType>(MIME(Text, Plain));
+                .add<Http::Header::ContentType>(MIME(Application, Json));
 
         try {
             checkRequest(request, Http::Method::Get);
-            Document json;
-            json.Parse(request.body().c_str());
-            Passenger* passenger = Model::getPassenger(json);
+            Passenger* passenger = Model::getPassenger(id);
             if (passenger == nullptr)
                 throw invalid_argument("Passenger with given id(" + to_string(id) + ") doesn't exist");
             view.sendPassengerData(*passenger, response);
@@ -98,12 +96,13 @@ public:
         auto id = request.param(":id").as<int>();
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
-                .add<Http::Header::ContentType>(MIME(Text, Plain));
+                .add<Http::Header::ContentType>(MIME(Application, Json));
 
         try {
-            checkRequest(request, Http::Method::Get);
+            checkRequest(request, Http::Method::Patch, true);
             Document json;
             json.Parse(request.body().c_str());
+
             Passenger* passenger = Model::patchPassenger(id, json);
             if (passenger == nullptr)
                 throw invalid_argument("Passenger with given id(" + to_string(id) + ") doesn't exist");
@@ -133,15 +132,14 @@ public:
         auto id = request.param(":id").as<int>();
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
-                .add<Http::Header::ContentType>(MIME(Text, Plain));
+                .add<Http::Header::ContentType>(MIME(Application, Json));
 
         try {
-            checkRequest(request, Http::Method::Get);
+            checkRequest(request, Http::Method::Post, true);
             Document json;
             json.Parse(request.body().c_str());
 
             PreOrder* order = Model::assignOrder(id, json);
-
             if (order == nullptr)
                 throw invalid_argument("Order was incorrect");
             view.sendPreOrderData(*order, response);
@@ -171,15 +169,14 @@ public:
         auto id = request.param(":id").as<int>();
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
-                .add<Http::Header::ContentType>(MIME(Text, Plain));
+                .add<Http::Header::ContentType>(MIME(Application, Json));
 
         try {
-            checkRequest(request, Http::Method::Get);
+            checkRequest(request, Http::Method::Post, true);
             Document json;
             json.Parse(request.body().c_str());
 
             Order* order = Model::assignAndOrderRide(id, json);
-
             if (order == nullptr)
                 throw invalid_argument("Order was incorrect");
             view.sendOrderData(*order, response);
@@ -208,15 +205,14 @@ public:
         auto id = request.param(":id").as<int>();
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
-                .add<Http::Header::ContentType>(MIME(Text, Plain));
+                .add<Http::Header::ContentType>(MIME(Application, Json));
 
         try {
-            checkRequest(request, Http::Method::Get);
+            checkRequest(request, Http::Method::Post, true);
             Document json;
             json.Parse(request.body().c_str());
 
             Car* car = Model::getCarForPassenger(id, json);
-
             if (car == nullptr)
                 throw invalid_argument("Information of the car was incorrect");
             view.sendCarInfo(*car, response);
@@ -244,15 +240,11 @@ public:
         auto order_id = request.param(":order_id").as<int>();
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
-                .add<Http::Header::ContentType>(MIME(Text, Plain));
+                .add<Http::Header::ContentType>(MIME(Application, Json));
 
         try {
             checkRequest(request, Http::Method::Get);
-            Document json;
-            json.Parse(request.body().c_str());
-
             Order* order = Model::getOrder(order_id);
-
             if (order == nullptr)
                 throw invalid_argument("Information of the car was incorrect");
             view.sendOrderData(*order, response);
@@ -271,20 +263,19 @@ public:
 
     /**
      * GET /passengers/:id/orders
-     * @param request
-     * @param response
+     * Returns order history of the passenger.
+     * @param request - Body is empty. Header contains id of the passenger.
+     * @param response - OK (200) with order history,
+     * Not found (404) => if passenger with given id doesn't exist.
      */
     static void getOrderHistory(const Rest::Request &request, Http::ResponseWriter response) {
         auto id = request.param(":id").as<int>();
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
-                .add<Http::Header::ContentType>(MIME(Text, Plain));
+                .add<Http::Header::ContentType>(MIME(Application, Json));
 
         try {
             checkRequest(request, Http::Method::Get);
-            Document json;
-            json.Parse(request.body().c_str());
-
             vector<Order> history = Model::getPassengerOrderHistory(id);
             view.sendOrderHistory(history, response);
 

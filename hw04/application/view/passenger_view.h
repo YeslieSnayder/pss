@@ -6,17 +6,11 @@
 #define PSS_PASSENGER_VIEW_H
 
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
 class PassengerView {
 public:
-    void sendPassengerCreated(unsigned long int id, Http::ResponseWriter& response) {
-        string res = "{\nid: " + to_string(id) + "\n}";
-        response.send(Pistache::Http::Code::Created, res);
-    }
-
     void sendBadRequest(vector<IncorrectDataException::Entry> errors, Http::ResponseWriter& response) {
         string res = "{\n";
         for (int i = 0; i < errors.size() - 1; i++) {
@@ -24,6 +18,16 @@ public:
         }
         res += errors[errors.size()-1].key + ": " + errors[errors.size()-1].value + "\n}";
         response.send(Pistache::Http::Code::Bad_Request, res);
+    }
+
+    void sendNotFound(string message, Http::ResponseWriter& response) {
+        string res = "{\nvalidation error: {\nid: " + message + "\n}\n}";
+        response.send(Pistache::Http::Code::Not_Found, res);
+    }
+
+    void sendPassengerCreated(unsigned long int id, Http::ResponseWriter& response) {
+        string res = "{\nid: " + to_string(id) + "\n}";
+        response.send(Pistache::Http::Code::Created, res);
     }
 
     void sendPassengerData(Passenger& passenger, Http::ResponseWriter& response) {
@@ -42,15 +46,10 @@ public:
         for (int i = 0; i < passenger.getPinnedAddresses().size() - 1; i++) {
             res += passenger.getPinnedAddresses()[i].geoString() + ",\n";
         }
-        if (passenger.getPinnedAddresses().size() != 0)
+        if (!passenger.getPinnedAddresses().empty())
             res += passenger.getPinnedAddresses()[passenger.getPinnedAddresses().size() - 1].geoString() + "\n";
         res += "]\n}";
         response.send(Pistache::Http::Code::Ok, res);
-    }
-
-    void sendNotFound(string message, Http::ResponseWriter& response) {
-        string res = "{\nvalidation error: {\nid: " + message + "\n}\n}";
-        response.send(Pistache::Http::Code::Not_Found, res);
     }
 
     void sendPreOrderData(PreOrder order, Http::ResponseWriter& response) {
