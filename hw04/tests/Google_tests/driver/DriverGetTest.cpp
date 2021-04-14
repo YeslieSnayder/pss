@@ -7,8 +7,8 @@
 #include <iostream>
 #include <fstream>
 
-#include "../../application/db/TestDatabase.h"
-#include "../../application/model/model.h"
+#include "../../../application/db/TestDatabase.h"
+#include "../../../application/model/model.h"
 #include "rapidjson/istreamwrapper.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/document.h"

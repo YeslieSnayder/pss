@@ -40,8 +40,6 @@ public:
         color = json["color"].GetString();
         number = json["number"].GetString();
         Car::driver_id = driver_id;
-        if (json.HasMember("freeBottleOfWater") && json["freeBottleOfWater"].IsInt())
-            freeBottleOfWater = json["number"].GetInt();
 
         string type = json["car_type"].GetString();
         type = is_correct_type(type);
@@ -53,6 +51,13 @@ public:
             carType = CarType::Business;
         else if (type == "comfortplus" || type == "comfort_plus" || type == "comfort plus")
             carType = CarType::ComfortPlus;
+
+        if (json.HasMember("freeBottleOfWater") && json["freeBottleOfWater"].IsInt())
+            freeBottleOfWater = json["number"].GetInt();
+        else if (carType == CarType::Comfort) {
+            srand(time(0));
+            freeBottleOfWater = rand() % 10;
+        }
     }
 
     /**
@@ -87,10 +92,13 @@ public:
 
         if (json.HasMember("car_type") && json["car_type"].IsString()) {
             string check = json["car_type"].GetString();
-            if (is_correct_type(check) == nullptr)
+            try {
+                is_correct_type(check);
+            } catch (IncorrectDataException) {
                 exc.addEntry("car_type",
                              "Car: Parameter 'car_type' is incorrect, "
                              "expected: 'Economy', 'Comfort', 'ComfortPlus', 'Business', but given: " + check);
+            }
         }
         if (json.HasMember("number") && json["number"].IsString()) {
             string check = json["number"].GetString();
@@ -116,20 +124,20 @@ public:
      *  otherwise null pointer.
      * @param type - string represented the type of the car.
      * @return If the type is correct => string that represented a type in lowercase,
-     *  If the type is incorrect => null pointer (nullptr).
+     *  If the type is incorrect => throw an exception.
      */
-    const char* is_correct_type(string& type) {
+    string is_correct_type(string& type) {
         string str = type;
         for (char &c : str) {
             if (c >= 'A' && c <= 'Z')
                 c = c + ('a' - 'A');
             if ((c < 'A' || c > 'Z' && c < 'a' || c > 'z') && c != '_' && c != ' ')
-                return nullptr;
+                throw IncorrectDataException();
         }
         if (str == "economy" || str == "comfort" || str == "business" ||
                 str == "comfortplus" || str == "comfort plus" || str == "comfort_plus")
             return str.c_str();
-        return nullptr;
+        throw IncorrectDataException();
     }
 
     bool operator==(const Car& obj) const {
@@ -143,6 +151,30 @@ public:
 
     const string &getNumber() const {
         return number;
+    }
+
+    const string &getModel() const {
+        return model;
+    }
+
+    CarType getCarType() const {
+        return carType;
+    }
+
+    const string &getColor() const {
+        return color;
+    }
+
+    unsigned long getDriverId() const {
+        return driver_id;
+    }
+
+    unsigned int getFreeBottleOfWater() const {
+        return freeBottleOfWater;
+    }
+
+    void setDriverId(unsigned long driverId) {
+        driver_id = driverId;
     }
 };
 

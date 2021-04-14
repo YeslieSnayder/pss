@@ -161,10 +161,13 @@ public:
                              "Passenger: Parameter 'payment_method' is incorrect, expected type: 'string'");
             else {
                 string check = json["payment_method"].GetString();
-                if (is_correct_payment(check) == nullptr)
+                try {
+                    is_correct_payment(check);
+                } catch (IncorrectDataException) {
                     exc.addEntry("payment_method",
                                  "Passenger: Parameter 'payment_method' is incorrect, "
                                  "expected: 'cash', 'online', 'bank_bill', but given: " + check);
+                }
             }
         }
 
@@ -210,20 +213,20 @@ public:
      * Checks the validity of payment method and return the string in the lowercase if the payment method is correct,
      *  otherwise - null pointer.
      * @param payment - string is represented payment method of the passenger.
-     * @return If the payment method is correct => pointer to first element of the payment method string (in lowercase),
-     *  otherwise => null pointer (nullptr).
+     * @return If the payment method is correct => string (in lowercase) that represents the payment method,
+     *  otherwise => throw an exception.
      */
-    const char* is_correct_payment(string& payment) {
+    string is_correct_payment(string& payment) {
         string str = payment;
         for (char &c : str) {
             if (c >= 'A' && c <= 'Z')
                 c = c + ('a' - 'A');
             if ((c < 'A' || c > 'Z' && c < 'a' || c > 'z') && c != '_' && c != ' ')
-                return nullptr;
+                throw IncorrectDataException();
         }
         if (str == "cash" || str == "online" || str == "bank_bill" || str == "bank bill")
             return str.c_str();
-        return nullptr;
+        throw IncorrectDataException();
     }
 
     bool operator==(const Passenger& obj) {

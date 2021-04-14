@@ -24,6 +24,8 @@ public:
         Model::db = _db;
     }
 
+    //////////////   DRIVERS   //////////////
+
     static unsigned long int createDriver(Document& data) {
         Driver* driver = findDriver(data);
         if (driver != nullptr)
@@ -68,12 +70,33 @@ public:
         return Model::db->getAvailableOrders();
     }
 
-    static Order* acceptOrderByDriver(unsigned long int driver_id, unsigned long int order_id) {
+    static Order* acceptOrderByDriver(unsigned long int driver_id, Document& data) {
+        IncorrectDataException exc;
+        if (!data.HasMember("order_id"))
+            exc.addEntry("order_id", "Order: Body does not have parameter 'order_id'");
+        else if (!data["order_id"].IsNumber())
+            exc.addEntry("order_id", "Order: Parameter 'order_id' is incorrect, expected type: 'positive integer'");
+        if (exc.hasErrors())
+            throw IncorrectDataException(exc.getErrors());
+
+        unsigned long int order_id = data["order_id"].GetInt64();
         Car* car = getCar(driver_id);
+        Driver* driver = getDriver(driver_id);
         Order* order = Model::db->getOrder(order_id);
+        if (order->getStatus() != OrderStatus::READY) {
+            exc.addEntry("order", "Order: The order have already been assigned");
+            throw IncorrectDataException(exc.getErrors());
+        }
+
         order->setCar(car);
         order->setDriverId(driver_id);
         order->setStatus(OrderStatus::PROCESSING);
+
+        vector<Order> orders = driver->getOrderHistory();
+        orders.push_back(*order);
+        driver->setOrderHistory(orders);
+        Model::db->patchDriver(*driver);
+
         return Model::db->changeOrder(*order);
     }
 
@@ -102,7 +125,7 @@ public:
         return order_id;
     }
 
-
+    /////////////   PASSENGERS   /////////////
 
     static unsigned long int createPassenger(Document& data) {
         Passenger* passenger = getPassenger(data);
@@ -171,6 +194,11 @@ public:
             throw NotFoundException(number);
 
         return car;
+    }
+
+    static Order* createOrder(Document& data) {
+        Order order(data);
+        return Model::db->createOrder(order);
     }
 };
 

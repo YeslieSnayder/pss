@@ -248,6 +248,22 @@ public:
     DriverStatus getStatus() const {
         return status;
     }
+
+    void setName(const string &name) {
+        Driver::name = name;
+    }
+
+    void setRating(double rating) {
+        Driver::rating = rating;
+    }
+
+    void setOrderHistory(const vector<Order> &orderHistory) {
+        Driver::orderHistory = orderHistory;
+    }
+
+    void setStatus(DriverStatus status) {
+        Driver::status = status;
+    }
 };
 
 

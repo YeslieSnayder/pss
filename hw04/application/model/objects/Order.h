@@ -111,10 +111,14 @@ class Order {
     OrderStatus status;
 
 public:
-    Order(rapidjson::Document& json) {
+    Order(rapidjson::Document& json, OrderStatus orderStatus=OrderStatus::READY) {
         validate_json(json);
 
-        driver_id = json["driver_id"].GetInt();
+        status = orderStatus;
+
+        if (json.HasMember("driver_id"))
+            driver_id = json["driver_id"].GetInt();
+        startTime = json["start_time"].GetString();
 
         string s = json["start_point"].GetString();
         GEOAddress start(s);
@@ -124,7 +128,21 @@ public:
         GEOAddress end(s);
         destination = end;
 
-        startTime = json["start_time"].GetString();
+        if (json.HasMember("passenger_id") && json["passenger_id"].IsInt())
+            passenger_id = json["passenger_id"].GetInt64();
+
+        if (json.HasMember("status") && json["status"].IsString()) {
+            s = json["status"].GetString();
+            if (s == "ready")
+                status = OrderStatus::READY;
+            else if (s == "processing")
+                status = OrderStatus::PROCESSING;
+            else if (s == "complete")
+                status = OrderStatus::COMPLETE;
+        }
+
+        if (json.HasMember("order_id") && json["order_id"].IsInt64())
+            id = json["order_id"].GetInt64();
     }
 
     Order(unsigned long int passenger_id, rapidjson::Document& json) : Order(json) {
@@ -138,9 +156,7 @@ public:
     void validate_json(rapidjson::Document& json) {
         IncorrectDataException exc;
 
-        if (!json.HasMember("driver_id"))
-            exc.addEntry("driver_id", "Order: Body does not have parameter 'driver_id'");
-        else if (!json["driver_id"].IsInt())
+        if (json.HasMember("driver_id") && !json["driver_id"].IsInt())
             exc.addEntry("driver_id", "Order: Parameter 'driver_id' is incorrect, expected type: 'positive integer'");
 
         if (!json.HasMember("start_point"))

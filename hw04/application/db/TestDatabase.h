@@ -20,7 +20,9 @@ public:
     virtual unsigned long int createDriver(Driver& driver) {
         driver.setId(drivers.size() + 1);
         drivers.push_back(driver);
-        cars.push_back(*driver.getPersonalCar());
+        Car* car = driver.getPersonalCar();
+        car->setDriverId(driver.getId());
+        cars.push_back(*car);
         return driver.getId();
     }
 
