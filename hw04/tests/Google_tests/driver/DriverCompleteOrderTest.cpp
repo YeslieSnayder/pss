@@ -112,15 +112,27 @@ void DriverCompleteOrderTest::readOrders() {
 
 TEST_F(DriverCompleteOrderTest, ExampleData) {
     Document d;
-    unsigned long int order_id = 1;
+    d.SetObject();
+    rapidjson::Document::AllocatorType& allocator = d.GetAllocator();
+
+    Order obj = *model->getOrder(4);
 
     time_t now(0);
     time(&now);
     char buf[sizeof "2011-10-08T07:07:09Z"];
     strftime(buf, sizeof buf, "%FT%TZ", gmtime(&now));
-    string complete_time(buf);
 
-    Value o(kObjectType);
-    o.AddMember("order_id", order_id, d.GetAllocator());
-    o.AddMember("complete_time", complete_time, d.GetAllocator());
+    string complete_time(buf);
+    unsigned long int order_id = obj.getId();
+
+    d.AddMember("complete_time", StringRef(complete_time.c_str(), complete_time.length()), allocator);
+    d.AddMember("order_id", order_id, allocator);
+    unsigned long int getting_id = model->completeOrder(d);
+    EXPECT_EQ(obj.getId(), getting_id);
+
+    obj = *model->getOrder(obj.getId());
+    Order order = *model->getOrder(getting_id);
+
+    EXPECT_TRUE(obj.getStatus() == order.getStatus());
+    EXPECT_TRUE(obj == order);
 }

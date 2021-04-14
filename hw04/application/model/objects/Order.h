@@ -187,15 +187,15 @@ public:
         return !(operator==(obj));
     }
 
-    unsigned long getId() const {
+    unsigned long int getId() const {
         return id;
     }
 
-    unsigned long getPassengerId() const {
+    unsigned long int getPassengerId() const {
         return passenger_id;
     }
 
-    unsigned long getDriverId() const {
+    unsigned long int getDriverId() const {
         return driver_id;
     }
 
@@ -203,7 +203,7 @@ public:
         return status;
     }
 
-    void setId(unsigned long id) {
+    void setId(unsigned long int id) {
         Order::id = id;
     }
 
@@ -211,7 +211,7 @@ public:
         Order::car = car;
     }
 
-    void setDriverId(unsigned long driverId) {
+    void setDriverId(unsigned long int driverId) {
         driver_id = driverId;
     }
 

@@ -200,6 +200,10 @@ public:
         Order order(data);
         return Model::db->createOrder(order);
     }
+
+    static Order* getOrder(unsigned long int order_id) {
+        return Model::db->getOrder(order_id);
+    }
 };
 
 
