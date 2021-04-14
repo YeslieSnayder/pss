@@ -141,6 +141,12 @@ public:
         return Model::db->getPassenger(passenger);
     }
 
+    static Passenger* getPassenger(unsigned long int passenger_id) {
+        if (passenger_id <= 0)
+            throw NotFoundException(passenger_id);
+        return Model::db->getPassenger(passenger_id);
+    }
+
     static Passenger* patchPassenger(unsigned long int passenger_id, Document& data) {
         Passenger* passenger = getPassenger(data);
         if (passenger == nullptr)

@@ -26,7 +26,7 @@ Rest::Router initRouter() {
     Rest::Routes::Patch(router, "/passengers/:id", Rest::Routes::bind(&PassengerGateway::updatePassenger));
     Rest::Routes::Post(router, "/passengers/assign/:id", Rest::Routes::bind(&PassengerGateway::assignRide));
     Rest::Routes::Post(router, "/passengers/order/:id", Rest::Routes::bind(&PassengerGateway::orderRide));
-    Rest::Routes::Get(router, "/passengers/car/:id", Rest::Routes::bind(&PassengerGateway::getCarInfo));
+    Rest::Routes::Post(router, "/passengers/car/:id", Rest::Routes::bind(&PassengerGateway::getCarInfo));
     Rest::Routes::Get(router, "/passengers/order/:order_id", Rest::Routes::bind(&PassengerGateway::getOrderInfo));
     Rest::Routes::Get(router, "/passengers/:id/orders", Rest::Routes::bind(&PassengerGateway::getOrderHistory));
 
@@ -48,7 +48,7 @@ Rest::Router initRouter() {
  * @param host - address where server will be running.
  */
 void runServer(Pistache::Address host) {
-    auto opts = Http::Endpoint::options().threads(5);
+    auto opts = Http::Endpoint::options().threads(1);
 
     Http::Endpoint server(host);
     server.init(opts);
@@ -59,5 +59,7 @@ void runServer(Pistache::Address host) {
 }
 
 int main() {
-    runServer(Pistache::Address(Ipv4::any(), Port(9080)));
+    thread server_thread(runServer, Pistache::Address(Ipv4::any(), Port(9090)));
+    server_thread.join();
+//    runServer(Pistache::Address(Ipv4::any(), Port(9090)));
 }

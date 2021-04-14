@@ -5,14 +5,15 @@
 #ifndef PSS_NOTFOUNDEXCEPTION_H
 #define PSS_NOTFOUNDEXCEPTION_H
 
+using namespace std;
 
-class NotFoundException : public std::exception{
+class NotFoundException : public exception {
     string message;
 public:
     NotFoundException(string& message) : message(message) {}
     NotFoundException(long int id) : message(to_string(id)) {}
 
-    const string &getMessage() const {
+    string getMessage() const {
         return message;
     }
 };

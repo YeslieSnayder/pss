@@ -10,4 +10,4 @@ add_executable(${PROJECT_NAME} application/api/main.cpp)
 target_link_libraries(${PROJECT_NAME} pistache -lpthread)
 
 # Google Tests
-add_subdirectory(tests/Google_tests)
+#add_subdirectory(tests/Google_tests)

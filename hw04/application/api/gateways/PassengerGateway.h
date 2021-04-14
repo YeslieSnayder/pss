@@ -11,8 +11,6 @@
 #include "../../model/model.h"
 #include "../../model/objects/Passenger.h"
 #include "../../view/passenger_view.h"
-#include "../../view/logger.h"
-#include "../../db/TestDatabase.h"
 
 using namespace Pistache;
 
@@ -22,123 +20,274 @@ class PassengerGateway {
 public:
 
     /**
+     * PUT /passengers
      * The method allows user to login into the system. This method is idempotent,
      * for each call of this method it will return same result.
-     * Example of request:
-     * PUT "{
-     *  passenger:
-     *  {
-     *      name: "Andrey"
-     *      rating: 4.7
-     *      payment_methods: ["ONLINE", "CASH"]
-     *      pinned_addresses: ["+40.75-74.00", "+33.0+037.00"]
-     *  }
-     * }"
-     * @param request
-     * @param response - The response to the passenger.
-     *
-     * If request was correct and passenger's data satisfied all conditions, then returns
-     * response with code 201 and id of the passenger:
-     * HTTP 201 Created
-     * "{
-     *  id: 2
-     * }"
-     *
-     * If request was incorrect or input data was incorrect, then returns
-     * response with code 400 and fields with description of the problem:
-     * HTTP 400 Bad Request
-     * "{
-     *  name: "Should be string"
-     *  rating: "Is out of range, expected [0.0, 5.0], given -90.33"
-     * }"
+     * @param request - request from app.
+     * @param response - Created (201) => passenger was created.
+     * Bad request (400) => request contains bad data.
      */
     static void loginPassenger(const Rest::Request &request, Http::ResponseWriter response) {
-        string ans;
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
                 .add<Http::Header::ContentType>(MIME(Application, Json));
 
         try {
             checkRequest(request, Http::Method::Put, true);
-
             Document json;
             json.Parse(request.body().c_str());
+
             unsigned long int id = Model::createPassenger(json);
-            ans = view.loginPassenger(id);
+            Passenger* passenger = Model::getPassenger(id);
+            view.sendPassengerData(*passenger, response);
+            delete passenger;
 
-            auto res = response.send(Http::Code::Ok, ans);
-            res.then([](ssize_t bytes) {
-                log(LOG::INFO, "User was logged in");
-            }, Async::Throw);
-
-        } catch (exception e) {
-            ans = view.sendBadRequestError({"name"}, {e.what()});
-
-            auto res = response.send(Http::Code::Bad_Request, ans);
-            res.then([](ssize_t bytes) {
-                log(LOG::ERROR, "User wasn't logged in");
-            }, Async::Throw);
+        } catch (invalid_argument e) {
+            string key("request_error");
+            string value(e.what());
+            view.sendBadRequest({{key, value}}, response);
+        } catch (IncorrectDataException e) {
+            view.sendBadRequest(e.getErrors(), response);
         }
     }
 
-    // GET /passengers/:id
+    /**
+     * GET /passengers/:id
+     * The method returns the information about the passenger with given id.
+     * @param request - contains id of the passenger (in a header).
+     * @param response - OK (200) => if passenger exists,
+     * Bad request (400) => if request contains bad data.
+     * Not found (404) => passenger with given id doesn't exist.
+     */
     static void getPassenger(const Rest::Request &request, Http::ResponseWriter response) {
-        // TODO: Complete getting information about passenger (without full order history (last 3 orders))
         auto id = request.param(":id").as<int>();
         response.headers()
                 .add<Http::Header::Server>(SERVER_NAME)
-                .add<Http::Header::ContentType>(MIME(Text, Plain));
-        string ans;
+                .add<Http::Header::ContentType>(MIME(Application, Json));
 
         try {
             checkRequest(request, Http::Method::Get);
-            Document json;
-            json.Parse(request.body().c_str());
-            Passenger* passenger = Model::getPassenger(json);
+            Passenger* passenger = Model::getPassenger(id);
             if (passenger == nullptr)
                 throw invalid_argument("Passenger with given id(" + to_string(id) + ") doesn't exist");
+            view.sendPassengerData(*passenger, response);
+            delete passenger;
 
-        } catch (exception e) {
-            ans = view.sendBadRequestError({"description"}, {e.what()});
-
-            auto res = response.send(Http::Code::Bad_Request, ans);
-            res.then([](ssize_t bytes) {
-                log(LOG::ERROR, "User wasn't logged in");
-            }, Async::Throw);
+        } catch (invalid_argument e) {
+            string key("request_error");
+            string value(e.what());
+            view.sendBadRequest({{key, value}}, response);
+        } catch (IncorrectDataException e) {
+            view.sendBadRequest(e.getErrors(), response);
+        } catch (NotFoundException e) {
+            view.sendNotFound(e.getMessage(), response);
         }
-
-        auto stream = response.stream(Http::Code::Ok);
-        stream << "This is passenger with id = " << id << Http::ends;
     }
 
-    // PATCH /passengers/:id
+    /**
+     * PATCH /passengers/:id
+     * The method changes data of passenger with id from input.
+     * @param request - new data of a passenger.
+     * @param response - OK (200) => if passenger have been changed,
+     * Bad request (400) => if request contains bad data.
+     * Not found (404) => passenger with given id doesn't exist.
+     */
     static void updatePassenger(const Rest::Request &request, Http::ResponseWriter response) {
-        // TODO: Update passenger from JSON file (body)
+        auto id = request.param(":id").as<int>();
+        response.headers()
+                .add<Http::Header::Server>(SERVER_NAME)
+                .add<Http::Header::ContentType>(MIME(Application, Json));
+
+        try {
+            checkRequest(request, Http::Method::Patch, true);
+            Document json;
+            json.Parse(request.body().c_str());
+
+            Passenger* passenger = Model::patchPassenger(id, json);
+            if (passenger == nullptr)
+                throw invalid_argument("Passenger with given id(" + to_string(id) + ") doesn't exist");
+            view.sendPassengerData(*passenger, response);
+            delete passenger;
+
+        } catch (invalid_argument e) {
+            string key("request_error");
+            string value(e.what());
+            view.sendBadRequest({{key, value}}, response);
+        } catch (IncorrectDataException e) {
+            view.sendBadRequest(e.getErrors(), response);
+        } catch (NotFoundException e) {
+            view.sendNotFound(e.getMessage(), response);
+        }
     }
 
-    // POST /passengers/assign/:id
+    /**
+     * POST /passengers/assign/:id
+     * Returns information about a ride with data from passenger.
+     * @param request - contains start and end points and preferred car.
+     * @param response - OK (200) => returns information about the order (price, distance and time),
+     * Bad Request (400) => request contains bad data,
+     * Not found (404) => passenger with given id doesn't exist.
+     */
     static void assignRide(const Rest::Request &request, Http::ResponseWriter response) {
-        // TODO: Return the information about accessible cars  (Same as orderRide)
+        auto id = request.param(":id").as<int>();
+        response.headers()
+                .add<Http::Header::Server>(SERVER_NAME)
+                .add<Http::Header::ContentType>(MIME(Application, Json));
+
+        try {
+            checkRequest(request, Http::Method::Post, true);
+            Document json;
+            json.Parse(request.body().c_str());
+
+            PreOrder* order = Model::assignOrder(id, json);
+            if (order == nullptr)
+                throw invalid_argument("Order was incorrect");
+            view.sendPreOrderData(*order, response);
+            delete order;
+
+        } catch (invalid_argument e) {
+            string key("request_error");
+            string value(e.what());
+            view.sendBadRequest({{key, value}}, response);
+        } catch (IncorrectDataException e) {
+            view.sendBadRequest(e.getErrors(), response);
+        } catch (NotFoundException e) {
+            view.sendNotFound(e.getMessage(), response);
+        }
     }
 
-    // POST /passengers/order/:id
+    /**
+     * POST /passengers/order/:id
+     * Order the ride. Require: call assignRide before this method.
+     * The method returns full information about the order.
+     * @param request - The information about order (can be without driver_id).
+     * @param response - OK (200) => if the order was correct,
+     * Bad request (400) => if request contains bad data,
+     * Not found (404) => driver or passenger with given data doesn't exist.
+     */
     static void orderRide(const Rest::Request &request, Http::ResponseWriter response) {
-        // TODO: Assign Driver and start the ride  (Same as assignRide)
+        auto id = request.param(":id").as<int>();
+        response.headers()
+                .add<Http::Header::Server>(SERVER_NAME)
+                .add<Http::Header::ContentType>(MIME(Application, Json));
+
+        try {
+            checkRequest(request, Http::Method::Post, true);
+            Document json;
+            json.Parse(request.body().c_str());
+
+            Order* order = Model::assignAndOrderRide(id, json);
+            if (order == nullptr)
+                throw invalid_argument("Order was incorrect");
+            view.sendOrderData(*order, response);
+            delete order;
+
+        } catch (invalid_argument e) {
+            string key("request_error");
+            string value(e.what());
+            view.sendBadRequest({{key, value}}, response);
+        } catch (IncorrectDataException e) {
+            view.sendBadRequest(e.getErrors(), response);
+        } catch (NotFoundException e) {
+            view.sendNotFound(e.getMessage(), response);
+        }
     }
 
-    // GET /passengers/car/:id
+    /**
+     * POST /passengers/car/:id
+     * Returns information about the car with given number.
+     * @param request - contains the number of a car.
+     * @param response - OK (200) => if car exists,
+     * Bad request (400) => if request contains bad data,
+     * Not found (404) => the car with given data doesn't exist.
+     */
     static void getCarInfo(const Rest::Request &request, Http::ResponseWriter response) {
-        // TODO: Current coordinates of the assigned car (only if this passenger assigned the car)
+        auto id = request.param(":id").as<int>();
+        response.headers()
+                .add<Http::Header::Server>(SERVER_NAME)
+                .add<Http::Header::ContentType>(MIME(Application, Json));
+
+        try {
+            checkRequest(request, Http::Method::Post, true);
+            Document json;
+            json.Parse(request.body().c_str());
+
+            Car* car = Model::getCarForPassenger(id, json);
+            if (car == nullptr)
+                throw invalid_argument("Information of the car was incorrect");
+            view.sendCarInfo(*car, response);
+            delete car;
+
+        } catch (invalid_argument e) {
+            string key("request_error");
+            string value(e.what());
+            view.sendBadRequest({{key, value}}, response);
+        } catch (IncorrectDataException e) {
+            view.sendBadRequest(e.getErrors(), response);
+        } catch (NotFoundException e) {
+            view.sendNotFound(e.getMessage(), response);
+        }
     }
 
-    // GET /passengers/order/:order_id
+    /**
+     * GET /passengers/order/:order_id
+     * Returns the information about order with given id.
+     * @param request - empty body. Header contains id of the order.
+     * @param response - OK (200) => the order exists,
+     * Not found (404) => the order doesn't exist.
+     */
     static void getOrderInfo(const Rest::Request &request, Http::ResponseWriter response) {
-        // TODO: Return information about particular order that the passenger did
+        auto order_id = request.param(":order_id").as<int>();
+        response.headers()
+                .add<Http::Header::Server>(SERVER_NAME)
+                .add<Http::Header::ContentType>(MIME(Application, Json));
+
+        try {
+            checkRequest(request, Http::Method::Get);
+            Order* order = Model::getOrder(order_id);
+            if (order == nullptr)
+                throw invalid_argument("Information of the car was incorrect");
+            view.sendOrderData(*order, response);
+            delete order;
+
+        } catch (invalid_argument e) {
+            string key("request_error");
+            string value(e.what());
+            view.sendBadRequest({{key, value}}, response);
+        } catch (IncorrectDataException e) {
+            view.sendBadRequest(e.getErrors(), response);
+        } catch (NotFoundException e) {
+            view.sendNotFound(e.getMessage(), response);
+        }
     }
 
-    // GET /passengers/:id/orders
+    /**
+     * GET /passengers/:id/orders
+     * Returns order history of the passenger.
+     * @param request - Body is empty. Header contains id of the passenger.
+     * @param response - OK (200) with order history,
+     * Not found (404) => if passenger with given id doesn't exist.
+     */
     static void getOrderHistory(const Rest::Request &request, Http::ResponseWriter response) {
-        // TODO: Return order history
+        auto id = request.param(":id").as<int>();
+        response.headers()
+                .add<Http::Header::Server>(SERVER_NAME)
+                .add<Http::Header::ContentType>(MIME(Application, Json));
+
+        try {
+            checkRequest(request, Http::Method::Get);
+            vector<Order> history = Model::getPassengerOrderHistory(id);
+            view.sendOrderHistory(history, response);
+
+        } catch (invalid_argument e) {
+            string key("request_error");
+            string value(e.what());
+            view.sendBadRequest({{key, value}}, response);
+        } catch (IncorrectDataException e) {
+            view.sendBadRequest(e.getErrors(), response);
+        } catch (NotFoundException e) {
+            view.sendNotFound(e.getMessage(), response);
+        }
     }
 
 
