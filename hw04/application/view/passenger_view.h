@@ -12,17 +12,45 @@ using namespace std;
 
 class PassengerView {
 public:
-    string loginPassenger(unsigned long int id) {
-        return "{id: " + to_string(id) + "}";
+    void sendIdOK(unsigned long int id, Http::ResponseWriter& response) {
+        string res = "{\nid: " + to_string(id) + "\n}";
+        response.send(Pistache::Http::Code::Ok, res);
     }
 
-    string sendBadRequestError(vector<string> badFields, vector<string> description) {
-        string res = "{";
-        for (int i = 0; i < badFields.size() - 1; i++) {
-            res += badFields[i] + ": " + description[i] + ", ";
+    void sendBadRequest(vector<IncorrectDataException::Entry> errors, Http::ResponseWriter& response) {
+        string res = "{\n";
+        for (int i = 0; i < errors.size() - 1; i++) {
+            res += errors[i].key + ": " + errors[i].value + ",\n";
         }
-        res += badFields[badFields.size()-1] + ": " + description[description.size()-1] + "}";
-        return res;
+        res += errors[errors.size()-1].key + ": " + errors[errors.size()-1].value + "\n}";
+        response.send(Pistache::Http::Code::Bad_Request, res);
+    }
+
+    void sendPassengerData(Passenger& passenger, Http::ResponseWriter& response) {
+        string res = "{\n";
+        res += "passenger_id: " + to_string(passenger.getId()) + ",\n";
+        res += "name: " + passenger.getName() + ",\n";
+        res += "rating: " + to_string(passenger.getRating()) + ",\n";
+        res += "payment_method: ";
+        if (passenger.getPaymentMethod() == PaymentMethod::CASH)
+            res += "cash,\n";
+        else if (passenger.getPaymentMethod() == PaymentMethod::ONLINE)
+            res += "online,\n";
+        else if (passenger.getPaymentMethod() == PaymentMethod::BANK_BILL)
+            res += "bank_bill,\n";
+        res += "pinned_addresses: [\n";
+        for (int i = 0; i < passenger.getPinnedAddresses().size() - 1; i++) {
+            res += passenger.getPinnedAddresses()[i].geoString() + ",\n";
+        }
+        if (passenger.getPinnedAddresses().size() != 0)
+            res += passenger.getPinnedAddresses()[passenger.getPinnedAddresses().size() - 1].geoString() + "\n";
+        res += "]\n}";
+        response.send(Pistache::Http::Code::Ok, res);
+    }
+
+    void sendNotFound(const string& message, Http::ResponseWriter& response) {
+        string res = "{\nvalidation error: {\nid: " + message + "\n}\n}";
+        response.send(Pistache::Http::Code::Not_Found, res);
     }
 };
 

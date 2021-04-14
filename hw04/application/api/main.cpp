@@ -48,7 +48,7 @@ Rest::Router initRouter() {
  * @param host - address where server will be running.
  */
 void runServer(Pistache::Address host) {
-    auto opts = Http::Endpoint::options().threads(5);
+    auto opts = Http::Endpoint::options().threads(2);
 
     Http::Endpoint server(host);
     server.init(opts);

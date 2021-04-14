@@ -5,8 +5,9 @@
 #ifndef PSS_NOTFOUNDEXCEPTION_H
 #define PSS_NOTFOUNDEXCEPTION_H
 
+using namespace std;
 
-class NotFoundException : public std::exception{
+class NotFoundException : public exception {
     string message;
 public:
     NotFoundException(string& message) : message(message) {}
