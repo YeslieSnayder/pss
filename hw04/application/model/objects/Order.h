@@ -103,7 +103,7 @@ class Order {
     GEOAddress startPoint{0,0};
     GEOAddress destination{0,0};
     string startTime;
-    Car* car;
+    Car* car = nullptr;
     float price;
     unsigned long int passenger_id;
     unsigned long int driver_id;
@@ -111,6 +111,11 @@ class Order {
     OrderStatus status;
 
 public:
+    Order(unsigned long id, const GEOAddress &startPoint, const GEOAddress &destination, const string &startTime,
+          float price, unsigned long passengerId, unsigned long driverId, OrderStatus status)
+            : id(id), startPoint(startPoint), destination(destination), startTime(startTime), price(price),
+              passenger_id(passengerId), driver_id(driverId), status(status) {}
+
     Order(rapidjson::Document& json, OrderStatus orderStatus=OrderStatus::READY) {
         validate_json(json);
 
@@ -144,6 +149,8 @@ public:
 
         if (json.HasMember("order_id") && json["order_id"].IsInt64())
             id = json["order_id"].GetInt64();
+
+        car = nullptr;
     }
 
     Order(unsigned long int passenger_id, rapidjson::Document& json) : Order(json) {
@@ -214,6 +221,14 @@ public:
 
     const string &getStartTime() const {
         return startTime;
+    }
+
+    Car *getCar() const {
+        return car;
+    }
+
+    float getPrice() const {
+        return price;
     }
 
     void setId(unsigned long int id) {

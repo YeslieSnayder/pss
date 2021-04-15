@@ -23,7 +23,7 @@ enum class PaymentMethod {
 class Passenger {
     unsigned long int id = NULL_ID;
     string name;
-    float rating;
+    double rating;
     vector<Order> orderHistory;
     vector<GEOAddress> pinnedAddresses;
     PaymentMethod paymentMethod;
@@ -31,18 +31,13 @@ class Passenger {
 public:
     static const unsigned long int NULL_ID = 0;
 
-    Passenger(string name, float rating, const vector<Order> &orderHistory,
-              const vector<GEOAddress> &pinnedAddresses, PaymentMethod paymentMethod) : name(std::move(name)),
-                                                                                        rating(rating),
-                                                                                        orderHistory(orderHistory),
-                                                                                        pinnedAddresses(
-                                                                                                 pinnedAddresses),
-                                                                                        paymentMethod(paymentMethod) {}
+    Passenger(unsigned long id, string name, double rating, PaymentMethod paymentMethod)
+            : id(id), name(std::move(name)), rating(rating), paymentMethod(paymentMethod) {}
 
     Passenger(rapidjson::Document& json) {
         validate_json(json);
         name = json["name"].GetString();
-        rating = json["rating"].GetFloat();
+        rating = json["rating"].GetDouble();
 
         for (const auto& address : json["pinned_addresses"].GetArray()) {
             string address_str = address.GetString();
@@ -78,7 +73,7 @@ public:
         if (json.HasMember("name"))
             name = json["name"].GetString();
         if (json.HasMember("rating"))
-            rating = json["rating"].GetFloat();
+            rating = json["rating"].GetDouble();
 
         if (json.HasMember("pinned_addresses")) {
             pinnedAddresses.clear();
@@ -145,7 +140,7 @@ public:
             if (!json["rating"].IsNumber())
                 exc.addEntry("rating", "Passenger: Parameter 'rating' is incorrect, expected type: 'number'");
             else {
-                float check = json["rating"].GetFloat();
+                float check = json["rating"].GetDouble();
                 if (check < 0.0 || check > 5.0)
                     exc.addEntry("rating",
                                  "Passenger: Parameter 'rating' is out of range, expected: 0 <= value <= 5.0, but given: " +
