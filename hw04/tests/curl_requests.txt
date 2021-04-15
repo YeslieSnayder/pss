@@ -1,0 +1,2 @@
+curl -i -X PUT -d "{"name": "Andrey", "rating": 4.7, "payment_methods": ["ONLINE", "CASH"], "pinned_addresses": ["+40.75-74.00", "+33.0+037.00"]}" localhost:9080/passengers
+
