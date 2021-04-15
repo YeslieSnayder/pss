@@ -11,7 +11,7 @@
 
 const static std::string SERVER_NAME = "Wendex.Taxi.API";
 
-// TODO: Remove after debug
 const static Model MODEL_GLOBAL(new CSVDatabase());
+const static int PORT = 8080;
 
 #endif //PSS_CONFIG_H
