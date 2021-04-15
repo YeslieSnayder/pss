@@ -5,6 +5,8 @@
 #ifndef PSS_CAR_H
 #define PSS_CAR_H
 
+#include <utility>
+
 #include "Address.h"
 #include "rapidjson/document.h"
 #include "../exceptions/IncorrectDataException.h"
@@ -21,16 +23,17 @@ enum class CarType {
 class Car {
     string model;
     CarType carType;
-    GEOAddress currentAddress{0, 0};
+    GEOAddress currentAddress{0, 0};    // forbidden
     string color;
-    string number;
+    string number;  // identifier
     unsigned long int driver_id;
     unsigned int freeBottleOfWater;
 
 public:
-    Car(const string &model, CarType carType, const GEOAddress &currentAddress, const string &color,
-        const string &number, unsigned long driverId, unsigned int freeBottleOfWater) : model(model), carType(carType),
-                                currentAddress(currentAddress), color(color), number(number), driver_id(driverId) {}
+    Car(string number, string model, string color, CarType carType,
+        unsigned int freeBottleOfWater, unsigned long int driver_id)
+            : number(std::move(number)), model(std::move(model)), color(std::move(color)), carType(carType),
+              freeBottleOfWater(freeBottleOfWater), driver_id(driver_id) {}
 
     Car(unsigned long int driver_id, rapidjson::Document& json) {
         validate_json(json);

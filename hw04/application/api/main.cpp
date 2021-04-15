@@ -59,7 +59,7 @@ void runServer(Pistache::Address host) {
 }
 
 int main() {
-    thread server_thread(runServer, Pistache::Address(Ipv4::any(), Port(9090)));
+    thread server_thread(runServer, Pistache::Address(Ipv4::any(), Port(PORT)));
     server_thread.join();
-//    runServer(Pistache::Address(Ipv4::any(), Port(9090)));
+//    runServer(Pistache::Address(Ipv4::any(), Port(8080)));
 }

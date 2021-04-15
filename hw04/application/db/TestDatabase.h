@@ -17,6 +17,9 @@ class TestDatabase : public Database {
     vector<Car> cars;
 
 public:
+
+    //////////////   DRIVERS   //////////////
+
     virtual unsigned long int createDriver(Driver& driver) {
         driver.setId(drivers.size() + 1);
         drivers.push_back(driver);
@@ -60,7 +63,7 @@ public:
         return list;
     }
 
-
+    /////////////   PASSENGERS   /////////////
 
     virtual unsigned long int createPassenger(Passenger& passenger) {
         passenger.setId(passengers.size() + 1);

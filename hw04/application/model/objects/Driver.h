@@ -32,11 +32,9 @@ class Driver {
     DriverStatus status;
 
 public:
-    Driver(string name, float rating, const vector<Order> &orderHistory,
-                                   Car &personalCar, DriverStatus status) : name(std::move(name)), rating(rating),
-                                                                           orderHistory(orderHistory),
-                                                                           personalCar(&personalCar),
-                                                                           status(status) {}
+    Driver(unsigned long int id, string name, double rating,
+           Car* personalCar, DriverStatus status) : id(id), name(std::move(name)), rating(rating),
+                                                    personalCar(personalCar), status(status) {}
 
     Driver(rapidjson::Document& json) {
         validate_json(json);
@@ -75,7 +73,7 @@ public:
         if (json.HasMember("name"))
             name = json["name"].GetString();
         if (json.HasMember("rating"))
-            rating = json["rating"].GetFloat();
+            rating = json["rating"].GetDouble();
 
         if (json.HasMember("driver_status")) {
             string status_str = json["driver_status"].GetString();
