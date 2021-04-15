@@ -1,0 +1,5 @@
+id,number,model,color,carType,freeBottleOfWater,driver_id
+1,A200BC,"Lada Sedan",black,economy,959919929,1
+2,O000OO,"Mazda RX8",white,business,1735288179,2
+3,V123AZ,"Nissan GTR GT",blue,comfort,6,3
+4,M532KF,hyundai,blue,comfort,6,4
