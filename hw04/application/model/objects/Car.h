@@ -21,7 +21,7 @@ enum class CarType {
 class Car {
     string model;
     CarType carType;
-    GEOAddress currentAddress{0, 0};
+    GEOAddress currentAddress{0, 0};    // forbidden
     string color;
     string number;
     unsigned long int driver_id;
