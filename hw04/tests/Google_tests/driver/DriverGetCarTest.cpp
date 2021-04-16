@@ -69,12 +69,12 @@ protected:
 
 TEST_F(DriverGetCarTest, ExampleData_1) {
     Driver driver = *model->getDriver(1);
-    Car car = *driver.getPersonalCar();
+    Car car = driver.getPersonalCars()[0];
 
-    Car* test_car;
+    Car test_car = car;
     try {
         Driver* test_driver = model->getDriver(1);
-        test_car = test_driver->getPersonalCar();
+        test_car = (test_driver->getPersonalCars()[0]);
     } catch (NotFoundException ex) {
         ASSERT_EQ(0, 1);    // Continue another tests, if there was exception
     }
@@ -87,21 +87,21 @@ TEST_F(DriverGetCarTest, ExampleData_1) {
     EXPECT_TRUE(car.getCarType() == CarType::Economy);
 
     // Check data from database
-    EXPECT_EQ(car.getDriverId(), test_car->getDriverId());
-    EXPECT_EQ(car.getModel(), test_car->getModel());
-    EXPECT_EQ(car.getNumber(), test_car->getNumber());
-    EXPECT_EQ(car.getColor(), test_car->getColor());
-    EXPECT_TRUE(car.getCarType() == test_car->getCarType());
+    EXPECT_EQ(car.getDriverId(), test_car.getDriverId());
+    EXPECT_EQ(car.getModel(), test_car.getModel());
+    EXPECT_EQ(car.getNumber(), test_car.getNumber());
+    EXPECT_EQ(car.getColor(), test_car.getColor());
+    EXPECT_TRUE(car.getCarType() == test_car.getCarType());
 }
 
 TEST_F(DriverGetCarTest, ExampleData_2) {
     Driver driver = *model->getDriver(2);
-    Car car = *driver.getPersonalCar();
+    Car car = driver.getPersonalCars()[0];
 
-    Car* test_car;
+    Car test_car = car;
     try {
-        Driver* test_driver = model->getDriver(2);
-        test_car = test_driver->getPersonalCar();
+        Driver* test_driver = model->getDriver(1);
+        test_car = (test_driver->getPersonalCars()[0]);
     } catch (NotFoundException ex) {
         ASSERT_EQ(0, 1);    // Continue another tests, if there was exception
     }
@@ -114,21 +114,21 @@ TEST_F(DriverGetCarTest, ExampleData_2) {
     EXPECT_TRUE(car.getCarType() == CarType::Business);
 
     // Check data from database
-    EXPECT_EQ(car.getDriverId(), test_car->getDriverId());
-    EXPECT_EQ(car.getModel(), test_car->getModel());
-    EXPECT_EQ(car.getNumber(), test_car->getNumber());
-    EXPECT_EQ(car.getColor(), test_car->getColor());
-    EXPECT_TRUE(car.getCarType() == test_car->getCarType());
+    EXPECT_EQ(car.getDriverId(), test_car.getDriverId());
+    EXPECT_EQ(car.getModel(), test_car.getModel());
+    EXPECT_EQ(car.getNumber(), test_car.getNumber());
+    EXPECT_EQ(car.getColor(), test_car.getColor());
+    EXPECT_TRUE(car.getCarType() == test_car.getCarType());
 }
 
 TEST_F(DriverGetCarTest, ExampleData_3) {
     Driver driver = *model->getDriver(3);
-    Car car = *driver.getPersonalCar();
+    Car car = driver.getPersonalCars()[0];
 
-    Car* test_car;
+    Car test_car = car;
     try {
-        Driver* test_driver = model->getDriver(3);
-        test_car = test_driver->getPersonalCar();
+        Driver* test_driver = model->getDriver(1);
+        test_car = (test_driver->getPersonalCars()[0]);
     } catch (NotFoundException ex) {
         ASSERT_EQ(0, 1);    // Continue another tests, if there was exception
     }
@@ -141,21 +141,21 @@ TEST_F(DriverGetCarTest, ExampleData_3) {
     EXPECT_TRUE(car.getCarType() == CarType::Comfort);
 
     // Check data from database
-    EXPECT_EQ(car.getDriverId(), test_car->getDriverId());
-    EXPECT_EQ(car.getModel(), test_car->getModel());
-    EXPECT_EQ(car.getNumber(), test_car->getNumber());
-    EXPECT_EQ(car.getColor(), test_car->getColor());
-    EXPECT_TRUE(car.getCarType() == test_car->getCarType());
+    EXPECT_EQ(car.getDriverId(), test_car.getDriverId());
+    EXPECT_EQ(car.getModel(), test_car.getModel());
+    EXPECT_EQ(car.getNumber(), test_car.getNumber());
+    EXPECT_EQ(car.getColor(), test_car.getColor());
+    EXPECT_TRUE(car.getCarType() == test_car.getCarType());
 }
 
 TEST_F(DriverGetCarTest, ExampleData_4) {
     Driver driver = *model->getDriver(4);
-    Car car = *driver.getPersonalCar();
+    Car car = driver.getPersonalCars()[0];
 
-    Car* test_car;
+    Car test_car = car;
     try {
-        Driver* test_driver = model->getDriver(4);
-        test_car = test_driver->getPersonalCar();
+        Driver* test_driver = model->getDriver(1);
+        test_car = (test_driver->getPersonalCars()[0]);
     } catch (NotFoundException ex) {
         ASSERT_EQ(0, 1);    // Continue another tests, if there was exception
     }
@@ -168,9 +168,9 @@ TEST_F(DriverGetCarTest, ExampleData_4) {
     EXPECT_TRUE(car.getCarType() == CarType::Comfort);
 
     // Check data from database
-    EXPECT_EQ(car.getDriverId(), test_car->getDriverId());
-    EXPECT_EQ(car.getModel(), test_car->getModel());
-    EXPECT_EQ(car.getNumber(), test_car->getNumber());
-    EXPECT_EQ(car.getColor(), test_car->getColor());
-    EXPECT_TRUE(car.getCarType() == test_car->getCarType());
+    EXPECT_EQ(car.getDriverId(), test_car.getDriverId());
+    EXPECT_EQ(car.getModel(), test_car.getModel());
+    EXPECT_EQ(car.getNumber(), test_car.getNumber());
+    EXPECT_EQ(car.getColor(), test_car.getColor());
+    EXPECT_TRUE(car.getCarType() == test_car.getCarType());
 }

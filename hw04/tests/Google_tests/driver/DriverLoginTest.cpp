@@ -86,7 +86,7 @@ TEST_F(DriverLoginTest, MissingData) {
                          ASSERT_EQ(4, arr.size());
                          EXPECT_EQ("name", arr[0].key);
                          EXPECT_EQ("rating", arr[1].key);
-                         EXPECT_EQ("personal_car", arr[2].key);
+                         EXPECT_EQ("personal_cars", arr[2].key);
                          EXPECT_EQ("driver_status", arr[3].key);
                          throw;
                      }
@@ -105,7 +105,7 @@ TEST_F(DriverLoginTest, IncorrectDataTypes) {
                          ASSERT_EQ(5, arr.size());
                          EXPECT_EQ("name", arr[0].key);
                          EXPECT_EQ("rating", arr[1].key);
-                         EXPECT_EQ("personal_car", arr[2].key);
+                         EXPECT_EQ("personal_cars", arr[2].key);
                          EXPECT_EQ("driver_status", arr[3].key);
                          EXPECT_EQ("driver_id", arr[4].key);
                          throw;

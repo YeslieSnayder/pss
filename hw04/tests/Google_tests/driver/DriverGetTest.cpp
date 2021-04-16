@@ -92,9 +92,19 @@ TEST_F(DriverGetTest, ExampleData_1) {
     EXPECT_TRUE(driver.getStatus() == test_driver->getStatus());
 
     EXPECT_EQ(driver.getOrderHistory().size(), test_driver->getOrderHistory().size());
-    Car first = *driver.getPersonalCar();
-    Car second= *driver.getPersonalCar();
-    EXPECT_TRUE(first == second);
+    vector<Car> first = driver.getPersonalCars();
+    vector<Car> second = driver.getPersonalCars();
+    ASSERT_EQ(first.size(), second.size());
+    for (auto& x : first) {
+        bool flag = false;
+        for (auto& y : second) {
+            if (x == y) {
+                flag = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(flag);
+    }
 }
 
 TEST_F(DriverGetTest, ExampleData_2) {
@@ -122,9 +132,19 @@ TEST_F(DriverGetTest, ExampleData_2) {
     EXPECT_TRUE(driver.getStatus() == test_driver->getStatus());
 
     EXPECT_EQ(driver.getOrderHistory().size(), test_driver->getOrderHistory().size());
-    Car first = *driver.getPersonalCar();
-    Car second= *driver.getPersonalCar();
-    EXPECT_TRUE(first == second);
+    vector<Car> first = driver.getPersonalCars();
+    vector<Car> second = driver.getPersonalCars();
+    ASSERT_EQ(first.size(), second.size());
+    for (auto& x : first) {
+        bool flag = false;
+        for (auto& y : second) {
+            if (x == y) {
+                flag = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(flag);
+    }
 }
 
 TEST_F(DriverGetTest, ExampleData_3) {
@@ -152,9 +172,19 @@ TEST_F(DriverGetTest, ExampleData_3) {
     EXPECT_TRUE(driver.getStatus() == test_driver->getStatus());
 
     EXPECT_EQ(driver.getOrderHistory().size(), test_driver->getOrderHistory().size());
-    Car first = *driver.getPersonalCar();
-    Car second= *driver.getPersonalCar();
-    EXPECT_TRUE(first == second);
+    vector<Car> first = driver.getPersonalCars();
+    vector<Car> second = driver.getPersonalCars();
+    ASSERT_EQ(first.size(), second.size());
+    for (auto& x : first) {
+        bool flag = false;
+        for (auto& y : second) {
+            if (x == y) {
+                flag = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(flag);
+    }
 }
 
 TEST_F(DriverGetTest, ExampleData_4) {
@@ -182,7 +212,17 @@ TEST_F(DriverGetTest, ExampleData_4) {
     EXPECT_TRUE(driver.getStatus() == test_driver->getStatus());
 
     EXPECT_EQ(driver.getOrderHistory().size(), test_driver->getOrderHistory().size());
-    Car first = *driver.getPersonalCar();
-    Car second= *driver.getPersonalCar();
-    EXPECT_TRUE(first == second);
+    vector<Car> first = driver.getPersonalCars();
+    vector<Car> second = driver.getPersonalCars();
+    ASSERT_EQ(first.size(), second.size());
+    for (auto& x : first) {
+        bool flag = false;
+        for (auto& y : second) {
+            if (x == y) {
+                flag = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(flag);
+    }
 }
