@@ -8,23 +8,27 @@
 #include "../../include/rapidcsv/rapidcsv.h"
 #include "database.h"
 
-const string CAR_DB_FILEPATH = "application/db/db_files/cars.csv";
-const string ORDER_DB_FILEPATH = "application/db/db_files/orders.csv";
-const string DRIVER_DB_FILEPATH = "application/db/db_files/drivers.csv";
-const string PASSENGER_DB_FILEPATH = "application/db/db_files/passengers.csv";
-
 class CSVDatabase : public Database {
+
+    /**
+     * Database file paths.
+     */
+    const string CAR_DB_FILEPATH = "application/db/db_files/cars.csv";
+    const string ORDER_DB_FILEPATH = "application/db/db_files/orders.csv";
+    const string DRIVER_DB_FILEPATH = "application/db/db_files/drivers.csv";
+    const string PASSENGER_DB_FILEPATH = "application/db/db_files/passengers.csv";
+
 public:
 
     //////////////   DRIVERS   //////////////
 
     virtual unsigned long int createDriver(Driver& driver) {
         rapidcsv::Document driver_doc(DRIVER_DB_FILEPATH, rapidcsv::LabelParams(0, 0), rapidcsv::SeparatorParams(',', false, false));
-        rapidcsv::Document car_doc(CAR_DB_FILEPATH, rapidcsv::LabelParams(0, 0), rapidcsv::SeparatorParams(',', false, false));
 
         driver.setId(driver_doc.GetRowCount() + 1);
-        Car* car = driver.getPersonalCar();
-        car->setDriverId(driver.getId());
+        vector<Car> cars = driver.getPersonalCars();
+        for (auto & car : cars)
+            car.setDriverId(driver.getId());
 
         // Driver data
         unsigned long int id = driver.getId() - 1;
@@ -46,20 +50,27 @@ public:
         driver_doc.SetCell<string>(2, id, status);
         driver_doc.Save();
 
+        for (auto & car : cars)
+            createCar(car);
+    }
+
+    virtual void createCar(Car& car) {
+        rapidcsv::Document car_doc(CAR_DB_FILEPATH, rapidcsv::LabelParams(0, 0), rapidcsv::SeparatorParams(',', false, false));
+
         // Car data
-        string number = car->getNumber();   // identifier
-        string model = car->getModel();
-        string color = car->getColor();
+        string number = car.getNumber();   // identifier
+        string model = car.getModel();
+        string color = car.getColor();
         // + driver_id = id
-        unsigned int freeBottleOfWater = car->getFreeBottleOfWater();
+        unsigned int freeBottleOfWater = car.getFreeBottleOfWater();
         string carType;
-        if (car->getCarType() == CarType::Economy)
+        if (car.getCarType() == CarType::Economy)
             carType = "economy";
-        else if (car->getCarType() == CarType::Comfort)
+        else if (car.getCarType() == CarType::Comfort)
             carType = "comfort";
-        else if (car->getCarType() == CarType::ComfortPlus)
+        else if (car.getCarType() == CarType::ComfortPlus)
             carType = "comfort_plus";
-        else if (car->getCarType() == CarType::Business)
+        else if (car.getCarType() == CarType::Business)
             carType = "business";
 
         long int car_id = car_doc.GetRowCount();
@@ -69,10 +80,8 @@ public:
         car_doc.SetCell<string>(2, car_id, color);
         car_doc.SetCell<string>(3, car_id, carType);
         car_doc.SetCell<int>(4, car_id, freeBottleOfWater);
-        car_doc.SetCell<int>(5, car_id, driver.getId());
+        car_doc.SetCell<int>(5, car_id, car.getDriverId());
         car_doc.Save();
-
-        return driver.getId();
     }
 
     virtual Driver* getDriver(Driver& driver) {
@@ -93,8 +102,8 @@ public:
                 status = DriverStatus::WORKING;
 
             if (name == driver.getName() && rating == driver.getRating() && status == driver.getStatus()) {
-                Car* car = getCar(i+1);
-                return new Driver(i+1, name, rating, car, status);
+                vector<Car> cars = getCars(i+1);
+                return new Driver(i+1, name, rating, cars, status);
             }
         }
         return nullptr;
@@ -116,8 +125,8 @@ public:
             status = DriverStatus::IN_RIDE;
         else if (status_str == "working")
             status = DriverStatus::WORKING;
-        Car* car = getCar(driver_id);
-        return new Driver(driver_id, name, rating, car, status);
+        vector<Car> cars = getCars(driver_id);
+        return new Driver(driver_id, name, rating, cars, status);
     }
 
     virtual Driver* patchDriver(Driver& driver) {
@@ -245,9 +254,10 @@ public:
 
     /////////////   CARS   /////////////
 
-    virtual Car* getCar(unsigned long int driver_id) {
+    virtual vector<Car> getCars(unsigned long int driver_id) {
         rapidcsv::Document car_doc(CAR_DB_FILEPATH, rapidcsv::LabelParams(0, 0), rapidcsv::SeparatorParams(',', false, false));
 
+        vector<Car> cars;
         for (unsigned long int i = 0; i < car_doc.GetRowCount(); i++) {
             int d_id = stoi(car_doc.GetCell<string>(5, i));
             if (d_id == driver_id) {
@@ -268,10 +278,11 @@ public:
                 else if (carType_str == "business")
                     carType = CarType::Business;
 
-                return new Car(number, model, color, carType, freeBottleOfWater, driver_id);
+                Car car(number, model, color, carType, freeBottleOfWater, driver_id);
+                cars.push_back(car);
             }
         }
-        return nullptr;
+        return cars;
     }
 
     virtual Car* getCar(string number) {

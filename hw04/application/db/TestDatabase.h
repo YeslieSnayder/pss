@@ -23,9 +23,11 @@ public:
     virtual unsigned long int createDriver(Driver& driver) {
         driver.setId(drivers.size() + 1);
         drivers.push_back(driver);
-        Car* car = driver.getPersonalCar();
-        car->setDriverId(driver.getId());
-        cars.push_back(*car);
+        vector<Car> cars = driver.getPersonalCars();
+        for (Car& car : cars) {
+            car.setDriverId(driver.getId());
+            cars.push_back(car);
+        }
         return driver.getId();
     }
 
@@ -106,11 +108,11 @@ public:
         return history;
     }
 
-    virtual Car* getCar(unsigned long int driver_id) {
+    virtual vector<Car> getCars(unsigned long int driver_id) {
         Driver* driver = getDriver(driver_id);
         if (driver == nullptr)
-            return nullptr;
-        return driver->getPersonalCar();
+            return vector<Car>();
+        return driver->getPersonalCars();
     }
 
     virtual Order* createOrder(Order& order) {

@@ -165,11 +165,10 @@ public:
 
         try {
             checkRequest(request, Http::Method::Get);
-            Car* car = Model::getCar(id);
-            if (car == nullptr)
+            vector<Car> cars = Model::getCars(id);
+            if (cars.empty())
                 throw invalid_argument("Information of the car was incorrect");
-            view.sendCarInfo(*car, response);
-            delete car;
+            view.sendCarInfo(cars, response);
 
         } catch (invalid_argument e) {
             string key("request_error");

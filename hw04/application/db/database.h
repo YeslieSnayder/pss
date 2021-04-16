@@ -28,7 +28,7 @@ public:
     virtual Passenger* getPassenger(unsigned long int passenger_id) = 0;
     virtual Passenger* patchPassenger(Passenger& passenger) = 0;
     virtual vector<Order> getOrderHistory(unsigned long int id, ObjectType type) = 0;
-    virtual Car* getCar(unsigned long int driver_id) = 0;
+    virtual vector<Car> getCars(unsigned long int driver_id) = 0;
     virtual Car* getCar(string number) = 0;
     virtual Order* createOrder(Order& order) = 0;
     virtual Order* changeOrder(Order& order) = 0;

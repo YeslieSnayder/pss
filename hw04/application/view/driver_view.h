@@ -46,7 +46,7 @@ public:
         else if (driver.getStatus() == DriverStatus::IN_RIDE)
             res += "in_ride,\n";
 
-        res += "personal_car: " + getCarInfo(*driver.getPersonalCar()) + "\n}";
+        res += "personal_cars: " + getCarInfo(driver.getPersonalCars()) + "\n}";
         response.send(Pistache::Http::Code::Ok, res);
     }
 
@@ -61,8 +61,8 @@ public:
         response.send(Pistache::Http::Code::Ok, res);
     }
 
-    void sendCarInfo(Car& car, Http::ResponseWriter& response) {
-        response.send(Pistache::Http::Code::Ok, getCarInfo(car));
+    void sendCarInfo(vector<Car> cars, Http::ResponseWriter& response) {
+        response.send(Pistache::Http::Code::Ok, getCarInfo(cars));
     }
 
     void sendOrderData(Order& order, Http::ResponseWriter& response) {
@@ -74,22 +74,27 @@ public:
         response.send(Pistache::Http::Code::Ok, res);
     }
 
-    string getCarInfo(Car& car) {
+    string getCarInfo(vector<Car> cars) {
         string res;
-        res = "{\ncar: {\n"
-              "driver_id: " + to_string(car.getDriverId()) + ",\n"
-              "model: " + car.getModel() + ",\n"
-              "color: " + car.getColor() + ",\n"
-              "number: " + car.getNumber() + ",\n";
-        if (car.getCarType() == CarType::Economy)
-            res += "car_type: economy\n";
-        else if (car.getCarType() == CarType::Comfort)
-            res += "car_type: comfort\n";
-        else if (car.getCarType() == CarType::ComfortPlus)
-            res += "car_type: comfort_plus\n";
-        else if (car.getCarType() == CarType::Business)
-            res += "car_type: business\n";
-        res += "}\n}";
+        res = "{\ncars: [";
+        for (int i = 0; i < cars.size(); i++) {
+            Car car = cars[i];
+            res = "{\n"
+                  "driver_id: " + to_string(car.getDriverId()) + ",\n"
+                  "model: " + car.getModel() + ",\n"
+                  "color: " + car.getColor() + ",\n"
+                  "number: " + car.getNumber() + ",\n";
+            if (car.getCarType() == CarType::Economy)
+                res += "car_type: economy\n";
+            else if (car.getCarType() == CarType::Comfort)
+                res += "car_type: comfort\n";
+            else if (car.getCarType() == CarType::ComfortPlus)
+                res += "car_type: comfort_plus\n";
+            else if (car.getCarType() == CarType::Business)
+                res += "car_type: business\n";
+            res += ((i != cars.size() - 1) ? "}," : "}");
+        }
+        res += "]\n}";
         return res;
     }
 
