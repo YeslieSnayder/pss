@@ -141,7 +141,7 @@ Full workability was checked and tested on OS Linux and CLion IDE, the workabili
 
 ### Server
 
-When the program has launched, the server has run with it. You should send the requests to the program using any URL-tools by connecting to the server and passing JSON-string with data. All examples of JSON-string are in [docs/server_info.yaml](https://github.com/YeslieSnayder/pss/blob/master/hw04/docs/server_info.yaml) file.
+When the program has launched, the server has run with it. You should send the requests to the program using any URL-tools by connecting to the server and passing JSON-string with data. All examples of JSON-string are in **Handlers** part.
 
 For example, you can use standard tool **curl**, that is included in Ubuntu.
 
