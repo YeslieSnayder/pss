@@ -9,6 +9,7 @@
 #include <vector>
 #include "rapidjson/document.h"
 
+#include "User.h"
 #include "Order.h"
 #include "Address.h"
 
@@ -20,19 +21,19 @@ enum class PaymentMethod {
     BANK_BILL
 };
 
-class Passenger {
-    unsigned long int id = NULL_ID;
-    string name;
+class Passenger : public User {
     double rating;
     vector<Order> orderHistory;
     vector<GEOAddress> pinnedAddresses;
     PaymentMethod paymentMethod;
 
 public:
-    static const unsigned long int NULL_ID = 0;
 
-    Passenger(unsigned long id, string name, double rating, PaymentMethod paymentMethod)
-            : id(id), name(std::move(name)), rating(rating), paymentMethod(paymentMethod) {}
+    Passenger(unsigned long id, string& name, double rating, PaymentMethod paymentMethod)
+            : rating(rating), paymentMethod(paymentMethod) {
+        Passenger::id = id;
+        Passenger::name = std::move(name);
+    }
 
     Passenger(rapidjson::Document& json) {
         validate_json(json);

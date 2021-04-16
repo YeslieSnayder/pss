@@ -9,9 +9,10 @@
 #include <vector>
 #include "rapidjson/document.h"
 
-#include "../exceptions/IncorrectDataException.h"
-#include "Order.h"
+#include "User.h"
 #include "Car.h"
+#include "Order.h"
+#include "../exceptions/IncorrectDataException.h"
 
 using namespace std;
 
@@ -21,20 +22,18 @@ enum class DriverStatus : int {
     IN_RIDE
 };
 
-class Driver {
-    static const unsigned long int NULL_ID = 0;
-
-    unsigned long int id = NULL_ID;
-    string name;
+class Driver : public User {
     double rating;   // 0.0 <= value <= 5.0
     vector<Order> orderHistory;
-    Car *personalCar;
+    vector<Car> personalCars;
     DriverStatus status;
 
 public:
-    Driver(unsigned long int id, string name, double rating,
-           Car* personalCar, DriverStatus status) : id(id), name(std::move(name)), rating(rating),
-                                                    personalCar(personalCar), status(status) {}
+    Driver(unsigned long int id, string& name, double rating,
+           vector<Car> personalCars, DriverStatus status) : rating(rating), personalCars(personalCars), status(status) {
+        Driver::id = id;
+        Driver::name = std::move(name);
+    }
 
     Driver(rapidjson::Document& json) {
         validate_json(json);
@@ -51,8 +50,11 @@ public:
             status = DriverStatus::WORKING;
 
         rapidjson::Document doc;
-        doc.CopyFrom(json["personal_car"], json.GetAllocator());
-        personalCar = new Car(id, doc);
+        for (int i = 0; i < json["personal_cars"].Size(); ++i) {
+            doc.CopyFrom(json["personal_cars"][i], json.GetAllocator());
+            Car car = *(new Car(id, doc));
+            personalCars.push_back(car);
+        }
 
         if (json.HasMember("driver_id") && json["driver_id"].IsInt())
             id = json["driver_id"].GetInt();
@@ -88,8 +90,11 @@ public:
 
         if (json.HasMember("personal_car")) {
             rapidjson::Document doc;
-            doc.CopyFrom(json["personal_car"], json.GetAllocator());
-            personalCar = new Car(id, doc);
+            for (int i = 0; i < json["personal_cars"].Size(); ++i) {
+                doc.CopyFrom(json["personal_cars"][i], json.GetAllocator());
+                Car car = *(new Car(id, doc));
+                personalCars.push_back(car);
+            }
         }
 
         if (json.HasMember("order_history")) {
@@ -144,11 +149,11 @@ public:
             }
         }
 
-        if (is_creation && !json.HasMember("personal_car"))
-            exc.addEntry("personal_car", "Driver: Body does not have parameter 'personal_car'");
-        else if (json.HasMember("personal_car")) {
-            if (!json["personal_car"].IsObject())
-                exc.addEntry("personal_car", "Driver: Parameter 'personal_car' is incorrect, expected type: 'object'");
+        if (is_creation && !json.HasMember("personal_cars"))
+            exc.addEntry("personal_cars", "Driver: Body does not have parameter 'personal_cars'");
+        else if (json.HasMember("personal_cars")) {
+            if (!json["personal_cars"].IsArray())
+                exc.addEntry("personal_cars", "Driver: Parameter 'personal_cars' is incorrect, expected type: 'array'");
         }
 
         if (is_creation && !json.HasMember("driver_status"))
@@ -204,7 +209,7 @@ public:
     }
 
     bool operator==(const Driver& obj) const {
-        if (name == obj.name && rating == obj.rating && personalCar == obj.personalCar && status == obj.status
+        if (name == obj.name && rating == obj.rating && status == obj.status
                 && orderHistory.size() == obj.orderHistory.size()) {
             for (int i = 0; i < orderHistory.size(); i++) {
                 if (orderHistory[i] != obj.orderHistory[i])
@@ -239,8 +244,8 @@ public:
         return orderHistory;
     }
 
-    Car *getPersonalCar() const {
-        return personalCar;
+    const vector<Car> &getPersonalCars() const {
+        return personalCars;
     }
 
     DriverStatus getStatus() const {
