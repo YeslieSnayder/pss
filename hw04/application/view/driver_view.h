@@ -22,10 +22,14 @@ public:
     }
 
     void sendNotFound(string message, Http::ResponseWriter& response) {
-        string res = "{\nvalidation error: {\nid: " + message + "\n}\n}";
+        string res = "{\nvalidation_error: {\nid: " + message + "\n}\n}";
         response.send(Pistache::Http::Code::Not_Found, res);
     }
 
+    void sendForbidden(string message, Http::ResponseWriter& response) {
+        string res = "{\npermission_denied: " + message + "\n}";
+        response.send(Pistache::Http::Code::Forbidden, res);
+    }
 
     void sendDriverCreated(unsigned long driver_id, Http::ResponseWriter& response) {
         string res = "{\nid: " + to_string(driver_id) + "\n}";
@@ -99,11 +103,12 @@ public:
     }
 
     string getOrderInfo(Order& order) {
-        return "{\norder_id: " + to_string(order.getId()) + ",\n"
-               "start_point: " + order.getStartPoint().geoString() + ",\n"
-               "destination: " + order.getDestination().geoString() + ",\n"
-               "start_time: " + order.getStartTime() + ",\n"
-                                                                                                                                                                                                                 "passenger_id: " + to_string(order.getPassengerId()) + "\n}";
+        string res = "{\norder_id: " + to_string(order.getId()) + ",\n"
+            + "start_point: " + order.getStartPoint().geoString() + ",\n"
+            + "destination: " + order.getDestination().geoString() + ",\n"
+            + "start_time: " + order.getStartTime() + ",\n"
+            + "passenger_id: " + to_string(order.getPassengerId()) + "\n}";
+        return res;
     }
 };
 

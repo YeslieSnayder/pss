@@ -186,6 +186,16 @@ public:
             throw IncorrectDataException(exc.getErrors());
     }
 
+    string to_json_string() {
+        string res = "{\norder_id: " + to_string(id) + ",\n"
+                     + "start_point: " + startPoint.geoString() + ",\n"
+                     + "destination: " + destination.geoString() + ",\n"
+                     + "start_time: " + startTime + ",\n"
+                     + "passenger_id: " + to_string(passenger_id) + "\n"
+                     + "driver_id: " + to_string(driver_id) + "\n}";
+        return res;
+    }
+
     bool operator==(const Order& obj) const {
         return startPoint == obj.startPoint && destination == obj.destination && startTime == obj.startTime
             && passenger_id == obj.passenger_id && driver_id == obj.driver_id;

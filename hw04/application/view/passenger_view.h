@@ -21,8 +21,13 @@ public:
     }
 
     void sendNotFound(string message, Http::ResponseWriter& response) {
-        string res = "{\nvalidation error: {\nid: " + message + "\n}\n}";
+        string res = "{\nvalidation_error: {\nid: " + message + "\n}\n}";
         response.send(Pistache::Http::Code::Not_Found, res);
+    }
+
+    void sendForbidden(string message, Http::ResponseWriter& response) {
+        string res = "{\npermission_denied: " + message + "\n}";
+        response.send(Pistache::Http::Code::Forbidden, res);
     }
 
     void sendPassengerCreated(unsigned long int id, Http::ResponseWriter& response) {

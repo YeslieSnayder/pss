@@ -225,6 +225,28 @@ public:
         throw IncorrectDataException();
     }
 
+    string to_json_string() {
+        string res = "{\n";
+        res += "passenger_id: " + std::to_string(id) + ",\n";
+        res += "name: " + name + ",\n";
+        res += "rating: " + std::to_string(rating) + ",\n";
+        res += "payment_method: ";
+        if (paymentMethod == PaymentMethod::CASH)
+            res += "cash,\n";
+        else if (paymentMethod == PaymentMethod::ONLINE)
+            res += "online,\n";
+        else if (paymentMethod == PaymentMethod::BANK_BILL)
+            res += "bank_bill,\n";
+        res += "pinned_addresses: [\n";
+        for (int i = 0; i < pinnedAddresses.size() - 1; i++) {
+            res += pinnedAddresses[i].geoString() + ",\n";
+        }
+        if (!pinnedAddresses.empty())
+            res += pinnedAddresses[pinnedAddresses.size() - 1].geoString() + "\n";
+        res += "]\n}";
+        return res;
+    }
+
     bool operator==(const Passenger& obj) {
         if (name == obj.name && rating == obj.rating && paymentMethod == obj.paymentMethod
                 && orderHistory.size() == obj.orderHistory.size()
@@ -242,14 +264,6 @@ public:
         return false;
     }
 
-    unsigned long getId() const {
-        return id;
-    }
-
-    const string &getName() const {
-        return name;
-    }
-
     float getRating() const {
         return rating;
     }
@@ -264,10 +278,6 @@ public:
 
     PaymentMethod getPaymentMethod() const {
         return paymentMethod;
-    }
-
-    void setId(unsigned long id) {
-        Passenger::id = id;
     }
 };
 

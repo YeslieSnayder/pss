@@ -160,6 +160,17 @@ public:
         }
         return nullptr;
     }
+
+
+    virtual vector<Driver> getAllDrivers() { return vector<Driver>(); }
+    virtual vector<Passenger> getAllPassengers() { return vector<Passenger>(); }
+    virtual vector<Car> getAllCars() { return vector<Car>(); }
+    virtual vector<Order> getAllOrders() { return vector<Order>(); }
+    virtual unsigned long int createAdmin(Admin& admin) { return 0; }
+    virtual Admin* patchAdmin(unsigned long int id, Admin& admin) { return nullptr; }
+    virtual Admin* getAdmin(string email) { return nullptr; }
+    virtual Admin* getAdmin(unsigned long int id) { return nullptr; }
+    virtual vector<Admin> getAllAdmins() { return vector<Admin>(); }
 };
 
 

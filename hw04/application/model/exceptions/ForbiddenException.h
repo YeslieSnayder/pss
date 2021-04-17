@@ -11,6 +11,7 @@ class ForbiddenException : public std::exception {
     string message;
 
 public:
+    ForbiddenException(string message) : message(message) {}
     ForbiddenException(unsigned long int id, ObjectType type) {
         if (type == ObjectType::PASSENGER)
             message = "Passenger (id = " + to_string(id) + ") has tried to give access to method that (s)he does not have access!";

@@ -220,20 +220,49 @@ public:
         return false;
     }
 
+    string to_json_string() {
+        string res = "{\n";
+        res += "driver_id: " + to_string(id) + ",\n";
+        res += "name: " + name + ",\n";
+        res += "rating: " + to_string(rating) + ",\n";
+        res += "driver_status: ";
+        if (status == DriverStatus::NOT_WORKING)
+            res += "not_working,\n";
+        else if (status == DriverStatus::WORKING)
+            res += "working,\n";
+        else if (status == DriverStatus::IN_RIDE)
+            res += "in_ride,\n";
+
+        res += "personal_cars: " + getCarInfo(personalCars) + "\n}";
+        return res;
+    }
+
+    string getCarInfo(vector<Car> cars) {
+        string res;
+        res = "{\ncars: [";
+        for (int i = 0; i < cars.size(); i++) {
+            Car car = cars[i];
+            res = "{\n"
+                  "driver_id: " + to_string(car.getDriverId()) + ",\n"
+                  "model: " + car.getModel() + ",\n"
+                  "color: " + car.getColor() + ",\n"
+                  "number: " + car.getNumber() + ",\n";
+            if (car.getCarType() == CarType::Economy)
+                res += "car_type: economy\n";
+            else if (car.getCarType() == CarType::Comfort)
+                res += "car_type: comfort\n";
+            else if (car.getCarType() == CarType::ComfortPlus)
+                res += "car_type: comfort_plus\n";
+            else if (car.getCarType() == CarType::Business)
+                res += "car_type: business\n";
+            res += ((i != cars.size() - 1) ? "}," : "}");
+        }
+        res += "]\n}";
+        return res;
+    }
+
     bool operator!=(const Driver& obj) const {
         return !(operator==(obj));
-    }
-
-    void setId(unsigned long id) {
-        Driver::id = id;
-    }
-
-    unsigned long getId() const {
-        return id;
-    }
-
-    const string &getName() const {
-        return name;
     }
 
     double getRating() const {
@@ -250,10 +279,6 @@ public:
 
     DriverStatus getStatus() const {
         return status;
-    }
-
-    void setName(const string &name) {
-        Driver::name = name;
     }
 
     void setRating(double rating) {
