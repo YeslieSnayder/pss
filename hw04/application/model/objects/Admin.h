@@ -8,7 +8,7 @@
 #include "rapidjson/document.h"
 #include "User.h"
 
-using namespace Pistache;
+//using namespace Pistache;
 
 class Admin : public User {
     string email;
@@ -82,6 +82,7 @@ public:
         res += "admin_id: " + to_string(id) + ",\n";
         res += "name: " + name + ",\n";
         res += "email: " + email + "\n}";
+        return res;
     }
 
     bool operator==(const Admin& other) {

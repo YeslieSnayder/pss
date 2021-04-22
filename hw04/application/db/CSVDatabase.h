@@ -53,6 +53,8 @@ public:
 
         for (auto & car : cars)
             createCar(car);
+
+        return driver.getId();
     }
 
     virtual void createCar(Car& car) {
@@ -461,6 +463,8 @@ public:
         doc.SetCell<long int>(5, id, driver_id);
         doc.SetCell<string>(6, id, status);
         doc.Save();
+
+        return &order;
     }
 
     virtual Order* getOrder(unsigned long int order_id) {

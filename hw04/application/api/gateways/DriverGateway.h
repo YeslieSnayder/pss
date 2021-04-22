@@ -8,18 +8,18 @@
 #include "pistache/endpoint.h"
 #include "../config.h"
 
+#include "BaseGateway.h"
 #include "../../model/model.h"
 #include "../../view/driver_view.h"
 #include "../../model/objects/Driver.h"
 
 using namespace Pistache;
 
-class DriverGateway {
+class DriverGateway : public BaseGateway {
     static inline DriverView view;
-
 public:
 
-    /**
+/**
      * PUT /drivers
      * The method allows user to login into the system. This method is idempotent,
      * for each call of this method it will return same result.
@@ -36,7 +36,7 @@ public:
         try {
             checkRequest(request, Http::Method::Put, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             unsigned long int id = Model::createDriver(json);
             Driver* driver = Model::getDriver(id);
@@ -51,6 +51,8 @@ public:
             view.sendBadRequest(e.getErrors(), response);
         } catch (ForbiddenException e) {
             view.sendForbidden(e.getMessage(), response);
+        } catch (NotFoundException e) {
+            view.sendNotFound(e.getMessage(), response);
         }
     }
 
@@ -108,7 +110,7 @@ public:
         try {
             checkRequest(request, Http::Method::Patch, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             Driver* driver = Model::patchDriver(id, json);
             if (driver == nullptr)
@@ -242,7 +244,7 @@ public:
         try {
             checkRequest(request, Http::Method::Post, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             Order* order = Model::acceptOrderByDriver(id, json);
             view.sendOrderData(*order, response);
@@ -277,7 +279,7 @@ public:
         try {
             checkRequest(request, Http::Method::Post, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             unsigned long int order_id = Model::completeOrder(json);
             view.sendOrderId(order_id, response);
@@ -293,16 +295,6 @@ public:
             string value(e.what());
             view.sendBadRequest({{key, value}}, response);
         }
-    }
-
-
-    static void checkRequest(const Rest::Request &request, Http::Method method, bool requiredBody = false) {
-        if (request.method() != method)
-            throw invalid_argument("Request method is incorrect");
-        if (requiredBody && request.headers().tryGet<Http::Header::ContentType>() == nullptr)
-            throw invalid_argument("Content type has to be explicitly determine");
-        if (requiredBody && request.body().empty())
-            throw invalid_argument("Body is empty");
     }
 };
 

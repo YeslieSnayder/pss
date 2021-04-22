@@ -7,6 +7,8 @@
 
 #include <utility>
 #include <vector>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
 #include "rapidjson/document.h"
 
 #include "User.h"
@@ -30,7 +32,7 @@ class Driver : public User {
 
 public:
     Driver(unsigned long int id, string& name, double rating,
-           vector<Car> personalCars, DriverStatus status) : rating(rating), personalCars(personalCars), status(status) {
+           vector<Car> personalCars, DriverStatus status) : rating(rating), personalCars(std::move(personalCars)), status(status) {
         Driver::id = id;
         Driver::name = std::move(name);
     }
@@ -62,7 +64,6 @@ public:
         if (json.HasMember("order_history")) {
             orderHistory.clear();
             for (int i = 0; i < json["order_history"].GetArray().Size(); i++) {
-                rapidjson::Document doc;
                 doc.CopyFrom(json["order_history"][i], json.GetAllocator());
                 Order order(doc);
                 orderHistory.push_back(order);
@@ -113,8 +114,20 @@ public:
      * @param json - json file with driver's data.
      * @param is_creation - flag for checking JSON-file while creating of driver.
      */
-    void validate_json(const rapidjson::Document& json, bool is_creation=true) {
+    void validate_json(rapidjson::Document& json, bool is_creation=true) {
         IncorrectDataException exc;
+
+        rapidjson::StringBuffer strbuf;
+        strbuf.Clear();
+        rapidjson::Writer<rapidjson::StringBuffer> writer(strbuf);
+        json.Accept(writer);
+
+        string content_json = strbuf.GetString();
+
+        if (content_json == "null") {
+            exc.addEntry("json", "Driver: Body is null");
+            throw IncorrectDataException(exc.getErrors());
+        }
 
         if (is_creation && !json.HasMember("name"))
             exc.addEntry("name", "Driver: Body does not have parameter 'name'");

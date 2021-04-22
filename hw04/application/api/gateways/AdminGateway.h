@@ -8,6 +8,7 @@
 #include "pistache/endpoint.h"
 #include "../config.h"
 
+#include "BaseGateway.h"
 #include "../../model/model.h"
 #include "../../view/admin_view.h"
 #include "../../model/objects/Admin.h"
@@ -15,9 +16,8 @@
 using namespace Pistache;
 
 
-class AdminGateway {
+class AdminGateway : public BaseGateway {
     static inline AdminView view;
-
 public:
 
     /**
@@ -37,7 +37,7 @@ public:
         try {
             checkRequest(request, Http::Method::Put, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             unsigned long int id = Model::createAdmin(json);
             view.sendAdminCreated(id, response);
@@ -68,7 +68,7 @@ public:
         try {
             checkRequest(request, Http::Method::Post, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             Admin* admin = Model::getAdmin(json);
             view.sendAdminData(*admin, response);
@@ -99,7 +99,7 @@ public:
         try {
             checkRequest(request, Http::Method::Post, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             string info = Model::getInfoAdmin(json);
             view.sendInfo(info, response);
@@ -111,16 +111,6 @@ public:
         } catch (ForbiddenException e) {
             view.sendForbidden(e.getMessage(), response);
         }
-    }
-
-
-    static void checkRequest(const Rest::Request &request, Http::Method method, bool requiredBody = false) {
-        if (request.method() != method)
-            throw invalid_argument("Request method is incorrect");
-        if (requiredBody && request.headers().tryGet<Http::Header::ContentType>() == nullptr)
-            throw invalid_argument("Content type has to be explicitly determine");
-        if (requiredBody && request.body().empty())
-            throw invalid_argument("Body is empty");
     }
 };
 

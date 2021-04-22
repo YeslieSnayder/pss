@@ -11,7 +11,7 @@ class NotFoundException : public exception {
     string message;
 public:
     NotFoundException(string& message) : message(message) {}
-    NotFoundException(long int id) : message(to_string(id)) {}
+    NotFoundException(unsigned long int id) : message(to_string(id)) {}
 
     string getMessage() const {
         return message;

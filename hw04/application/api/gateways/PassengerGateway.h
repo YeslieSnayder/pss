@@ -8,15 +8,15 @@
 #include "pistache/endpoint.h"
 #include "../config.h"
 
+#include "BaseGateway.h"
 #include "../../model/model.h"
 #include "../../view/passenger_view.h"
 #include "../../model/objects/Passenger.h"
 
 using namespace Pistache;
 
-class PassengerGateway {
+class PassengerGateway : public BaseGateway {
     static inline PassengerView view;
-
 public:
 
     /**
@@ -36,7 +36,7 @@ public:
         try {
             checkRequest(request, Http::Method::Put, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             unsigned long int id = Model::createPassenger(json);
             Passenger* passenger = Model::getPassenger(id);
@@ -108,7 +108,7 @@ public:
         try {
             checkRequest(request, Http::Method::Patch, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             Passenger* passenger = Model::patchPassenger(id, json);
             if (passenger == nullptr)
@@ -147,7 +147,7 @@ public:
         try {
             checkRequest(request, Http::Method::Post, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             PreOrder* order = Model::assignOrder(id, json);
             if (order == nullptr)
@@ -187,7 +187,7 @@ public:
         try {
             checkRequest(request, Http::Method::Post, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             Order* order = Model::assignAndOrderRide(id, json);
             if (order == nullptr)
@@ -226,7 +226,7 @@ public:
         try {
             checkRequest(request, Http::Method::Post, true);
             Document json;
-            json.Parse(request.body().c_str());
+            json.Parse(convert_to_right_json(request.body()).c_str());
 
             Car* car = Model::getCarForPassenger(id, json);
             if (car == nullptr)
@@ -312,16 +312,6 @@ public:
         } catch (ForbiddenException e) {
             view.sendForbidden(e.getMessage(), response);
         }
-    }
-
-
-    static void checkRequest(const Rest::Request &request, Http::Method method, bool requiredBody = false) {
-        if (request.method() != method)
-            throw invalid_argument("Request method is incorrect");
-        if (requiredBody && request.headers().tryGet<Http::Header::ContentType>() == nullptr)
-            throw invalid_argument("Content type has to be explicitly determine");
-        if (requiredBody && request.body().empty())
-            throw invalid_argument("Body is empty");
     }
 };
 
