@@ -1,0 +1,82 @@
+[
+  {
+    "passenger_id": 7,
+    "driver_id": 7,
+    "order_id": 10,
+    "all_passengers": false,
+    "all_drivers": true,
+    "all_orders": true,
+    "all_cars": true,
+    "all_admins": true
+  },
+  {
+    "passenger_id": 1,
+    "driver_id": 4,
+    "order_id": 3,
+    "all_passengers": true,
+    "all_drivers": false,
+    "all_orders": true,
+    "all_cars": false,
+    "all_admins": true
+  },
+  {
+    "passenger_id": 4,
+    "driver_id": 5,
+    "order_id": 4,
+    "all_passengers": false,
+    "all_drivers": true,
+    "all_orders": false,
+    "all_cars": true,
+    "all_admins": true
+  },
+  {
+    "passenger_id": 9,
+    "driver_id": 9,
+    "order_id": 9,
+    "all_passengers": false,
+    "all_drivers": true,
+    "all_orders": true,
+    "all_cars": false,
+    "all_admins": true
+  },
+  {
+    "passenger_id": 4,
+    "driver_id": 4,
+    "order_id": 0,
+    "all_passengers": true,
+    "all_drivers": true,
+    "all_orders": false,
+    "all_cars": true,
+    "all_admins": true
+  },
+  {
+    "passenger_id": 3,
+    "driver_id": 7,
+    "order_id": 6,
+    "all_passengers": true,
+    "all_drivers": false,
+    "all_orders": false,
+    "all_cars": false,
+    "all_admins": true
+  },
+  {
+    "passenger_id": 0,
+    "driver_id": 3,
+    "order_id": 8,
+    "all_passengers": false,
+    "all_drivers": false,
+    "all_orders": false,
+    "all_cars": false,
+    "all_admins": false
+  },
+  {
+    "passenger_id": 10,
+    "driver_id": 3,
+    "order_id": 5,
+    "all_passengers": true,
+    "all_drivers": true,
+    "all_orders": false,
+    "all_cars": false,
+    "all_admins": false
+  }
+]

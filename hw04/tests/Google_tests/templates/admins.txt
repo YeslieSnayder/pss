@@ -1,0 +1,27 @@
+
+------------    admin login    -------------
+[
+  {
+    'repeat(3, 5)': {
+      name: '{{firstName()}}',
+      email: '{{surname()}}@{{random("mail.ru", "gmail.com")}}',
+      password: '{{lorem(4, "words")}}'
+    }
+  }
+]
+
+--------------    get info    --------------
+[
+  {
+    'repeat(5, 10)': {
+      passenger_id: '{{integer(0, 10)}}',
+      driver_id: '{{integer(0, 10)}}',
+      order_id: '{{integer(0, 10)}}',
+      all_passengers: '{{bool()}}',
+      all_drivers: '{{bool()}}',
+      all_orders: '{{bool()}}',
+      all_cars: '{{bool()}}',
+      all_admins: '{{bool()}}'
+    }
+  }
+]
