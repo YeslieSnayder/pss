@@ -4,7 +4,7 @@
       "driver_id": 1,
       "name": "Oleg",
       "rating": 5,
-      "personal_car": [{
+      "personal_cars": [{
         "model": "Lada Sedan",
         "car_type": "Economy",
         "current_address": "+55.75141155622517+48.74226445254849",
@@ -17,7 +17,7 @@
       "driver_id": 2,
       "name": "Louse",
       "rating": 4.2,
-      "personal_car": [{
+      "personal_cars": [{
         "model": "Mazda RX8",
         "car_type": "Business",
         "current_address": "+55.80090052438555+49.10520716400299",
@@ -30,7 +30,7 @@
       "driver_id": 3,
       "name": "Kirill",
       "rating": 3.8,
-      "personal_car": [{
+      "personal_cars": [{
         "model": "Nissan GTR GT",
         "car_type": "Comfort",
         "current_address": "+55.74696779418607+37.54126965079868",
@@ -43,7 +43,7 @@
       "driver_id": 4,
       "name": "Arthur",
       "rating": 4.99,
-      "personal_car": [{
+      "personal_cars": [{
         "model": "hyundai",
         "car_type": "Comfort",
         "current_address": "+55.73094485182288+49.19119161420542",
@@ -60,7 +60,7 @@
       "driver_id": "ne_number",
       "name": 123,
       "rating": "-4.99",
-      "personal_car": {
+      "personal_cars": {
         "model": "0987654321",
         "car_type": "UAZ",
         "number": "229112"
@@ -71,7 +71,7 @@
       "driver_id": 0,
       "name": "123_tt-ww",
       "rating": 90,
-      "personal_car": [{
+      "personal_cars": [{
           "model": "",
           "car_type": "",
           "current_address": "",

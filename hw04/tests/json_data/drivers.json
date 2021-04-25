@@ -1,7 +1,7 @@
 [
   {
     "name": "Marilyn",
-    "rating": "2.18",
+    "rating": 2.18,
     "driver_status": "NOT_WORKING",
     "personal_cars": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "name": "Keith",
-    "rating": "1.63",
+    "rating": 3.63,
     "driver_status": "IN_RIDE",
     "personal_cars": [
       {
@@ -43,7 +43,7 @@
   },
   {
     "name": "Suzette",
-    "rating": "2.31",
+    "rating": 2.31,
     "driver_status": "WORKING",
     "personal_cars": [
       {
@@ -57,7 +57,7 @@
   },
   {
     "name": "Lillie",
-    "rating": "0.31",
+    "rating": 4.31,
     "driver_status": "NOT_WORKING",
     "personal_cars": [
       {
@@ -78,7 +78,7 @@
   },
   {
     "name": "David",
-    "rating": "2.32",
+    "rating": 2.32,
     "driver_status": "WORKING",
     "personal_cars": [
       {
@@ -99,7 +99,7 @@
   },
   {
     "name": "Leonard",
-    "rating": "3.02",
+    "rating": 4.02,
     "driver_status": "WORKING",
     "personal_cars": [
       {

@@ -1,0 +1,43 @@
+// It is recommended to drop tables from database
+// before running this test.
+
+PUT http://{{server}}:{{port}}/{{passengers}}
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 201, "Response status is not 201");
+});
+
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+client.test("Response body is exist", function() {
+     client.assert(response.body.hasOwnProperty("passenger_id"), "Cannot find 'passenger_id' option in response")
+     client.assert(response.body.hasOwnProperty("name"), "Cannot find 'name' option in response")
+     client.assert(response.body.hasOwnProperty("rating"), "Cannot find 'rating' option in response")
+     client.assert(response.body.hasOwnProperty("payment_method"), "Cannot find 'payment_method' option in response")
+     client.assert(response.body.hasOwnProperty("pinned_addresses"), "Cannot find 'pinned_addresses' option in response")
+});
+
+client.test("Response is satisfied to the answer", function() {
+     client.assert(response.body["passenger_id"] > 0, "The id of user is less or equal to zero")
+     client.assert(response.body["name"] == "Jacquelyn", "The response data and expected result are not equal")
+     client.assert(response.body["rating"] == 4.07, "The response data and expected result are not equal")
+     client.assert(response.body["payment_method"] == "online", "The response data and expected result are not equal")
+ });
+%}

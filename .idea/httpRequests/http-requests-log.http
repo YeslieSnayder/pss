@@ -1,0 +1,1084 @@
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+<> 2021-04-25T154714.201.json
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+<> 2021-04-25T154645.201.json
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/passengers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Jacquelyn",
+  "rating": 4.07,
+  "payment_method": "ONLINE",
+  "pinned_addresses": [
+    "+49.6333+55.0872",
+    "-46.5166+152.1448",
+    "+65.8389+18.7467"
+  ]
+}
+
+<> 2021-04-25T152717.400.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T151133.201.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T151001.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T150954.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T150940.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T150915.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T150858.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T150837.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T150802.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T145542.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T145252.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T144940.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T144649.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T144153.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T144122.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T143252.200.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T142925.400.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T142547.400.json
+
+###
+
+PUT http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": "2.18",
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T142438.400.json
+
+###
+
+POST http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": "2.18",
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+<> 2021-04-25T142420.405.txt
+
+###
+
+POST http://localhost:8080/drivers
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": "2.18",
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+###
+
+POST http://localhost:8080/{{couriers}}
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": "2.18",
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+###
+

@@ -73,8 +73,7 @@ TEST_F(DriverGetCarTest, ExampleData_1) {
 
     Car test_car = car;
     try {
-        Driver* test_driver = model->getDriver(1);
-        test_car = (test_driver->getPersonalCars()[0]);
+        test_car = model->getCars(1)[0];
     } catch (NotFoundException ex) {
         ASSERT_EQ(0, 1);    // Continue another tests, if there was exception
     }
@@ -100,8 +99,7 @@ TEST_F(DriverGetCarTest, ExampleData_2) {
 
     Car test_car = car;
     try {
-        Driver* test_driver = model->getDriver(1);
-        test_car = (test_driver->getPersonalCars()[0]);
+        test_car = model->getCars(2)[0];
     } catch (NotFoundException ex) {
         ASSERT_EQ(0, 1);    // Continue another tests, if there was exception
     }
@@ -127,8 +125,7 @@ TEST_F(DriverGetCarTest, ExampleData_3) {
 
     Car test_car = car;
     try {
-        Driver* test_driver = model->getDriver(1);
-        test_car = (test_driver->getPersonalCars()[0]);
+        test_car = model->getCars(3)[0];
     } catch (NotFoundException ex) {
         ASSERT_EQ(0, 1);    // Continue another tests, if there was exception
     }
@@ -154,8 +151,7 @@ TEST_F(DriverGetCarTest, ExampleData_4) {
 
     Car test_car = car;
     try {
-        Driver* test_driver = model->getDriver(1);
-        test_car = (test_driver->getPersonalCars()[0]);
+        test_car = model->getCars(4)[0];
     } catch (NotFoundException ex) {
         ASSERT_EQ(0, 1);    // Continue another tests, if there was exception
     }
