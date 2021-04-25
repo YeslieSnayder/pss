@@ -39,6 +39,8 @@ public:
         bool is_key = false, is_value = false;
         for (int i = 0; i < json_str.size(); i++) {
             char &c = json_str[i];
+            if (!is_value && c == '\"')
+                return json_str;
 
             if (c == '{') {
                 string s_obj;

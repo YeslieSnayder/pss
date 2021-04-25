@@ -40,7 +40,7 @@ public:
 
             unsigned long int id = Model::createDriver(json);
             Driver* driver = Model::getDriver(id);
-            view.sendDriverData(*driver, response);
+            view.sendDriverData(*driver, response, Pistache::Http::Code::Created);
             delete driver;
 
         } catch (invalid_argument e) {

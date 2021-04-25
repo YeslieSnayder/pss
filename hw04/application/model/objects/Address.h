@@ -51,6 +51,7 @@ public:
      * @return string with coordinates.
      */
     std::string geoString() const {
+        if (this == NULL) return "";
         return ((latitude < 0) ? '-' : '+') + std::to_string(latitude) +
                 ((longitude < 0) ? '-' : '+') + std::to_string(longitude);
     }

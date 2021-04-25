@@ -40,7 +40,7 @@ public:
 
             unsigned long int id = Model::createPassenger(json);
             Passenger* passenger = Model::getPassenger(id);
-            view.sendPassengerData(*passenger, response);
+            view.sendPassengerData(*passenger, response, Pistache::Http::Code::Created);
             delete passenger;
 
         } catch (invalid_argument e) {

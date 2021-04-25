@@ -33,6 +33,7 @@ public:
             : rating(rating), paymentMethod(paymentMethod) {
         Passenger::id = id;
         Passenger::name = std::move(name);
+        pinnedAddresses = vector<GEOAddress>();
     }
 
     Passenger(rapidjson::Document& json) {

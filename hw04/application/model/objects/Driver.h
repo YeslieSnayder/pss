@@ -305,6 +305,10 @@ public:
     void setStatus(DriverStatus status) {
         Driver::status = status;
     }
+
+    void setPersonalCars(const vector<Car> &personalCars) {
+        Driver::personalCars = personalCars;
+    }
 };
 
 

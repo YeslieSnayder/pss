@@ -21,12 +21,19 @@ enum class LOG {
  * @param type - the entity of enum LOG. Type of the log message.
  * @param message - information that will be written to the log.
  */
-void log(LOG type, string message) {
+static void log(LOG type, string message) {
     switch (type) {
-        case LOG::INFO: cout << "INFO: "; break;
-        case LOG::DEBUG: cout << "DEBUG: "; break;
-        case LOG::ERROR: cout << "ERROR: "; break;
-        default: break;
+        case LOG::INFO:
+            cout << "INFO: ";
+            break;
+        case LOG::DEBUG:
+            cout << "DEBUG: ";
+            break;
+        case LOG::ERROR:
+            cerr << "ERROR: " << message << endl;
+            return;
+        default:
+            break;
     }
     cout << message << endl;
 }
@@ -35,7 +42,7 @@ void log(LOG type, string message) {
  * Write the message to the log with tag (INFO).
  * @param message - information that will be written to the log.
  */
-void log(string message) {
+static void log(string message) {
     log(LOG::INFO, message);
 }
 
