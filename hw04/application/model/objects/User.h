@@ -8,11 +8,27 @@
 
 class User {
 protected:
-    unsigned long int id;
-    string name;
+    unsigned long int id{};
+    std::string name{};
 
 public:
     static const unsigned long int NULL_ID = 0;
+
+    unsigned long getId() const {
+        return id;
+    }
+
+    const std::string &getName() const {
+        return name;
+    }
+
+    void setId(unsigned long id) {
+        User::id = id;
+    }
+
+    void setName(const std::string &name) {
+        User::name = name;
+    }
 };
 
 

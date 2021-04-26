@@ -5,6 +5,7 @@
 #include "pistache/router.h"
 #include "pistache/endpoint.h"
 
+#include "gateways/AdminGateway.h"
 #include "gateways/DriverGateway.h"
 #include "gateways/PassengerGateway.h"
 
@@ -40,6 +41,11 @@ Rest::Router initRouter() {
     Rest::Routes::Post(router, "/drivers/:id", Rest::Routes::bind(&DriverGateway::acceptOrder));
     Rest::Routes::Post(router, "/drivers/complete", Rest::Routes::bind(&DriverGateway::completeOrder));
 
+    // Admin
+    Rest::Routes::Put(router, "/admin", Rest::Routes::bind(&AdminGateway::loginAdmin));
+    Rest::Routes::Post(router, "/admin", Rest::Routes::bind(&AdminGateway::getAdmin));
+    Rest::Routes::Post(router, "/admin/info", Rest::Routes::bind(&AdminGateway::getInfo));
+
     return router;
 }
 
@@ -48,7 +54,7 @@ Rest::Router initRouter() {
  * @param host - address where server will be running.
  */
 void runServer(Pistache::Address host) {
-    auto opts = Http::Endpoint::options().threads(1);
+    auto opts = Http::Endpoint::options().threads(1).flags(Tcp::Options::ReuseAddr);
 
     Http::Endpoint server(host);
     server.init(opts);

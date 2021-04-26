@@ -1,0 +1,13 @@
+[
+  {
+    'repeat(5, 10)': {
+      name: '{{firstName()}}',
+      rating: '{{floating(0, 5, 2)}}',
+      payment_method: '{{random("CASH", "ONLINE", "BANK_BILL")}}',
+      pinned_addresses: [
+        {'repeat(1, 3)' : '{{random("+", "-")}}{{floating(0, 90)}}{{random("+", "-")}}{{floating(0, 180)}}'
+        }
+      ]
+    }
+  }
+]

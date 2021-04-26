@@ -75,11 +75,11 @@ TEST_F(DriverLoginTest, ExampleData) {
 }
 
 TEST_F(DriverLoginTest, MissingData) {
-    Document passenger;
-    passenger.CopyFrom(json["incorrect"][0]["driver_1"], json.GetAllocator());
+    Document driver;
+    driver.CopyFrom(json["incorrect"][0]["driver_1"], json.GetAllocator());
     EXPECT_THROW({
                      try {
-                         unsigned long int id = model->createDriver(passenger);
+                         unsigned long int id = model->createDriver(driver);
                          ASSERT_NE(id, 1);
                      } catch (IncorrectDataException& e) {
                          auto arr = e.getErrors();
@@ -94,11 +94,11 @@ TEST_F(DriverLoginTest, MissingData) {
 }
 
 TEST_F(DriverLoginTest, IncorrectDataTypes) {
-    Document passenger;
-    passenger.CopyFrom(json["incorrect"][1]["driver_2"], json.GetAllocator());
+    Document driver;
+    driver.CopyFrom(json["incorrect"][1]["driver_2"], json.GetAllocator());
     EXPECT_THROW({
                      try {
-                         unsigned long int id = model->createDriver(passenger);
+                         unsigned long int id = model->createDriver(driver);
                          ASSERT_NE(id, 1);
                      } catch (IncorrectDataException& e) {
                          auto arr = e.getErrors();
@@ -114,11 +114,11 @@ TEST_F(DriverLoginTest, IncorrectDataTypes) {
 }
 
 TEST_F(DriverLoginTest, IncorrectData) {
-    Document passenger;
-    passenger.CopyFrom(json["incorrect"][2]["driver_3"], json.GetAllocator());
+    Document driver;
+    driver.CopyFrom(json["incorrect"][2]["driver_3"], json.GetAllocator());
     EXPECT_THROW({
                      try {
-                         unsigned long int id = model->createDriver(passenger);
+                         unsigned long int id = model->createDriver(driver);
                          ASSERT_NE(id, 1);
                      } catch (IncorrectDataException& e) {
                          auto arr = e.getErrors();

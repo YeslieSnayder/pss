@@ -20,7 +20,6 @@ include_directories(${PISTACHE_DIR}/include)
 
 # Start the program
 add_executable(${PROJECT_NAME} application/api/main.cpp)
-
 target_link_libraries(${PROJECT_NAME} pistache -lpthread)
 
 # Google Tests

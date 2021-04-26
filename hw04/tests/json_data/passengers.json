@@ -1,0 +1,85 @@
+[
+  {
+    "passenger_id": 1,
+    "name": "Jacquelyn",
+    "rating": 4.07,
+    "payment_method": "ONLINE",
+    "pinned_addresses": [
+      "+49.6333+55.0872",
+      "-46.5166+152.1448",
+      "+65.8389+18.7467"
+    ]
+  },
+  {
+    "passenger_id": 2,
+    "name": "Maddox",
+    "rating": 3.32,
+    "payment_method": "BANK_BILL",
+    "pinned_addresses": [
+      "+34.9199+158.0219",
+      "-10.4081+16.7359",
+      "+20.9829-60.3117"
+    ]
+  },
+  {
+    "passenger_id": 3,
+    "name": "Robbins",
+    "rating": 4.99,
+    "payment_method": "ONLINE",
+    "pinned_addresses": [
+      "-8.6937+20.406",
+      "-57.8369-150.9856",
+      "-70.7584-0.9463"
+    ]
+  },
+  {
+    "passenger_id": 4,
+    "name": "Mullen",
+    "rating": 1.97,
+    "payment_method": "BANK_BILL",
+    "pinned_addresses": [
+      "-46.9749+35.6563",
+      "+54.0758-41.2581"
+    ]
+  },
+  {
+    "passenger_id": 5,
+    "name": "Haynes",
+    "rating": 4.72,
+    "payment_method": "BANK_BILL",
+    "pinned_addresses": [
+      "+24.9041+81.8135",
+      "-21.7313-120.9859"
+    ]
+  },
+  {
+    "passenger_id": 6,
+    "name": "Shaw",
+    "rating": 3.98,
+    "payment_method": "ONLINE",
+    "pinned_addresses": [
+      "-49.1804-80.963"
+    ]
+  },
+  {
+    "passenger_id": 7,
+    "name": "Haney",
+    "rating": 4.15,
+    "payment_method": "CASH",
+    "pinned_addresses": [
+      "-88.0304-10.8734",
+      "+55.2607-146.4932",
+      "-82.5914-35.084"
+    ]
+  },
+  {
+    "passenger_id": 8,
+    "name": "Alison",
+    "rating": 4.79,
+    "payment_method": "CASH",
+    "pinned_addresses": [
+      "-88.5583-34.0214",
+      "-85.1758+57.9047"
+    ]
+  }
+]

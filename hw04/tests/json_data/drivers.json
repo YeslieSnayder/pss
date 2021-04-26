@@ -1,0 +1,128 @@
+[
+  {
+    "name": "Marilyn",
+    "rating": 2.18,
+    "driver_status": "NOT_WORKING",
+    "personal_cars": [
+      {
+        "model": "est",
+        "car_type": "comfort_plus",
+        "current_address": "-83.7905-6.6068",
+        "color": "white",
+        "number": "D831DE"
+      },
+      {
+        "model": "in",
+        "car_type": "economy",
+        "current_address": "+87.7599-57.1106",
+        "color": "black",
+        "number": "K525KB"
+      },
+      {
+        "model": "ex",
+        "car_type": "economy",
+        "current_address": "+89.9033-27.1013",
+        "color": "green",
+        "number": "M911EX"
+      }
+    ]
+  },
+  {
+    "name": "Keith",
+    "rating": 3.63,
+    "driver_status": "IN_RIDE",
+    "personal_cars": [
+      {
+        "model": "do",
+        "car_type": "comfort",
+        "current_address": "-69.6854+53.801",
+        "color": "brown",
+        "number": "K718DK"
+      }
+    ]
+  },
+  {
+    "name": "Suzette",
+    "rating": 2.31,
+    "driver_status": "WORKING",
+    "personal_cars": [
+      {
+        "model": "do",
+        "car_type": "economy",
+        "current_address": "+85.7976+167.8216",
+        "color": "blue",
+        "number": "E397KE"
+      }
+    ]
+  },
+  {
+    "name": "Lillie",
+    "rating": 4.31,
+    "driver_status": "NOT_WORKING",
+    "personal_cars": [
+      {
+        "model": "qui",
+        "car_type": "business",
+        "current_address": "+40.1656+3.6457",
+        "color": "green",
+        "number": "D399XM"
+      },
+      {
+        "model": "non",
+        "car_type": "business",
+        "current_address": "+8.8573+71.8533",
+        "color": "brown",
+        "number": "C752MX"
+      }
+    ]
+  },
+  {
+    "name": "David",
+    "rating": 2.32,
+    "driver_status": "WORKING",
+    "personal_cars": [
+      {
+        "model": "laborum",
+        "car_type": "economy",
+        "current_address": "-68.8129-10.3502",
+        "color": "blue",
+        "number": "D499DM"
+      },
+      {
+        "model": "et",
+        "car_type": "comfort_plus",
+        "current_address": "+54.3543-99.8582",
+        "color": "green",
+        "number": "D291BA"
+      }
+    ]
+  },
+  {
+    "name": "Leonard",
+    "rating": 4.02,
+    "driver_status": "WORKING",
+    "personal_cars": [
+      {
+        "model": "fugiat",
+        "car_type": "business",
+        "current_address": "+21.8549+54.2078",
+        "color": "green",
+        "number": "E153CB"
+      },
+      {
+        "model": "ea",
+        "car_type": "comfort",
+        "current_address": "-86.2952-85.8889",
+        "color": "blue",
+        "number": "A665ME"
+      },
+      {
+        "model": "ea",
+        "car_type": "comfort_plus",
+        "current_address": "+69.4768-170.9639",
+        "color": "white",
+        "number": "L315KD"
+      }
+    ]
+  }
+]

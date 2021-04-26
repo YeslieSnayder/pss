@@ -3,3 +3,7 @@ id,number,model,color,carType,freeBottleOfWater,driver_id
 2,O000OO,"Mazda RX8",white,business,1735288179,2
 3,V123AZ,"Nissan GTR GT",blue,comfort,6,3
 4,M532KF,hyundai,blue,comfort,6,4
+5,M532KF,hyundai,blue,comfort,2,1
+6,D831DE,est,white,comfort_plus,0,2
+7,K525KB,in,black,economy,0,2
+8,M911EX,ex,green,economy,0,2

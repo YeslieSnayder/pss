@@ -143,6 +143,22 @@ public:
         throw IncorrectDataException();
     }
 
+    string to_json_string() {
+        string res = "{\ndriver_id: " + to_string(driver_id) + ",\n";
+        res += "model: " + model + ",\n";
+        res += "color: " + color + ",\n";
+        res += "number: " + number + ",\n";
+        if (carType == CarType::Economy)
+            res += "car_type: economy\n}";
+        else if (carType == CarType::Comfort)
+            res += "car_type: comfort\n}";
+        else if (carType == CarType::ComfortPlus)
+            res += "car_type: comfort_plus\n}";
+        else if (carType == CarType::Business)
+            res += "car_type: business\n}";
+        return res;
+    }
+
     bool operator==(const Car& obj) const {
         return model == obj.model && carType == obj.carType && currentAddress == obj.currentAddress
                 && color == obj.color && number == obj.number;

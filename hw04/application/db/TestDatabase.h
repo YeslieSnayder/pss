@@ -23,24 +23,31 @@ public:
     virtual unsigned long int createDriver(Driver& driver) {
         driver.setId(drivers.size() + 1);
         drivers.push_back(driver);
-        Car* car = driver.getPersonalCar();
-        car->setDriverId(driver.getId());
-        cars.push_back(*car);
+        for (Car car : driver.getPersonalCars()) {
+            car.setDriverId(driver.getId());
+            cars.push_back(car);
+        }
         return driver.getId();
     }
 
     virtual Driver* getDriver(Driver& driver) {
         for (auto& d : drivers) {
-            if (d == driver)
+            if (d == driver) {
+                vector<Car> driver_cars = getCars(d.getId());
+                d.setPersonalCars(driver_cars);
                 return &d;
+            }
         }
         return nullptr;
     }
 
     virtual Driver* getDriver(unsigned long int driver_id) {
         for (auto& d : drivers) {
-            if (d.getId() == driver_id)
+            if (d.getId() == driver_id) {
+                vector<Car> driver_cars = getCars(d.getId());
+                d.setPersonalCars(driver_cars);
                 return &d;
+            }
         }
         return nullptr;
     }
@@ -106,11 +113,13 @@ public:
         return history;
     }
 
-    virtual Car* getCar(unsigned long int driver_id) {
-        Driver* driver = getDriver(driver_id);
-        if (driver == nullptr)
-            return nullptr;
-        return driver->getPersonalCar();
+    virtual vector<Car> getCars(unsigned long int driver_id) {
+        vector<Car> res;
+        for (Car &car : cars) {
+            if (car.getDriverId() == driver_id)
+                res.push_back(car);
+        }
+        return res;
     }
 
     virtual Order* createOrder(Order& order) {
@@ -158,6 +167,17 @@ public:
         }
         return nullptr;
     }
+
+
+    virtual vector<Driver> getAllDrivers() { return vector<Driver>(); }
+    virtual vector<Passenger> getAllPassengers() { return vector<Passenger>(); }
+    virtual vector<Car> getAllCars() { return vector<Car>(); }
+    virtual vector<Order> getAllOrders() { return vector<Order>(); }
+    virtual unsigned long int createAdmin(Admin& admin) { return 0; }
+    virtual Admin* patchAdmin(unsigned long int id, Admin& admin) { return nullptr; }
+    virtual Admin* getAdmin(string email) { return nullptr; }
+    virtual Admin* getAdmin(unsigned long int id) { return nullptr; }
+    virtual vector<Admin> getAllAdmins() { return vector<Admin>(); }
 };
 
 

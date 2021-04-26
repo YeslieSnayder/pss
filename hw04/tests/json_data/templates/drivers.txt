@@ -1,0 +1,20 @@
+[
+  {
+    'repeat(5, 10)': {
+      name: '{{firstName()}}',
+      rating: '{{floating(0, 5, 2)}}',
+      driver_status: '{{random("NOT_WORKING", "WORKING", "IN_RIDE")}}',
+      personal_cars: [
+        {
+          'repeat(1, 3)': {
+            model: '{{lorem(1, "words")}}',
+            car_type: '{{random("economy", "comfort", "comfort_plus", "business")}}',
+            current_address: '{{random("+", "-")}}{{floating(0, 90)}}{{random("+", "-")}}{{floating(0, 180)}}',
+            color: '{{random("blue", "brown", "green", "white", "black")}}',
+            number: '{{random("A", "B", "C", "D", "E", "K", "L", "M", "X")}}{{integer(100, 999)}}{{random("A", "B", "C", "D", "E", "K", "L", "M", "X")}}{{random("A", "B", "C", "D", "E", "K", "L", "M", "X")}}'
+          }
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,61 @@
+// It is recommended to drop tables from database
+// before running this test.
+
+PUT http://{{server}}:{{port}}/{{drivers}}
+Content-Type: application/json
+
+{
+  "name": "Marilyn",
+  "rating": 2.18,
+  "driver_status": "NOT_WORKING",
+  "personal_cars": [
+    {
+      "model": "est",
+      "car_type": "comfort_plus",
+      "current_address": "-83.7905-6.6068",
+      "color": "white",
+      "number": "D831DE"
+    },
+    {
+      "model": "in",
+      "car_type": "economy",
+      "current_address": "+87.7599-57.1106",
+      "color": "black",
+      "number": "K525KB"
+    },
+    {
+      "model": "ex",
+      "car_type": "economy",
+      "current_address": "+89.9033-27.1013",
+      "color": "green",
+      "number": "M911EX"
+    }
+  ]
+}
+
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 201, "Response status is not 201");
+});
+
+client.test("Response content-type is json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+client.test("Response body is exist", function() {
+     client.assert(response.body.hasOwnProperty("driver_id"), "Cannot find 'driver_id' option in response")
+     client.assert(response.body.hasOwnProperty("name"), "Cannot find 'name' option in response")
+     client.assert(response.body.hasOwnProperty("rating"), "Cannot find 'rating' option in response")
+     client.assert(response.body.hasOwnProperty("driver_status"), "Cannot find 'driver_status' option in response")
+     client.assert(response.body.hasOwnProperty("personal_cars"), "Cannot find 'personal_cars' option in response")
+});
+
+client.test("Response is satisfied to the answer", function() {
+     client.assert(response.body["driver_id"] > 0, "The id of user is less or equal to zero")
+     client.assert(response.body["name"] == "Marilyn", "The response data and expected result are not equal")
+     client.assert(response.body["rating"] == 2.18, "The response data and expected result are not equal")
+     client.assert(response.body["driver_status"] == "not_working", "The response data and expected result are not equal")
+ });
+%}
