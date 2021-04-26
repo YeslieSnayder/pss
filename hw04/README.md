@@ -7,6 +7,7 @@
    - [Database](#database)
       - [Passenger](#passenger)
       - [Driver](#driver)
+      - [Admin](#admin)
       - [Order](#order)
    - [Handlers](#handlers)
    - [Tests](#tests)
@@ -17,7 +18,7 @@
 - [Usage](#usage)
    - [Server](#server)
 - [Troubleshooting](#troubleshooting)
-   - [Test failure](#test_failure)
+   - [Test failure](#test-failure)
 
 # Description
 
@@ -25,13 +26,13 @@ This is an implementation of the REST API service of the internet-taxi service *
 
 Full information about the service you can find in `docs/PSS2_hw_04_wendex.pdf` fie.
 
-It uses **Pistache** and **rapidCSV** for server part and database.
+It uses **Pistache** and **rapidCSV** for server part and database, correspondingly.
 
 Address of a server of the app after launching: `0.0.0.0:8080` or `localhost:8080`.
 
 ## Database
 
-The program uses **rapidCSV** database for storing information about *passenger*, *driver*, *car*, and *order*. It collects 4 tables for passenger, driver, car, and order, respectively.
+The program uses **rapidCSV** database for storing information about *passenger*, *driver*, *admin*, *car*, and *order*. It collects 4 tables for passenger, driver, car, and order, respectively.
 
 ### Passenger
 
@@ -44,6 +45,8 @@ Represents the passenger. The passenger can do the following functions:
 - order the ride. Push information about this order. Now, the order will be available for driver;
 - get order history;
 - get information about car of the driver, that is delivering the passenger now.
+
+Admin can restrict access to some functions. In this situation, the user will obtain the corresponding message instead of right response.
 
 Each passenger has the following fields:
 
@@ -67,6 +70,8 @@ Represents the driver. The driver can do the following functions:
 - check available orders. Returns all orders that are ready for the delivery (status == `ready`);
 - complete the order. The driver can complete the orders that were accepted him earlier.
 
+Admin can restrict access to some functions. In this situation, the user will obtain the corresponding message instead of right response.
+
 Each driver has the following fields:
 
 Field  | Type | Requirements | Description
@@ -75,6 +80,25 @@ id | int | Positive integer >= 1 | Identifier
 name | string | | The name of the driver
 rating | double | The number within the bound: [0.0, 5.0] | The rating of the driver
 status | enum | Format string: `working`, `not_working`, `in_ride` | The current status of the driver
+
+### Admin
+
+Represents the admin of the service. The admin can do the following functions:
+
+- login;
+- get information about all kind of users and objects;
+- set access for particular user (passenger or driver);
+
+Each admin has the following fields:
+
+Field  | Type | Requirements | Description
+------------- | ------------- | ------------- | -------------
+id | int | Positive integer >= 1 | Identifier
+name | string | | The name of the admin
+email | string | Should be unique for all admins | The personal email address of the admin
+password | string | Should contain minimum 1 letter | The secret password of the admin
+
+Test data for admin: *name*: Andrey, *email*: admin, *password*: admin
 
 ### Order
 
@@ -113,7 +137,7 @@ All dependencies are located in [include](https://github.com/YeslieSnayder/pss/t
 
 - `**Pistache**` - The library for server part. Site: [Pistache](http://pistache.io/).
 - `**RapidJSON**` - The library for convert the json to the program objects, and vice versa. It uses in Pistache library.
-- **`RapidCSV`** - The library for storing data of passengers, drivers, and orders.
+- `**RapidCSV**` - The library for storing data of passengers, drivers, and orders.
 
 # Installation
 
@@ -146,7 +170,7 @@ When the program has launched, the server has run with it. You should send the r
 For example, you can use standard tool **curl**, that is included in Ubuntu.
 
 ```bash
-curl -i -X PUT -d "{"name": "Andrey", "rating": 4.7, "payment_methods": ["ONLINE", "CASH"], "pinned_addresses": ["+40.75-74.00", "+33.0+037.00"]}" localhost:8080/passengers
+curl -i -X PUT -d "{"driver_id": 4, "name": "Arthur", "rating": 4.99, "personal_cars": [{"model": "hyundai", "car_type": "Comfort", "current_address": "+55.73094485182288+49.19119161420542", "color": "blue", "number": "M532KF"}], "driver_status": "IN_RIDE"}" localhost:8080/drivers
 ```
 
 You will give the JSON-string with id of created user.
